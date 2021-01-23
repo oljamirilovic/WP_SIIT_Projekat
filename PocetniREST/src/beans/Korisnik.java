@@ -1,11 +1,12 @@
 package beans;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public abstract class Korisnik {
 	private String korisnickoIme, lozinka, ime, prezime;
 	private Pol pol;
-	private LocalDateTime datumRodjenja;
+	private LocalDate datumRodjenja;
 	public Korisnik() {
 		super();
 	}
@@ -39,10 +40,10 @@ public abstract class Korisnik {
 	public void setPol(Pol pol) {
 		this.pol = pol;
 	}
-	public LocalDateTime getDatumRodjenja() {
+	public LocalDate getDatumRodjenja() {
 		return datumRodjenja;
 	}
-	public void setDatumRodjenja(LocalDateTime datumRodjenja) {
+	public void setDatumRodjenja(LocalDate datumRodjenja) {
 		this.datumRodjenja = datumRodjenja;
 	}
 	

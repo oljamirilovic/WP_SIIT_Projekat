@@ -26,6 +26,8 @@ public class Kupac extends Korisnik {
 	}
 	public Kupac() {
 		super();
+		this.karte=new ArrayList<>();
+		
 	}
 	public void setSakupljeniBodovi(int sakupljeniBodovi) {
 		this.sakupljeniBodovi = sakupljeniBodovi;
@@ -41,6 +43,10 @@ public class Kupac extends Korisnik {
 	}
 	public void setTip(TipKupca tip) {
 		this.tip = tip;
+	}
+	public void addKarta(Karta karta) {
+		this.karte.add(karta);
+		
 	}
 	
 	

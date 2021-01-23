@@ -15,6 +15,7 @@ public class Prodavac extends Korisnik {
 
 	public Prodavac() {
 		super();
+		this.manifestacije=new ArrayList<>();
 	}
 	
 	

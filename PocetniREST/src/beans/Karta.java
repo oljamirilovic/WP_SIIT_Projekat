@@ -1,12 +1,13 @@
 package beans;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Karta {
 	private Kupac kupac;
 	private String id;
 	private Manifestacija manifestacija;
-	private LocalDateTime datum;
+	private LocalDate datum;
 	private double cena;
 	private boolean status; //true rezervisana false odustanak
 	private TipKarte tip;
@@ -36,10 +37,10 @@ public class Karta {
 	public void setManifestacija(Manifestacija manifestacija) {
 		this.manifestacija = manifestacija;
 	}
-	public LocalDateTime getDatum() {
+	public LocalDate getDatum() {
 		return datum;
 	}
-	public void setDatum(LocalDateTime datum) {
+	public void setDatum(LocalDate datum) {
 		this.datum = datum;
 	}
 	public double getCena() {
