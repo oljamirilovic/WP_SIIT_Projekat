@@ -10,14 +10,37 @@ public class Manifestacija {
 	private double cenaKarte;
 	private boolean status;
 	private Lokacija lokacija;
-	private boolean izbrisana;
+	private boolean izbrisana;	
+	private String poster;
+		
+	public Manifestacija(String naziv, TipManifestacije tipManifestacije, int brojMesta, LocalDateTime datumVreme,
+			double cenaKarte, boolean status, Lokacija lokacija, boolean izbrisana, String poster) {
+		super();
+		this.naziv = naziv;
+		this.tipManifestacije = tipManifestacije;
+		this.brojMesta = brojMesta;
+		this.datumVreme = datumVreme;
+		this.cenaKarte = cenaKarte;
+		this.status = status;
+		this.lokacija = lokacija;
+		this.izbrisana = izbrisana;
+		this.poster = poster;
+	}
+	
 	public boolean isIzbrisana() {
 		return izbrisana;
 	}
 	public void setIzbrisana(boolean izbrisana) {
 		this.izbrisana = izbrisana;
 	}
-	//poster
+		
+	public String getPoster() {
+		return poster;
+	}
+	public void setPoster(String poster) {
+		this.poster = poster;
+	}
+	
 	public String getNaziv() {
 		return naziv;
 	}

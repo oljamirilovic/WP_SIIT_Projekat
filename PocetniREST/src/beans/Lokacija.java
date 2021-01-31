@@ -45,5 +45,8 @@ public class Lokacija {
 		super();
 	}
 	
+	public String toString() {
+		return ulica + ", " + broj + ", " + mesto + ", " + postanskiBroj;
+	}
 	
 }
