@@ -3,10 +3,17 @@ package beans;
 public class Lokacija {
 	private double geografskaDuzina;
 	private double geografskaSirina;
-	private String ulica,mesto,postanskiBroj,broj;
+	private String ulica,mesto,postanskiBroj,broj, drzava;
 	//slika
+	
 	public double getGeografskaDuzina() {
 		return geografskaDuzina;
+	}
+	public String getDrzava() {
+		return drzava;
+	}
+	public void setDrzava(String drzava) {
+		this.drzava = drzava;
 	}
 	public void setGeografskaDuzina(double geografskaDuzina) {
 		this.geografskaDuzina = geografskaDuzina;

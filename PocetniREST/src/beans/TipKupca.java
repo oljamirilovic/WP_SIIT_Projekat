@@ -2,14 +2,14 @@ package beans;
 
 public class TipKupca {
 
-	private TipKupaca ime;
+	private String tipKupca;
 	private double popust;
 	private int bodovi;
-	public TipKupaca getIme() {
-		return ime;
+	public String getTipKupca() {
+		return tipKupca;
 	}
-	public void setIme(TipKupaca ime) {
-		this.ime = ime;
+	public void setIme(String ime) {
+		this.tipKupca = ime;
 	}
 	public double getPopust() {
 		return popust;

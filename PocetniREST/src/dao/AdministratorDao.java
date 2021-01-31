@@ -17,7 +17,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
 import beans.Administrator;
-import beans.Pol;
+
 
 public class AdministratorDao implements Ucitavanje {
 	private HashMap<String, Administrator> administratori;
@@ -81,7 +81,7 @@ public class AdministratorDao implements Ucitavanje {
 			System.out.println(admin.getDatumRodjenja());
 			String dan=admin.getDatumRodjenja().format(formater);
 			jsonGenerator.writeStringField("rodjenje", dan);
-			jsonGenerator.writeStringField("pol", admin.getPol().name());
+			jsonGenerator.writeStringField("pol", admin.getPol());
 
 			jsonGenerator.writeEndObject(); 
 			jsonGenerator.writeEndObject();
@@ -123,13 +123,9 @@ public class AdministratorDao implements Ucitavanje {
 								}else if ("prezime".equals(nameField)) {
 									admin.setPrezime(jsonParser.getText());
 								}else if ("pol".equals(nameField)) {
-									if(jsonParser.getText().equals("MUSKI")) {
-										admin.setPol(Pol.MUSKI);}
-									else {
-										admin.setPol(Pol.ZENSKI);
-
-									}
-								}else {
+									admin.setPol(jsonParser.getText());}
+									
+								else {
 									DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
 									LocalDate dan=LocalDate.parse(jsonParser.getText(), formater);
 									admin.setDatumRodjenja(dan);

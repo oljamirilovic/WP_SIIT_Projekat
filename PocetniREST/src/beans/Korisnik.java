@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public abstract class Korisnik {
 	private String korisnickoIme, lozinka, ime, prezime;
-	private Pol pol;
+	private String pol;
 	private LocalDate datumRodjenja;
 	public Korisnik() {
 		super();
@@ -34,10 +34,10 @@ public abstract class Korisnik {
 	public void setPrezime(String prezime) {
 		this.prezime = prezime;
 	}
-	public Pol getPol() {
+	public String getPol() {
 		return pol;
 	}
-	public void setPol(Pol pol) {
+	public void setPol(String pol) {
 		this.pol = pol;
 	}
 	public LocalDate getDatumRodjenja() {

@@ -15,8 +15,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
-import beans.Administrator;
-import beans.Pol;
+
+
 import beans.Prodavac;
 
 public class ProdavacDAO implements Ucitavanje{
@@ -96,7 +96,7 @@ public class ProdavacDAO implements Ucitavanje{
 			DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
 			String dan=prod.getDatumRodjenja().format(formater);
 			jsonGenerator.writeStringField("rodjenje", dan);
-			jsonGenerator.writeStringField("pol", prod.getPol().name());
+			jsonGenerator.writeStringField("pol", prod.getPol());
 			//jsonGenerator.writeStringField("pol", prod.ge);
 			//ovde dode lista??
 			jsonGenerator.writeEndObject(); 
@@ -139,12 +139,8 @@ public class ProdavacDAO implements Ucitavanje{
 								}else if ("prezime".equals(nameField)) {
 									admin.setPrezime(jsonParser.getText());
 								}else if ("pol".equals(nameField)) {
-									if(jsonParser.getText().equals("MUSKI")) {
-										admin.setPol(Pol.MUSKI);}
-									else {
-										admin.setPol(Pol.ZENSKI);
-
-									}
+									
+										admin.setPol(jsonParser.getText());
 								}else {
 									DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
 									LocalDate dan=LocalDate.parse(jsonParser.getText(), formater);

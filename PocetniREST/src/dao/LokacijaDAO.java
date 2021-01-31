@@ -17,7 +17,7 @@ import beans.Administrator;
 import beans.Karta;
 import beans.Komentar;
 import beans.Lokacija;
-import beans.Pol;
+
 
 public class LokacijaDAO {
 	//ne znam da li nam treba lista lokacija, ali nam treba DAo

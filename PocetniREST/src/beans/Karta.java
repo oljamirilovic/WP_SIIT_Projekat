@@ -10,9 +10,29 @@ public class Karta {
 	private LocalDate datum;
 	private double cena;
 	private boolean status; //true rezervisana false odustanak
-	private TipKarte tip;
+	private String tipKarte;
 	private boolean izbrisana;
+	private String korisnickoIme, nazivmanifestacije;
 	
+	
+	public String getTipKarte() {
+		return tipKarte;
+	}
+	public void setTipKarte(String tipKarte) {
+		this.tipKarte = tipKarte;
+	}
+	public String getKorisnickoIme() {
+		return korisnickoIme;
+	}
+	public void setKorisnickoIme(String korisnickoIme) {
+		this.korisnickoIme = korisnickoIme;
+	}
+	public String getNazivmanifestacije() {
+		return nazivmanifestacije;
+	}
+	public void setNazivmanifestacije(String nazivmanifestacije) {
+		this.nazivmanifestacije = nazivmanifestacije;
+	}
 	public boolean isIzbrisana() {
 		return izbrisana;
 	}
@@ -55,11 +75,11 @@ public class Karta {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	public TipKarte getTip() {
-		return tip;
+	public String getTip() {
+		return tipKarte;
 	}
-	public void setTip(TipKarte tip) {
-		this.tip = tip;
+	public void setTip(String tip) {
+		this.tipKarte = tip;
 	}
 	public Karta() {
 		super();

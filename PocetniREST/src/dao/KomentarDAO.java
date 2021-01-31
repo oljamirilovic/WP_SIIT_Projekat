@@ -18,7 +18,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import beans.Administrator;
 import beans.Karta;
 import beans.Komentar;
-import beans.Pol;
+
 import beans.Prodavac;
 
 public class KomentarDAO{
@@ -26,10 +26,10 @@ public class KomentarDAO{
 	private String contextPath;
 
 
-	public KomentarDAO(KupacDAO kupacDAO, ManifestacijaDAO manifestacijaDAO) {
+	public KomentarDAO() {
 		komentari=new ArrayList<>();
 		try {
-			parseJSON(kupacDAO, manifestacijaDAO);
+			parseJSON();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,13 +54,13 @@ public class KomentarDAO{
 			jsonGenerator.writeStartObject();
 			jsonGenerator.writeFieldName("Komentar ");
 			jsonGenerator.writeStartObject();
+			jsonGenerator.writeStringField("id", k.getId()+"");
 			jsonGenerator.writeStringField("text", k.getText()+"");
-			jsonGenerator.writeStringField("kupac", k.getKupac().getKorisnickoIme());
-			jsonGenerator.writeStringField("manifestacija", k.getManifestacija().getNaziv());
 			jsonGenerator.writeStringField("ocena", k.getOcena()+"");
-			jsonGenerator.writeEndObject(); // for field 'Administrator'
+			jsonGenerator.writeStringField("imeManifestacije", k.getImeManifestacije()+"");
+			jsonGenerator.writeStringField("imeKupca", k.getImeKupca()+""); //korisnicko ime kupca
 			jsonGenerator.writeEndObject(); 
-			jsonGenerator.writeEndObject();
+			jsonGenerator.writeEndObject(); 
 		}
 
 		jsonGenerator.writeEndArray();
@@ -70,21 +70,23 @@ public class KomentarDAO{
 
 	}
 
-	public void parseJSON(KupacDAO kupacDAO, ManifestacijaDAO manifestacijaDAO) throws JsonParseException, IOException {
+	public void parseJSON() throws JsonParseException, IOException {
 		JsonFactory jsonFactory = new JsonFactory();
 		JsonParser jsonParser = jsonFactory.createParser(new File("komentari.json"));
-
+	
 		if(jsonParser.nextToken()==JsonToken.START_OBJECT) {
 			JsonToken fieldName2 = jsonParser.nextToken();
 
-
+		
 			if(jsonParser.nextToken().equals(JsonToken.START_ARRAY)) {
+				
 
 				while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
 					while(jsonParser.nextToken()!=JsonToken.END_OBJECT) {
 						String fieldName = jsonParser.getCurrentName();
 						jsonParser.nextToken();  
-						if ("Komentar".equals(fieldName)) { 
+						if ("Komentar ".equals(fieldName)) { 
+							System.out.print("*");
 							while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
 								Komentar kom=new Komentar();
 								String nameField = jsonParser.getCurrentName();
@@ -95,10 +97,14 @@ public class KomentarDAO{
 
 								} else if ("ocena".equals(nameField)) {
 									kom.setOcena(Integer.parseInt(jsonParser.getText()));
-								}else if ("kupac".equals(nameField)) {
-									kom.setKupac(kupacDAO.find(jsonParser.getText()));
-								}else if ("manifestacija".equals(nameField)) {
-									kom.setManifestacija(manifestacijaDAO.find(jsonParser.getText()));
+								}else if ("id".equals(nameField)) {
+									kom.setId(Integer.parseInt(jsonParser.getText()));
+								}
+								else if ("imeManifestacije".equals(nameField)) {
+									kom.setImeManifestacije(jsonParser.getText());
+								}
+								else if ("imeKupca".equals(nameField)) {
+									kom.setImeKupca(jsonParser.getText());
 								}
 								this.komentari.add(kom);
 							}

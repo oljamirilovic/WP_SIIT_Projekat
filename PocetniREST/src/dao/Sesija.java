@@ -58,9 +58,9 @@ public class Sesija {
 		this.prodavacDAO=new ProdavacDAO();
 		this.kupacDAO=new KupacDAO();
 		this.lokacijaDAO=new LokacijaDAO();
-		this.manifestacijaDAO=new ManifestacijaDAO(this.lokacijaDAO, this.prodavacDAO);
-		this.kartaDAO=new KartaDAO(this.manifestacijaDAO, this.kupacDAO);
-		this.komentarDAO=new KomentarDAO(this.kupacDAO, this.manifestacijaDAO);	
+		this.manifestacijaDAO=new ManifestacijaDAO();
+		this.kartaDAO=new KartaDAO();
+		this.komentarDAO=new KomentarDAO();	
 		//i jos tip karte
 		
 		

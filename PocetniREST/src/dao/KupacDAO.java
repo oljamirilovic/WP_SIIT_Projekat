@@ -17,7 +17,7 @@ import com.fasterxml.jackson.core.JsonToken;
 
 import beans.Karta;
 import beans.Kupac;
-import beans.Pol;
+
 import beans.Prodavac;
 
 public class KupacDAO implements Ucitavanje {
@@ -69,10 +69,14 @@ public class KupacDAO implements Ucitavanje {
 			DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
 			String dan=k.getDatumRodjenja().format(formater);
 			jsonGenerator.writeStringField("datum", dan);
-			jsonGenerator.writeStringField("pol", k.getPol().name());
+			jsonGenerator.writeStringField("pol", k.getPol());
 			jsonGenerator.writeStringField("bododvi", k.getSakupljeniBodovi()+"");
 			jsonGenerator.writeStringField("izbrisan", k.isIzbrisan()+"");
 			jsonGenerator.writeStringField("blokiran", k.isBlokiran()+"");
+			jsonGenerator.writeStringField("tipKupca", k.getTip().getTipKupca());
+			jsonGenerator.writeStringField("bodoviTipa", k.getTip().getBodovi()+"");
+			jsonGenerator.writeStringField("popust", k.getTip().getPopust()+"");
+			jsonGenerator.writeEndObject(); 
 			jsonGenerator.writeEndObject(); 
 			jsonGenerator.writeEndObject();
 		}
@@ -96,7 +100,7 @@ public class KupacDAO implements Ucitavanje {
 					while(jsonParser.nextToken()!=JsonToken.END_OBJECT) {
 						String fieldName = jsonParser.getCurrentName();
 						jsonParser.nextToken();  
-						if ("Admin".equals(fieldName)) { 
+						if ("Kupac".equals(fieldName)) { 
 							while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
 								Kupac kupac=new Kupac();
 								String nameField = jsonParser.getCurrentName();
@@ -112,14 +116,21 @@ public class KupacDAO implements Ucitavanje {
 								}else if ("prezime".equals(nameField)) {
 									kupac.setPrezime(jsonParser.getText());
 								}else if ("pol".equals(nameField)) {
-									if(jsonParser.getText().equals("MUSKI")) {
-										kupac.setPol(Pol.MUSKI);}
-									else {
-										kupac.setPol(Pol.ZENSKI);	
-									}
+									kupac.setPol(jsonParser.getText());
 								}
 								else if ("bodovi".equals(nameField)) {
 									kupac.setSakupljeniBodovi(Integer.parseInt(jsonParser.getText()));
+								}else if ("bodoviTipa".equals(nameField)) {
+									if(kupac.getTip()==null) {kupac.setTip(new beans.TipKupca());}
+									kupac.getTip().setBodovi(Integer.parseInt(jsonParser.getText()));
+								}
+								else if ("popust".equals(nameField)) {
+									if(kupac.getTip()==null) {kupac.setTip(new beans.TipKupca());}
+									kupac.getTip().setPopust(Double.parseDouble(jsonParser.getText()));
+								}
+								else if ("tipKupca".equals(nameField)) {
+									if(kupac.getTip()==null) {kupac.setTip(new beans.TipKupca());}
+									kupac.getTip().setIme(jsonParser.getText());
 								}
 								else if("blokiran".equals(nameField)){
 									if("true".equals(jsonParser.getText())) {

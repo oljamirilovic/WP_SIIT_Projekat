@@ -17,115 +17,140 @@ import com.fasterxml.jackson.core.JsonToken;
 import beans.Administrator;
 import beans.Karta;
 import beans.Komentar;
+import beans.Lokacija;
 import beans.Manifestacija;
-import beans.Pol;
-import beans.TipManifestacije;
+
 
 public class ManifestacijaDAO  {
 	HashMap<String, Manifestacija> manifestacije;
 	private String contextPath;
-	
-	public ManifestacijaDAO(LokacijaDAO lokacijaDAO, ProdavacDAO prodavacDAO) {
+
+	public ManifestacijaDAO() {
 		this.manifestacije=new HashMap<>();
 		try {
-			parseJSON(lokacijaDAO, prodavacDAO);
+			parseJSON();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void generateJSON() throws IOException {
-		
-			JsonFactory jsonFactory = new JsonFactory();
-			JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File("manifestacije.json"), JsonEncoding.UTF8);
+
+		JsonFactory jsonFactory = new JsonFactory();
+		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File("manifestacije.json"), JsonEncoding.UTF8);
+		jsonGenerator.writeStartObject();
+		jsonGenerator.writeFieldName("Manifestacije");
+		jsonGenerator.writeStartArray();
+		for(Manifestacija k : manifestacije.values()) {
 			jsonGenerator.writeStartObject();
-			jsonGenerator.writeFieldName("Manifestacije");
-			jsonGenerator.writeStartArray();
-			for(Manifestacija k : manifestacije.values()) {
-				jsonGenerator.writeStartObject();
-				jsonGenerator.writeFieldName("Manifestacija");
-				jsonGenerator.writeStartObject();
-				jsonGenerator.writeStringField("naziv", k.getNaziv()+"");
-				jsonGenerator.writeStringField("brojMesta", k.getBrojMesta()+"");
-				jsonGenerator.writeStringField("cena", k.getCenaKarte()+"");
-				DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-				String dan=k.getDatumVreme().format(formater);
-				jsonGenerator.writeStringField("datum", dan);
-				
-				jsonGenerator.writeEndObject(); 
-		  	    jsonGenerator.writeEndObject();
+			jsonGenerator.writeFieldName("Manifestacija");
+			jsonGenerator.writeStartObject();
+			jsonGenerator.writeStringField("naziv", k.getNaziv()+"");
+			jsonGenerator.writeStringField("brojMesta", k.getBrojMesta()+"");
+			jsonGenerator.writeStringField("cena", k.getCenaKarte()+"");
+			jsonGenerator.writeStringField("tip", k.getTipManifestacije()+"");
+			jsonGenerator.writeStringField("status", k.isStatus()+"");
+			jsonGenerator.writeStringField("izbrisana", k.isIzbrisana()+"");
+			jsonGenerator.writeStringField("lokacijaBroj", k.getLokacija().getBroj());
+			jsonGenerator.writeStringField("drzava", k.getLokacija().getDrzava());
+			jsonGenerator.writeStringField("mesto", k.getLokacija().getMesto());
+			jsonGenerator.writeStringField("postanskiBroj", k.getLokacija().getPostanskiBroj());
+			jsonGenerator.writeStringField("gDuzina", k.getLokacija().getGeografskaDuzina()+"");
+			jsonGenerator.writeStringField("gSirina", k.getLokacija().getGeografskaSirina()+"");
+			DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+			String dan=k.getDatumVreme().format(formater);
+			jsonGenerator.writeStringField("datum", dan);
+
+			jsonGenerator.writeEndObject(); 
+			jsonGenerator.writeEndObject();
 		}
-		
+
 		jsonGenerator.writeEndArray();
 		jsonGenerator.writeEndObject();
-        jsonGenerator.close();
-		
+		jsonGenerator.close();
+
 	}
-	
-	public void parseJSON(LokacijaDAO lokacijaDAO, ProdavacDAO prodavacDAO) throws JsonParseException, IOException {
+
+	public void parseJSON() throws JsonParseException, IOException {
 		JsonFactory jsonFactory = new JsonFactory();
 		JsonParser jsonParser = jsonFactory.createParser(new File("manifestacije.json"));
 
 		if(jsonParser.nextToken()==JsonToken.START_OBJECT) {
 			JsonToken fieldName2 = jsonParser.nextToken();
 
-			
+
 			if(jsonParser.nextToken().equals(JsonToken.START_ARRAY)) {
-				
+
 				while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
 					while(jsonParser.nextToken()!=JsonToken.END_OBJECT) {
 						String fieldName = jsonParser.getCurrentName();
 						jsonParser.nextToken();  
 						if ("Manifestacija".equals(fieldName)) { 
-				while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
-					Manifestacija man=new Manifestacija();
-					String nameField = jsonParser.getCurrentName();
-					jsonParser.nextToken(); // move to value
+							while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
+								Manifestacija man=new Manifestacija();
+								String nameField = jsonParser.getCurrentName();
+								jsonParser.nextToken(); // move to value
 
-					if ("naziv".equals(nameField)) {
-						man.setNaziv(jsonParser.getText());
+								if ("naziv".equals(nameField)) {
+									man.setNaziv(jsonParser.getText());
 
-					} else if ("tip".equals(nameField)) {
-						if("FESTIVAL".equals(jsonParser.getText())) {
-							man.setTipManifestacije(TipManifestacije.FESTIVAL);
-						}else if("KONCERT".equals(jsonParser.getText())) {
-							man.setTipManifestacije(TipManifestacije.KONCERT);
-						}else {
-						man.setTipManifestacije(TipManifestacije.POZORISTE);}
-					}else if ("brojMesta".equals(nameField)) {
-						man.setBrojMesta(Integer.parseInt(jsonParser.getText()));
-					}else if ("datumVreme".equals(nameField)) {
-						DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-						LocalDateTime dan=LocalDateTime.parse(jsonParser.getText(), formater);
-						man.setDatumVreme(dan);
-					}else if ("cena".equals(nameField)) {
-						man.setCenaKarte(Double.parseDouble(jsonParser.getText()));
-					}else if ("status".equals(nameField)) {
-						if("true".equals(jsonParser.getText())) {
-							man.setStatus(true);
-						}else {
-							man.setStatus(false);
-						}
+								} else if ("tip".equals(nameField)) {
+									man.setTipManifestacije(jsonParser.getText());
+								}else if ("brojMesta".equals(nameField)) {
+									man.setBrojMesta(Integer.parseInt(jsonParser.getText()));
+								}else if ("datumVreme".equals(nameField)) {
+									DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+									LocalDateTime dan=LocalDateTime.parse(jsonParser.getText(), formater);
+									man.setDatumVreme(dan);
+								}else if ("cena".equals(nameField)) {
+									man.setCenaKarte(Double.parseDouble(jsonParser.getText()));
+								}
+								else if ("lokacijaBroj".equals(nameField)) {
+									if(man.getLokacija()==null) {man.setLokacija(new Lokacija());}
+									man.getLokacija().setBroj(jsonParser.getText());
+								}
+								else if ("drzava".equals(nameField)) {
+									if(man.getLokacija()==null) {man.setLokacija(new Lokacija());}
+									man.getLokacija().setDrzava(jsonParser.getText());
+								}else if ("mesto".equals(nameField)) {
+									if(man.getLokacija()==null) {man.setLokacija(new Lokacija());}
+									man.getLokacija().setMesto(jsonParser.getText());
+								}else if ("postanskiBroj".equals(nameField)) {
+									if(man.getLokacija()==null) {man.setLokacija(new Lokacija());}
+									man.getLokacija().setPostanskiBroj(jsonParser.getText());
+								}else if ("gDuzina".equals(nameField)) {
+									if(man.getLokacija()==null) {man.setLokacija(new Lokacija());}
+									man.getLokacija().setGeografskaDuzina(Double.parseDouble(jsonParser.getText()));
+								}else if ("gSirina".equals(nameField)) {
+									if(man.getLokacija()==null) {man.setLokacija(new Lokacija());}
+									man.getLokacija().setGeografskaSirina(Double.parseDouble(jsonParser.getText()));
+								}
+								else if ("status".equals(nameField)) {
+									if("true".equals(jsonParser.getText())) {
+										man.setStatus(true);
+									}else {
+										man.setStatus(false);
+									}
+								}
+								else if ("izbrisana".equals(nameField)) {
+									if("true".equals(jsonParser.getText())) {
+										man.setIzbrisana(true);
+									}else {
+										man.setIzbrisana(false);
+									}
+								}
+
+
+								this.manifestacije.put(man.getNaziv(), man);
+							}
+						} 
 					}
-					else if ("izbrisana".equals(nameField)) {
-						if("true".equals(jsonParser.getText())) {
-							man.setIzbrisana(true);
-						}else {
-							man.setIzbrisana(false);
-						}
-					}
-					
-					man.setLokacija(lokacijaDAO.find(man.getNaziv()));
-				this.manifestacije.put(man.getNaziv(), man);
-				}
-			} 
-		}
 				}}}
 		jsonParser.close();
 
 	}
-		
+
 
 	public Manifestacija find(String text) {
 		if(manifestacije.containsKey(text)) {
@@ -133,7 +158,7 @@ public class ManifestacijaDAO  {
 		}
 		return null;
 	}
-	
+
 	public Collection<Manifestacija> findAll() {
 		return manifestacije.values();
 	}

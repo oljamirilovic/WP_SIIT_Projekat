@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="..\unregStartUp.css">
+<link rel="stylesheet" type="text/css" href="..\login.css">
+<link rel="stylesheet" type="text/css" href="..\signup.css">
+<link href="css/all.css" rel="stylesheet">
+<title>view of cart</title>
+</head>
+<body>
+
+	<div class="header">
+		<a class="active" href="#home">Home</a>
+		<div class="search-container">
+			<form name="search" class="example" action="/action_page.php"
+				style="margin: auto; max-width: 300px">
+				<input type="text" placeholder="Search.." name="search">
+				<button type="submit">
+					<i class="fa fa-search"></i>
+				</button>
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="navbar">
+			<div class="advancedSearch">
+				<h3 class="title">Search tickets</h3>
+				<div class="content" id="eventsearch">
+					<form action id="send_search" class="advancedSearchForm">
+						<label>From:</label> <input type="date" name="fromDate"
+							id="fromDate"> <label>To:</label> <input type="date"
+							name="toDate" id="toDate"> <input type="number"
+							name="minPrice" id="minPrice" placeholder="Min"> <input
+							type="number" name="maxPrice" id="maxPrice" placeholder="Max">
+						<label>Name of manifestation</label> <input type="text"
+							name="name" id="name">
+						<button type="submit">
+							<i class="fa fa-search"></i>
+						</button>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="lowerrow">
+		<div class="filterbar">
+			<div class="filter">
+				<h4>Filter tickets</h4>
+				<div class="content" id="filterevents">
+					<select selector="programTypes" placeholder="Event type">
+						<option>All Event types</option>
+						<option>Event type 1</option>
+						<option>Event type 2</option>
+						<option>Event type 3</option>
+					</select> <input type="checkbox" id="availableTickets"> <label
+						for="availableTickets">Available tickets</label> <select
+						class="right">
+						<option>All criteria</option>
+						<option>Event name</option>
+						<option>Event date</option>
+						<option>Event price</option>
+						<option>Event loation</option>
+					</select> <label class="right">Select order:</label>
+				</div>
+				<div class="right"></div>
+			</div>
+		</div>
+	</div>
+	<div class="lowerrow">
+		<div class="pb12">
+			<table id="eventTable" border-color="grey" cellpaddiong="0"
+				cellspacing="0" width="100%" class="display-table">
+				<tbody>
+					<tr class="table-header">
+						<td class="title">Title</td>
+						<td class="price">Price</td>
+						<td class="date">Date</td>
+						<td>Customer</td>
+						<td>Id</td>
+						<td>Status</td><!-- dode jos red da li je izbrisana -->
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class Manifestacija {
 	private String naziv;
-	private TipManifestacije tipManifestacije;
+	private String tipManifestacije;
 	private int brojMesta;
 	private LocalDateTime datumVreme;
 	private double cenaKarte;
@@ -13,7 +13,7 @@ public class Manifestacija {
 	private boolean izbrisana;	
 	private String poster;
 		
-	public Manifestacija(String naziv, TipManifestacije tipManifestacije, int brojMesta, LocalDateTime datumVreme,
+	public Manifestacija(String naziv, String tipManifestacije, int brojMesta, LocalDateTime datumVreme,
 			double cenaKarte, boolean status, Lokacija lokacija, boolean izbrisana, String poster) {
 		super();
 		this.naziv = naziv;
@@ -47,10 +47,10 @@ public class Manifestacija {
 	public void setNaziv(String naziv) {
 		this.naziv = naziv;
 	}
-	public TipManifestacije getTipManifestacije() {
+	public String getTipManifestacije() {
 		return tipManifestacije;
 	}
-	public void setTipManifestacije(TipManifestacije tipManifestacije) {
+	public void setTipManifestacije(String tipManifestacije) {
 		this.tipManifestacije = tipManifestacije;
 	}
 	public int getBrojMesta() {

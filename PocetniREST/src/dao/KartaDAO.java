@@ -18,28 +18,34 @@ import com.fasterxml.jackson.core.JsonToken;
 import beans.Administrator;
 import beans.Karta;
 import beans.Kupac;
-import beans.Pol;
+
 import beans.Prodavac;
 
 public class KartaDAO {
 	HashMap<String, Karta> karte;
 	private String contextPath;
 
-	public KartaDAO(ManifestacijaDAO manifestacijaDAO, KupacDAO kupacDAO) {
+	public KartaDAO() {
 		this.karte=new HashMap<>();
 
-		try {
-			this.parseJSON(manifestacijaDAO,kupacDAO);
-		} catch (JsonParseException e) {
-			//TODO: nesto pametnije
+		
 
-			e.printStackTrace();
-		} catch (IOException e) {
+	}
 
-			e.printStackTrace();
-		}
+	public HashMap<String, Karta> getKarte() {
+		return karte;
+	}
 
+	public void setKarte(HashMap<String, Karta> karte) {
+		this.karte = karte;
+	}
 
+	public String getContextPath() {
+		return contextPath;
+	}
+
+	public void setContextPath(String contextPath) {
+		this.contextPath = contextPath;
 	}
 
 	public Karta addKarta(Karta karta) {
@@ -73,13 +79,15 @@ public class KartaDAO {
 			jsonGenerator.writeStartObject();
 			jsonGenerator.writeStringField("cena", k.getCena()+"");
 			jsonGenerator.writeStringField("id", k.getId());
-			jsonGenerator.writeStringField("manifestacija", k.getManifestacija().getNaziv());
+			jsonGenerator.writeStringField("manifestacija", k.getNazivmanifestacije());
 			jsonGenerator.writeStringField("izbrisana", k.isIzbrisana()+"");
 			DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
 			String dan=k.getDatum().format(formater);
 			jsonGenerator.writeStringField("datum", dan);
 			jsonGenerator.writeStringField("status", k.isStatus()+"");
-			jsonGenerator.writeStringField("kupac", k.getKupac().getKorisnickoIme());
+			jsonGenerator.writeStringField("kupac", k.getKorisnickoIme());
+			jsonGenerator.writeStringField("tip", k.getTip());
+			jsonGenerator.writeStringField("tipKarte", k.getTipKarte());
 			jsonGenerator.writeEndObject(); 
 			jsonGenerator.writeEndObject();
 		}
@@ -91,7 +99,7 @@ public class KartaDAO {
 
 	}
 
-	public void parseJSON(ManifestacijaDAO manifestacijaDAO, KupacDAO kupacDAO) throws JsonParseException, IOException {
+	public void parseJSON() throws JsonParseException, IOException {
 		JsonFactory jsonFactory = new JsonFactory();
 		JsonParser jsonParser = jsonFactory.createParser(new File("karte.json"));
 
@@ -134,12 +142,19 @@ public class KartaDAO {
 									}
 								}
 								else if ("kupac".equals(nameField)) {
-									karta.setKupac(kupacDAO.find(jsonParser.getText()));
-									Kupac k= (kupacDAO.find(jsonParser.getText()));
-									k.addKarta(karta);
+									karta.setKorisnickoIme(jsonParser.getText());
+	
+									
 								}
 								else if ("manifestacija".equals(nameField)) {
-									karta.setManifestacija(manifestacijaDAO.find(jsonParser.getText()));
+									karta.setNazivmanifestacije(jsonParser.getText());
+
+								}else if ("tip".equals(nameField)) {
+									karta.setTip(jsonParser.getText());
+
+								}
+								else if ("manifestacija".equals(nameField)) {
+									karta.setTipKarte(jsonParser.getText());
 
 								}
 
@@ -151,8 +166,6 @@ public class KartaDAO {
 			} jsonParser.close();
 		}
 	}
-
-
 
 
 
