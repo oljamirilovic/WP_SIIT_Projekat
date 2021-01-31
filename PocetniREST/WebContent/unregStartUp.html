@@ -1,0 +1,182 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="unregStartUp.css">
+        <link rel="stylesheet" type="text/css" href="login.css">
+        <link rel="stylesheet" type="text/css" href="signup.css">
+        <link href="css/all.css" rel="stylesheet"> <!--load all styles -->
+
+    </head>
+    <body>
+        <div class="header">
+            <a class="active" href="#home">Home</a>
+            <button type="button" onclick="document.getElementById('id02').style.display='block'" id="signupBtn" > Sign Up</button>
+            <button type="button" onclick="document.getElementById('id01').style.display='block'" id="loginBtn" > Login</button>
+            <div class="search-container">
+                <form name="search" class ="example" action="/action_page.php" style="margin:auto;max-width:300px">
+                    <input type="text" placeholder="Search.." name="search">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="navbar">
+                <div class="advancedSearch">
+                    <h3 class="title">
+                        Search events
+                    </h3>
+                    <div class="content" id="eventsearch" >
+                        <form action id="send_search" class="advancedSearchForm">
+                            <label>From:</label>
+                            <input type="date" name="fromDate" id="fromDate" >
+                            <label>To:</label>
+                            <input type="date" name="toDate" id="toDate">
+                            <input type="number" name="minPrice" id="minPrice" placeholder="Min">
+                            <input type="number" name="maxPrice" id="maxPrice" placeholder="Max">
+                            <button type="submit" ><i class="fa fa-search"></i></button>
+                        </form> 
+
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="lowerrow">
+            <div class="filterbar">
+                <div class="filter">
+                    <h4>
+                        Filter events
+                    </h4>
+                    <div class="content" id="filterevents">
+                        <select selector="programTypes" placeholder="Event type">
+                            <option>All Event types</option>
+                            <option>Event type 1</option>
+                            <option>Event type 2</option>
+                            <option>Event type 3</option>
+                        </select>
+                        <input type="checkbox" id="availableTickets" >
+                        <label for="availableTickets">Available tickets</label>
+
+                        <select class="right">
+                            <option>All criteria</option>
+                            <option>Event name</option>
+                            <option>Event date</option>
+                            <option>Event price</option>
+                            <option>Event loation</option>
+                        </select>
+                        <label class="right">Select order:</label>
+                    </div>
+                    <div class="right"></div>
+                </div>
+            </div>
+        </div>
+        <div class="lowerrow">
+            <div class="pb12">
+                <table id="eventTable" border-color="grey" cellpaddiong="0" cellspacing="0" width="100%" class="display-table">
+                    <tbody>
+                        <tr class="table-header">
+                            <td class="title">Title</td>
+                            <td class="eventType">Event type</td>
+                            <td class="score">Score</td>
+                        </tr>
+                        <!-- <tr class="event-list">
+                            <td class="title al va-t word-break">
+                             
+                                <img width="50" height="70" alt="Anime: Fullmetal Alchemist" class="lazyloaded"
+                                border="0" data-src="https://cdn.myanimelist.net/r/50x70/images/anime/1223/96541.webp?s=263cff1b768e29f3cc841792b2dded2e" 
+                                data-srcset="https://cdn.myanimelist.net/r/50x70/images/anime/1223/96541.webp?s=263cff1b768e29f3cc841792b2dded2e 1x, https://cdn.myanimelist.net/r/100x140/images/anime/1223/96541.webp?s=bb76dbf7a98222cd60fd279cca8ab4de 2x" 
+                                srcset="https://cdn.myanimelist.net/r/50x70/images/anime/1223/96541.webp?s=263cff1b768e29f3cc841792b2dded2e 1x, https://cdn.myanimelist.net/r/100x140/images/anime/1223/96541.webp?s=bb76dbf7a98222cd60fd279cca8ab4de 2x"
+                                 src="https://cdn.myanimelist.net/r/50x70/images/anime/1223/96541.webp?s=263cff1b768e29f3cc841792b2dded2e">
+
+                                                            
+                            <div class="information di-ib mt4">
+                                <a style="font-size: 16px" href="https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood"
+                                    >Fullmetal Alchemist</a>
+                                    <br>
+                                   TV (64 eps)     
+                                <br>
+                                   Apr 2009 - Jul 2010     
+                            </div> 
+                            </td>
+                            <td class="score ac fs14">
+                                <div>
+                                    <span class="text score-label score-na" ></span>TV</span>
+                                </div>
+                            </td>
+                            <td class="score ac fs14" >
+                                <div >
+                                    <span class="text score-label score-na"><i class="far fa-star"></i>9.21</span>
+                                </div>
+                            </td>
+                        </tr>-->
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="id01" class="modal">
+  
+            <form class="modal-content animate" action="/action_page.php" method="post">
+              <div class="imgcontainer">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Window">&times;</span>
+                <img src="avatar.png" alt="Avatar" class="avatar">
+              </div>
+          
+              <div class="container">
+                <label for="uname"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" name="uname" required>
+          
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+                  
+                <button type="button" class="submitLogin">Login</button>
+                
+              </div>
+          
+              <div class="container" style="background-color:transparent">
+                
+              </div>
+            </form>
+          </div>
+
+          <div id="id02" class="modals">
+            <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Window">&times;</span>
+            <form class="modal-contents" action="/action_page.php">
+              <div class="containers">
+                <h1>Sign Up</h1>
+                <p>Please fill in this form to create an account.</p>
+                <hr>
+                <label for="email"><b>Email</b></label>
+                <input type="text" placeholder="Enter Email" name="email" required>
+          
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+          
+                <label for="psw-repeat"><b>Repeat Password</b></label>
+                <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+                
+                <div class="clearfix">
+                  <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtns">Cancel</button>
+                  <button type="button" class="signupbtns">Sign Up</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <script>
+            // Get the modal
+            var modal1 = document.getElementById('id01');
+            var modal2 = document.getElementById('id02');
+            
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal1.style.display = "none";
+                    modal2.style.display = "none";
+                }
+            }
+            </script>
+    </body>
+</html>

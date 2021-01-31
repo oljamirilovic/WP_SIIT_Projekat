@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.core.JsonEncoding;
@@ -131,6 +132,10 @@ public class ManifestacijaDAO  {
 			return manifestacije.get(text);
 		}
 		return null;
+	}
+	
+	public Collection<Manifestacija> findAll() {
+		return manifestacije.values();
 	}
 
 }
