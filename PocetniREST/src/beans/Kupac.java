@@ -8,6 +8,17 @@ public class Kupac extends Korisnik {
 	private TipKupca tip;
 	private boolean izbrisan;
 	private boolean blokiran;
+		
+	
+	public Kupac(String korisnickoIme,String lozinka,String ime,String prezime, String pol,
+			String datumRodjenja) {
+		super(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
+		this.sakupljeniBodovi = 0;
+		this.karte = new ArrayList<>();;
+		this.tip = new TipKupca("Bronze");
+		this.izbrisan = false;
+		this.blokiran = false;
+	}
 	
 	public boolean isIzbrisan() {
 		return izbrisan;

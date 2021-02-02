@@ -19,39 +19,19 @@ import com.fasterxml.jackson.core.JsonToken;
 
 import beans.Prodavac;
 
-public class ProdavacDAO implements Ucitavanje{
+public class ProdavacDAO {
 	private  HashMap<String, Prodavac> prodavci;
 	private String ContextPath;
 
 
-	public ProdavacDAO() {
-		prodavci=new HashMap<>();
+	public ProdavacDAO(String contextpath) {
+		this.prodavci=new HashMap<>();
 		try {
-			parseJSON();
+			parseJSON(contextpath);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-
-	public HashMap<String, Prodavac> getProdavci() {
-		return prodavci;
-	}
-
-
-	public void setProdavci(HashMap<String, Prodavac> prodavci) {
-		this.prodavci = prodavci;
-	}
-
-
-	public String getContextPath() {
-		return ContextPath;
-	}
-
-
-	public void setContextPath(String contextPath) {
-		ContextPath = contextPath;
 	}
 
 
@@ -94,7 +74,7 @@ public class ProdavacDAO implements Ucitavanje{
 			jsonGenerator.writeStringField("ime", prod.getIme());
 			jsonGenerator.writeStringField("prezime", prod.getPrezime());
 			DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-			String dan=prod.getDatumRodjenja().format(formater);
+			String dan=prod.getDatumRodjenja();
 			jsonGenerator.writeStringField("rodjenje", dan);
 			jsonGenerator.writeStringField("pol", prod.getPol());
 			//jsonGenerator.writeStringField("pol", prod.ge);
@@ -109,9 +89,9 @@ public class ProdavacDAO implements Ucitavanje{
 
 	}
 
-	public  void parseJSON() throws JsonParseException, IOException {
+	public  void parseJSON(String contextpath) throws JsonParseException, IOException {
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonParser jsonParser = jsonFactory.createParser(new File("prodavci.json"));
+		JsonParser jsonParser = jsonFactory.createParser(new File(contextpath + "/data/prodavci.json"));
 
 		if(jsonParser.nextToken()==JsonToken.START_OBJECT) {
 			JsonToken fieldName2 = jsonParser.nextToken();
@@ -124,8 +104,9 @@ public class ProdavacDAO implements Ucitavanje{
 						String fieldName = jsonParser.getCurrentName();
 						jsonParser.nextToken();  
 						if ("Prodavac".equals(fieldName)) { 
+							Prodavac admin=new Prodavac();
 							while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
-								Prodavac admin=new Prodavac();
+								//Prodavac admin=new Prodavac();
 								String nameField = jsonParser.getCurrentName();
 								jsonParser.nextToken(); // move to value
 
@@ -142,13 +123,14 @@ public class ProdavacDAO implements Ucitavanje{
 									
 										admin.setPol(jsonParser.getText());
 								}else {
-									DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-									LocalDate dan=LocalDate.parse(jsonParser.getText(), formater);
-									admin.setDatumRodjenja(dan);
+									//DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+									//LocalDate dan=LocalDate.parse(jsonParser.getText(), formater);
+									admin.setDatumRodjenja(jsonParser.getText());
 								}
-								this.prodavci.put(admin.getKorisnickoIme(), admin);
+								//this.prodavci.put(admin.getKorisnickoIme(), admin);
 
 							}
+							this.prodavci.put(admin.getKorisnickoIme(), admin);
 						} 
 					}
 				}}}

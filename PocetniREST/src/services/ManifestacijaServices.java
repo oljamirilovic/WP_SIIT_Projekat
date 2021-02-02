@@ -25,30 +25,29 @@ public class ManifestacijaServices {
 		
 	}
 	
-	/*TODO konstruktor bez parametara kod ManifestacijeDAO
 	@PostConstruct
 	public void init() {
 		if(ctx.getAttribute("eventsDAO")==null) {
 			String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("eventsDAO", new ManifestacijaDAO()); 
+			ctx.setAttribute("eventsDAO", new ManifestacijaDAO(contextPath)); 
 		}
-	}*/
+	}
 
 	@GET
 	@Path("/getEvents")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Manifestacija> getUsers(){
+	public Collection<Manifestacija> getEvents(){
 		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("eventsDAO");
 		Collection<Manifestacija> us = dao.findAll();
 		if(us == null) {
-			//dao = new ManifestacijaDAO(); TODO konstruktor
-			ctx.setAttribute("userDAO", dao);
+			dao = new ManifestacijaDAO(ctx.getRealPath("")); 
+			ctx.setAttribute("eventsDAO", dao);
 		}
 		return us;
 		//vraca listu svih korisnika koje imamo kao json
 	}
 	
-	//TODO saerch and add
+	//TODO search and add
 	
 	
 	

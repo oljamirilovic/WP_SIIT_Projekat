@@ -19,7 +19,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import beans.Administrator;
 
 
-public class AdministratorDao implements Ucitavanje {
+public class AdministratorDao {
 	private HashMap<String, Administrator> administratori;
 	private String ContextPath;
 
@@ -41,9 +41,15 @@ public class AdministratorDao implements Ucitavanje {
 		}
 		return null;
 	}
-	public AdministratorDao() {
+	public AdministratorDao(String contextpath) {
 		super();
 		administratori=new HashMap<>();
+		try {
+			parseJSON(contextpath);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
@@ -79,7 +85,7 @@ public class AdministratorDao implements Ucitavanje {
 			jsonGenerator.writeStringField("prezime", admin.getPrezime());
 			DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
 			System.out.println(admin.getDatumRodjenja());
-			String dan=admin.getDatumRodjenja().format(formater);
+			String dan=admin.getDatumRodjenja();
 			jsonGenerator.writeStringField("rodjenje", dan);
 			jsonGenerator.writeStringField("pol", admin.getPol());
 
@@ -93,9 +99,9 @@ public class AdministratorDao implements Ucitavanje {
 
 	}
 
-	public void parseJSON() throws JsonParseException, IOException {
+	public void parseJSON(String contextpath) throws JsonParseException, IOException {
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonParser jsonParser = jsonFactory.createParser(new File("administratori.json"));
+		JsonParser jsonParser = jsonFactory.createParser(new File(contextpath + "/data/administratori.json"));
 
 		if(jsonParser.nextToken()==JsonToken.START_OBJECT) {
 			JsonToken fieldName2 = jsonParser.nextToken();
@@ -108,8 +114,9 @@ public class AdministratorDao implements Ucitavanje {
 						String fieldName = jsonParser.getCurrentName();
 						jsonParser.nextToken();  
 						if ("Admin".equals(fieldName)) { 
+							Administrator admin=new Administrator();
 							while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
-								Administrator admin=new Administrator();
+								//Administrator admin=new Administrator();
 								String nameField = jsonParser.getCurrentName();
 								jsonParser.nextToken(); // move to value
 
@@ -126,12 +133,13 @@ public class AdministratorDao implements Ucitavanje {
 									admin.setPol(jsonParser.getText());}
 									
 								else {
-									DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-									LocalDate dan=LocalDate.parse(jsonParser.getText(), formater);
-									admin.setDatumRodjenja(dan);
+									//DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+									//LocalDate dan=LocalDate.parse(jsonParser.getText(), formater);
+									admin.setDatumRodjenja(jsonParser.getText());
 								}
-								this.administratori.put(admin.getKorisnickoIme(), admin);
+								//this.administratori.put(admin.getKorisnickoIme(), admin);
 							}
+							this.administratori.put(admin.getKorisnickoIme(), admin);
 						} 
 					}
 				}

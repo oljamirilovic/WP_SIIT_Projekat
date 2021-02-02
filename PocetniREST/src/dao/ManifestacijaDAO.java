@@ -2,9 +2,12 @@ package dao;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.core.JsonEncoding;
@@ -25,10 +28,10 @@ public class ManifestacijaDAO  {
 	HashMap<String, Manifestacija> manifestacije;
 	private String contextPath;
 
-	public ManifestacijaDAO() {
+	public ManifestacijaDAO(String contextpath) {
 		this.manifestacije=new HashMap<>();
 		try {
-			parseJSON();
+			parseJSON(contextpath);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,8 +62,8 @@ public class ManifestacijaDAO  {
 			jsonGenerator.writeStringField("gDuzina", k.getLokacija().getGeografskaDuzina()+"");
 			jsonGenerator.writeStringField("gSirina", k.getLokacija().getGeografskaSirina()+"");
 			DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-			String dan=k.getDatumVreme().format(formater);
-			jsonGenerator.writeStringField("datum", dan);
+			//String dan=k.getDatumVreme().format(formater);
+			//jsonGenerator.writeStringField("datum", dan);
 
 			jsonGenerator.writeEndObject(); 
 			jsonGenerator.writeEndObject();
@@ -72,9 +75,9 @@ public class ManifestacijaDAO  {
 
 	}
 
-	public void parseJSON() throws JsonParseException, IOException {
+	public void parseJSON(String contextpath) throws JsonParseException, IOException {
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonParser jsonParser = jsonFactory.createParser(new File("manifestacije.json"));
+		JsonParser jsonParser = jsonFactory.createParser(new File(contextpath + "/data/manifestacije.json"));
 
 		if(jsonParser.nextToken()==JsonToken.START_OBJECT) {
 			JsonToken fieldName2 = jsonParser.nextToken();
@@ -87,8 +90,9 @@ public class ManifestacijaDAO  {
 						String fieldName = jsonParser.getCurrentName();
 						jsonParser.nextToken();  
 						if ("Manifestacija".equals(fieldName)) { 
+							Manifestacija man=new Manifestacija();
 							while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
-								Manifestacija man=new Manifestacija();
+								//Manifestacija man=new Manifestacija();
 								String nameField = jsonParser.getCurrentName();
 								jsonParser.nextToken(); // move to value
 
@@ -99,12 +103,26 @@ public class ManifestacijaDAO  {
 									man.setTipManifestacije(jsonParser.getText());
 								}else if ("brojMesta".equals(nameField)) {
 									man.setBrojMesta(Integer.parseInt(jsonParser.getText()));
-								}else if ("datumVreme".equals(nameField)) {
-									DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-									LocalDateTime dan=LocalDateTime.parse(jsonParser.getText(), formater);
-									man.setDatumVreme(dan);
+								}else if("poster".equals(nameField)) {
+									man.setPoster(jsonParser.getText());
+								}
+								else if ("datum".equals(nameField)) {
+									//DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+									//LocalDateTime dan=LocalDateTime.parse(jsonParser.getText(), formater);
+									/*Date d=null;
+									try {
+										d = new SimpleDateFormat("yyyy-mm-dd").parse(jsonParser.getText());
+									} catch (ParseException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}*/
+									man.setDatumVreme(jsonParser.getText());
 								}else if ("cena".equals(nameField)) {
 									man.setCenaKarte(Double.parseDouble(jsonParser.getText()));
+								}
+								else if("ulica".equals(nameField)) {
+									if(man.getLokacija()==null) {man.setLokacija(new Lokacija());}
+									man.getLokacija().setUlica(jsonParser.getText());
 								}
 								else if ("lokacijaBroj".equals(nameField)) {
 									if(man.getLokacija()==null) {man.setLokacija(new Lokacija());}
@@ -142,8 +160,8 @@ public class ManifestacijaDAO  {
 								}
 
 
-								this.manifestacije.put(man.getNaziv(), man);
-							}
+								//this.manifestacije.put(man.getNaziv(), man);
+							}this.manifestacije.put(man.getNaziv(), man);
 						} 
 					}
 				}}}

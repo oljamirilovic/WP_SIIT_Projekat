@@ -20,16 +20,16 @@ import beans.Kupac;
 
 import beans.Prodavac;
 
-public class KupacDAO implements Ucitavanje {
+public class KupacDAO  {
 	HashMap<String, Kupac> kupci;
 	private  String contextPath;
 
 
-	public KupacDAO() {
+	public KupacDAO(String contextpath) {
 		super();
 		kupci=new HashMap<>();
 		try {
-			parseJSON();
+			parseJSON(contextpath);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,7 +50,7 @@ public class KupacDAO implements Ucitavanje {
 			return kupci.get(korisnickoIme);
 		}return null;
 	}
-	@Override
+	
 	public void generateJSON() throws IOException {
 		JsonFactory jsonFactory = new JsonFactory();
 		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File("kupci.json"), JsonEncoding.UTF8);
@@ -67,7 +67,7 @@ public class KupacDAO implements Ucitavanje {
 			jsonGenerator.writeStringField("lozinka", k.getLozinka());
 			jsonGenerator.writeStringField("korisnickoIme", k.getKorisnickoIme());
 			DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-			String dan=k.getDatumRodjenja().format(formater);
+			String dan=k.getDatumRodjenja();
 			jsonGenerator.writeStringField("datum", dan);
 			jsonGenerator.writeStringField("pol", k.getPol());
 			jsonGenerator.writeStringField("bododvi", k.getSakupljeniBodovi()+"");
@@ -83,12 +83,12 @@ public class KupacDAO implements Ucitavanje {
 
 		jsonGenerator.writeEndArray();
 		jsonGenerator.writeEndObject();
-		jsonGenerator.close();}
+		jsonGenerator.close();
+		}
 
-	@Override
-	public void parseJSON() throws JsonParseException, IOException {
+	public void parseJSON(String contextpath) throws JsonParseException, IOException {
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonParser jsonParser = jsonFactory.createParser(new File("kupci.json"));
+		JsonParser jsonParser = jsonFactory.createParser(new File(contextpath + "/data/kupci.json"));
 
 		if(jsonParser.nextToken()==JsonToken.START_OBJECT) {
 			JsonToken fieldName2 = jsonParser.nextToken();
@@ -101,8 +101,9 @@ public class KupacDAO implements Ucitavanje {
 						String fieldName = jsonParser.getCurrentName();
 						jsonParser.nextToken();  
 						if ("Kupac".equals(fieldName)) { 
+							Kupac kupac=new Kupac();
 							while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
-								Kupac kupac=new Kupac();
+								//Kupac kupac=new Kupac();
 								String nameField = jsonParser.getCurrentName();
 								jsonParser.nextToken(); // move to value
 
@@ -146,13 +147,14 @@ public class KupacDAO implements Ucitavanje {
 										kupac.setIzbrisan(false);
 									}
 								}else if("datum".equals(nameField)){
-									DateTimeFormatter fo=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-									LocalDate dan=LocalDate.parse(jsonParser.getText(), fo);
-									kupac.setDatumRodjenja(dan);
+									//DateTimeFormatter fo=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+									//LocalDate dan=LocalDate.parse(jsonParser.getText(), fo);
+									kupac.setDatumRodjenja(jsonParser.getText());
 								}
-								this.kupci.put(kupac.getKorisnickoIme(), kupac);
+								//this.kupci.put(kupac.getKorisnickoIme(), kupac);
 
 							}
+							this.kupci.put(kupac.getKorisnickoIme(), kupac);
 						} 
 					}
 

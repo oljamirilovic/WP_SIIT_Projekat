@@ -5,6 +5,7 @@ public class TipKupca {
 	private String tipKupca;
 	private double popust;
 	private int bodovi;
+	
 	public String getTipKupca() {
 		return tipKupca;
 	}
@@ -25,6 +26,12 @@ public class TipKupca {
 	}
 	public TipKupca() {
 		super();
+	}
+	
+	public TipKupca(String tip) {
+		this.tipKupca = tip;
+		this.bodovi = 35;
+		this.popust = 3;
 	}
 	
 }

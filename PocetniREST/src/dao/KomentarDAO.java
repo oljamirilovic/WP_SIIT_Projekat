@@ -26,10 +26,10 @@ public class KomentarDAO{
 	private String contextPath;
 
 
-	public KomentarDAO() {
+	public KomentarDAO(String contextpath) {
 		komentari=new ArrayList<>();
 		try {
-			parseJSON();
+			parseJSON(contextpath);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,6 +41,29 @@ public class KomentarDAO{
 	public Komentar addKomentar(Komentar kom) {
 		komentari.add(kom);
 		return kom;
+	}
+	
+	public Collection<Komentar> findByEvent(String event){
+		Collection<Komentar> retval= new ArrayList<Komentar>();
+		for (Komentar komentar : komentari) {
+			if(komentar.getImeManifestacije().equals(event) && !komentar.isObrisan() && komentar.isOdobren()) {
+				retval.add(komentar);
+			}
+		}
+		return retval;		
+	}
+	
+	public double findAverageEventScore(String event) {
+		Collection<Komentar> retval = findByEvent(event);
+		double score = 0;
+		for (Komentar komentar : retval) {
+			score += komentar.getOcena();
+		}
+		if(!retval.isEmpty()) {
+			score = score/retval.size();
+		}
+		
+		return score;
 	}
 
 	public  void generateJSON() throws IOException {
@@ -70,9 +93,9 @@ public class KomentarDAO{
 
 	}
 
-	public void parseJSON() throws JsonParseException, IOException {
+	public void parseJSON(String contextpath) throws JsonParseException, IOException {
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonParser jsonParser = jsonFactory.createParser(new File("komentari.json"));
+		JsonParser jsonParser = jsonFactory.createParser(new File(contextpath + "/data/komentari.json"));
 	
 		if(jsonParser.nextToken()==JsonToken.START_OBJECT) {
 			JsonToken fieldName2 = jsonParser.nextToken();
@@ -87,8 +110,9 @@ public class KomentarDAO{
 						jsonParser.nextToken();  
 						if ("Komentar ".equals(fieldName)) { 
 							System.out.print("*");
+							Komentar kom=new Komentar();
 							while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
-								Komentar kom=new Komentar();
+								//Komentar kom=new Komentar();
 								String nameField = jsonParser.getCurrentName();
 								jsonParser.nextToken(); // move to value
 
@@ -106,8 +130,15 @@ public class KomentarDAO{
 								else if ("imeKupca".equals(nameField)) {
 									kom.setImeKupca(jsonParser.getText());
 								}
-								this.komentari.add(kom);
+								else if("obrisan".equals(nameField)) {
+									kom.setObrisan(Boolean.parseBoolean(jsonParser.getText()));
+								}
+								else if("odobren".equals(nameField)) {
+									kom.setOdobren(Boolean.parseBoolean(jsonParser.getText()));
+								}
+								//this.komentari.add(kom);
 							}
+							this.komentari.add(kom);
 						} 
 					}
 				}

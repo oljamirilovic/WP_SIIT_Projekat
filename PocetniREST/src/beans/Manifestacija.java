@@ -1,19 +1,18 @@
 package beans;
 
-import java.time.LocalDateTime;
 
 public class Manifestacija {
 	private String naziv;
 	private String tipManifestacije;
 	private int brojMesta;
-	private LocalDateTime datumVreme;
+	private String datumVreme;
 	private double cenaKarte;
 	private boolean status;
 	private Lokacija lokacija;
 	private boolean izbrisana;	
 	private String poster;
 		
-	public Manifestacija(String naziv, String tipManifestacije, int brojMesta, LocalDateTime datumVreme,
+	public Manifestacija(String naziv, String tipManifestacije, int brojMesta, String datumVreme,
 			double cenaKarte, boolean status, Lokacija lokacija, boolean izbrisana, String poster) {
 		super();
 		this.naziv = naziv;
@@ -59,10 +58,10 @@ public class Manifestacija {
 	public void setBrojMesta(int brojMesta) {
 		this.brojMesta = brojMesta;
 	}
-	public LocalDateTime getDatumVreme() {
+	public String getDatumVreme() {
 		return datumVreme;
 	}
-	public void setDatumVreme(LocalDateTime datumVreme) {
+	public void setDatumVreme(String datumVreme) {
 		this.datumVreme = datumVreme;
 	}
 	public double getCenaKarte() {
