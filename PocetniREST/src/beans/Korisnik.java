@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public abstract class Korisnik {
 	private String korisnickoIme, lozinka, ime, prezime;
 	private String pol;
-	private LocalDate datumRodjenja;
+	private String datumRodjenja;
 	public Korisnik() {
 		super();
 	}
@@ -40,10 +40,19 @@ public abstract class Korisnik {
 	public void setPol(String pol) {
 		this.pol = pol;
 	}
-	public LocalDate getDatumRodjenja() {
+	public String getDatumRodjenja() {
 		return datumRodjenja;
 	}
-	public void setDatumRodjenja(LocalDate datumRodjenja) {
+	public void setDatumRodjenja(String datumRodjenja) {
+		this.datumRodjenja = datumRodjenja;
+	}
+	public Korisnik(String korisnickoIme, String lozinka, String ime, String prezime, String pol,
+			String datumRodjenja) {
+		this.korisnickoIme = korisnickoIme;
+		this.lozinka = lozinka;
+		this.ime = ime;
+		this.prezime = prezime;
+		this.pol = pol;
 		this.datumRodjenja = datumRodjenja;
 	}
 	

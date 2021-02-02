@@ -54,13 +54,13 @@ public class Sesija {
 	}
 	
 	public void ucitavanje() {
-		this.administratorDAO=new AdministratorDao();
-		this.prodavacDAO=new ProdavacDAO();
-		this.kupacDAO=new KupacDAO();
+		//this.administratorDAO=new AdministratorDao();
+		//this.prodavacDAO=new ProdavacDAO();
+		//this.kupacDAO=new KupacDAO();
 		this.lokacijaDAO=new LokacijaDAO();
-		this.manifestacijaDAO=new ManifestacijaDAO();
+		//this.manifestacijaDAO=new ManifestacijaDAO();
 		this.kartaDAO=new KartaDAO();
-		this.komentarDAO=new KomentarDAO();	
+		//this.komentarDAO=new KomentarDAO();	
 		//i jos tip karte
 		
 		

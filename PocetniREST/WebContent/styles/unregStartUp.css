@@ -199,12 +199,13 @@ p {
 
 .display-table {
     border-collapse: collapse;
+    border-color: whitesmoke;
 }
 
 tr {
     display: table-row;
     vertical-align: inherit;
-    border-color: inherit;
+    border-color: lightgrey;
 }
 
 .display-table .table-header td:first-of-type {
@@ -237,6 +238,10 @@ tr {
     vertical-align: top!important;
 }
 
+.va-c {
+    vertical-align: center!important;
+}
+
 .al {
     text-align: left!important;
 }
@@ -257,7 +262,6 @@ tr {
     -webkit-transition-timing-function: ease-in-out;
     transition-timing-function: ease-in-out;
 }
-
 .detail {
     margin-left: 72px;
 }
@@ -279,6 +283,10 @@ tr {
 }
 .fl-l {
     float: left!important;
+}
+
+.fl-c{
+	float: center!important;
 }
 
 /*h3 {
