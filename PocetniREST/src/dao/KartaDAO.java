@@ -65,11 +65,15 @@ public class KartaDAO {
 			return karte.get(id);
 		}return null;
 	}
+	public void obrisi(String id) {
+		if(karte.containsKey(id)) { //obrisi, obirisi, a ne odustani
+			karte.get(id).setIzbrisana(true);
+		}
+	}
 
-
-	public  void generateJSON() throws IOException {
+	public  void generateJSON(String contextpath) throws IOException {
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File("karte.json"), JsonEncoding.UTF8);
+		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File(contextpath + "/data/karte.json"), JsonEncoding.UTF8);
 		jsonGenerator.writeStartObject();
 		jsonGenerator.writeFieldName("Karte");
 		jsonGenerator.writeStartArray();
@@ -81,7 +85,7 @@ public class KartaDAO {
 			jsonGenerator.writeStringField("id", k.getId());
 			jsonGenerator.writeStringField("manifestacija", k.getNazivmanifestacije());
 			jsonGenerator.writeStringField("izbrisana", k.isIzbrisana()+"");
-			DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+			DateTimeFormatter formater=DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			String dan=k.getDatum().format(formater);
 			jsonGenerator.writeStringField("datum", dan);
 			jsonGenerator.writeStringField("status", k.isStatus()+"");
@@ -99,9 +103,9 @@ public class KartaDAO {
 
 	}
 
-	public void parseJSON() throws JsonParseException, IOException {
+	public void parseJSON(String contextpath) throws JsonParseException, IOException {
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonParser jsonParser = jsonFactory.createParser(new File("karte.json"));
+		JsonParser jsonParser = jsonFactory.createParser(new File(contextpath + "/data/karte.json"));
 
 		if(jsonParser.nextToken()==JsonToken.START_OBJECT) {
 			JsonToken fieldName2 = jsonParser.nextToken();
@@ -114,8 +118,9 @@ public class KartaDAO {
 						String fieldName = jsonParser.getCurrentName();
 						jsonParser.nextToken();  
 						if ("Karta".equals(fieldName)) { 
+							Karta karta=new Karta();
 							while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
-								Karta karta=new Karta();
+								
 								String nameField = jsonParser.getCurrentName();
 								jsonParser.nextToken(); // move to value
 
@@ -125,7 +130,7 @@ public class KartaDAO {
 								} else if ("id".equals(nameField)) {
 									karta.setId(jsonParser.getText());
 								}else if ("datum".equals(nameField)) {
-									DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd.MM.yyyy."); 
+									DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd"); 
 									LocalDate dan=LocalDate.parse(jsonParser.getText(), formatter);
 									karta.setDatum(dan);
 								}else if ("izbrisana".equals(nameField)) {
@@ -158,15 +163,30 @@ public class KartaDAO {
 
 								}
 
-								this.karte.put(karta.getId(), karta);
-							}
+								
+							}this.karte.put(karta.getId(), karta);
 						}
 					}
 				}
 			} jsonParser.close();
 		}
 	}
+	public void izmeni(Karta karta) {
+		if(this.karte.containsKey(karta.getId())) {
+			this.karte.put(karta.getId(), karta);
+		}
+		
+		
+	}
 
+
+
+	public Karta nadjiJednuKartu(String id) {
+		if(this.karte.containsKey(id)) {
+			return this.karte.get(id);
+		}
+		return null;
+	}
 
 
 }

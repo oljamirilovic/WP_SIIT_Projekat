@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -15,8 +16,9 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
-
-
+import beans.Karta;
+import beans.Kupac;
+import beans.Manifestacija;
 import beans.Prodavac;
 
 public class ProdavacDAO {
@@ -58,9 +60,9 @@ public class ProdavacDAO {
 			return prodavci.get(korisnickoIme);
 		}return null;
 	}
-	public  void generateJSON() throws IOException {
+	public  void generateJSON(String contextpath) throws IOException {
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File("prodavci.json"), JsonEncoding.UTF8);
+		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File(contextpath + "/data/prodavci.json"), JsonEncoding.UTF8);
 		jsonGenerator.writeStartObject();
 		jsonGenerator.writeFieldName("Prodavci");
 		jsonGenerator.writeStartArray();
@@ -136,5 +138,50 @@ public class ProdavacDAO {
 				}}}
 		jsonParser.close();
 
+	}
+	public Collection<Kupac> nadjiKupce(String username, Collection<Karta> karte) {
+		Prodavac p=this.prodavci.get(username);
+		Collection<Manifestacija> m=p.getManifestacije();
+		//na sesiji bi trebalo da imamo kolekciju karata
+		//Collection<Karta> karte=new ArrayList<Karta>();
+		ArrayList<Kupac> kupci=new ArrayList<>();
+		for(Manifestacija ma:m) {
+			for(Karta k : karte) {
+				if(k.getManifestacija().getNaziv().equals(ma.getNaziv())) {
+					kupci.add(k.getKupac());
+				}
+			}
+		}
+		
+		return kupci;	}
+	public Collection<Karta> nadjiKarte(String username,Collection<Karta> karte ) {
+		Prodavac p=this.prodavci.get(username);
+		Collection<Manifestacija> m=p.getManifestacije();
+		
+		Collection<Karta> karte1=new ArrayList<Karta>();
+		//TODO iz liste karata pravi novu listu karata
+		for(Manifestacija ma:m) {
+			for(Karta k : karte) {
+				if(k.getManifestacija().getNaziv().equals(ma.getNaziv()) && k.isStatus()) {
+					karte1.add(k);
+				}
+			}
+	}
+		return karte1;
+	}
+
+	public void blokiraj(Prodavac user) {
+		 if(this.prodavci.containsKey(user.getKorisnickoIme())){
+			 this.prodavci.get(user).setNlokiran(true);
+		 }
+		
+	}
+
+
+	public void obrisi(Prodavac user) {
+		if(this.prodavci.containsKey(user.getKorisnickoIme())){
+			 this.prodavci.get(user).setIzbrisan(true);
+		 }
+		
 	}
 }

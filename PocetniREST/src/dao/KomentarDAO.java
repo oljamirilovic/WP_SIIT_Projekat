@@ -42,6 +42,23 @@ public class KomentarDAO{
 		komentari.add(kom);
 		return kom;
 	}
+	public Komentar odobri(Komentar k) {
+		Komentar kom= this.findAll().stream().filter(kome->kome.getId()==k.getId()).
+		findFirst().orElse(null);
+		if(kom!=null) {
+			kom.setOdobren(true);
+		}
+		return null;
+	}
+
+	public Komentar obrisi(String id) {
+		Komentar kom= this.findAll().stream().filter(kome->kome.getId()==Integer.parseInt(id)).
+		findFirst().orElse(null);
+		if(kom!=null) {
+			kom.setObrisan(false);
+		}
+		return null;
+	}
 	
 	public Collection<Komentar> findByEvent(String event){
 		Collection<Komentar> retval= new ArrayList<Komentar>();
@@ -66,9 +83,9 @@ public class KomentarDAO{
 		return score;
 	}
 
-	public  void generateJSON() throws IOException {
+	public  void generateJSON(String contextpath) throws IOException {
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File("komentari.json"), JsonEncoding.UTF8);
+		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File(contextpath + "/data/komentari.json"), JsonEncoding.UTF8);
 		jsonGenerator.writeStartObject();
 		jsonGenerator.writeFieldName("Komentari");
 		jsonGenerator.writeStartArray();
@@ -109,7 +126,6 @@ public class KomentarDAO{
 						String fieldName = jsonParser.getCurrentName();
 						jsonParser.nextToken();  
 						if ("Komentar ".equals(fieldName)) { 
-							System.out.print("*");
 							Komentar kom=new Komentar();
 							while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
 								//Komentar kom=new Komentar();

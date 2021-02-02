@@ -68,9 +68,9 @@ public class AdministratorDao {
 			return administratori.get(korisnickoIme);
 		}return null;
 	}
-	public  void generateJSON() throws IOException {
+	public  void generateJSON(String contextpath) throws IOException {
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File("administratori.json"), JsonEncoding.UTF8);
+		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File(contextpath + "/data/administratori.json"), JsonEncoding.UTF8);
 		jsonGenerator.writeStartObject();
 		jsonGenerator.writeFieldName("Administratori");
 		jsonGenerator.writeStartArray();
@@ -83,8 +83,6 @@ public class AdministratorDao {
 			jsonGenerator.writeStringField("lozinka", admin.getLozinka());
 			jsonGenerator.writeStringField("ime", admin.getIme());
 			jsonGenerator.writeStringField("prezime", admin.getPrezime());
-			DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-			System.out.println(admin.getDatumRodjenja());
 			String dan=admin.getDatumRodjenja();
 			jsonGenerator.writeStringField("rodjenje", dan);
 			jsonGenerator.writeStringField("pol", admin.getPol());

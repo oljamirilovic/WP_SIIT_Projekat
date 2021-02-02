@@ -61,9 +61,9 @@ public class ManifestacijaDAO  {
 			jsonGenerator.writeStringField("postanskiBroj", k.getLokacija().getPostanskiBroj());
 			jsonGenerator.writeStringField("gDuzina", k.getLokacija().getGeografskaDuzina()+"");
 			jsonGenerator.writeStringField("gSirina", k.getLokacija().getGeografskaSirina()+"");
-			DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+			//DateTimeFormatter formater=DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			//String dan=k.getDatumVreme().format(formater);
-			//jsonGenerator.writeStringField("datum", dan);
+			jsonGenerator.writeStringField("datum", k.getDatumVreme());
 
 			jsonGenerator.writeEndObject(); 
 			jsonGenerator.writeEndObject();
@@ -179,6 +179,55 @@ public class ManifestacijaDAO  {
 
 	public Collection<Manifestacija> findAll() {
 		return manifestacije.values();
+	}
+	public Manifestacija odobri(String naziv) {
+		if(this.manifestacije.containsKey(naziv)) {
+			this.manifestacije.get(naziv).setStatus(true); //odobren
+			return this.manifestacije.get(naziv);
+		}
+		return null;
+	}
+		
+
+
+	public Manifestacija sacuvaj(Manifestacija manifestacija) {
+			if(this.manifestacije.containsKey(manifestacija.getNaziv())) {
+			this.manifestacije.put(manifestacija.getNaziv(), manifestacija);
+			return manifestacija;
+			}
+			return null;
+			
+		
+	}
+
+	public Manifestacija nadjiJedan(String ime) {
+		if(this.manifestacije.containsKey(ime)) {
+			return this.manifestacije.get(ime);
+		}
+		return null;
+	}
+
+	public void obrisi(String ime) {
+		if(this.manifestacije.containsKey(ime)) {
+			this.manifestacije.remove(ime);
+		}
+		
+	}
+
+	public void izmeni(String ime, Manifestacija man) {
+		if(this.manifestacije.containsKey(ime)) {
+			this.manifestacije.remove(ime);
+			this.manifestacije.put(man.getNaziv(), man);
+			
+		}
+		
+	}
+	public void izbrisi(String ime) {
+		if(this.manifestacije.containsKey(ime)) {
+			this.manifestacije.get(ime).setIzbrisana(true);
+			
+			
+		}
 	}
 
 }

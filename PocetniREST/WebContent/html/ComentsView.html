@@ -1,10 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="..\unregStartUp.css">
+<link rel="stylesheet" type="text/css" href="..\login.css">
+<link rel="stylesheet" type="text/css" href="..\signup.css">
+<link rel="stylesheet" type="text/css" href="..\coments.css">
+<link href="css/all.css" rel="stylesheet">
+<title>Coments view</title>
 </head>
 <body>
+
+
+	<div class="header">
+		<a class="active" href="#home">Home</a>
+		<div class="search-container"></div>
+	</div>
+	<div class="manifestationView" style="white-space: nowrap">
+		<table>
+			<tr>
+				<th><img width="50" height="70"
+					alt="Anime: Fullmetal Alchemist" class="picture1" border="0"
+					data-src="https://cdn.myanimelist.net/r/50x70/images/anime/1223/96541.webp?s=263cff1b768e29f3cc841792b2dded2e"
+					data-srcset="https://cdn.myanimelist.net/r/50x70/images/anime/1223/96541.webp?s=263cff1b768e29f3cc841792b2dded2e 1x, https://cdn.myanimelist.net/r/100x140/images/anime/1223/96541.webp?s=bb76dbf7a98222cd60fd279cca8ab4de 2x"
+					srcset="https://cdn.myanimelist.net/r/50x70/images/anime/1223/96541.webp?s=263cff1b768e29f3cc841792b2dded2e 1x, https://cdn.myanimelist.net/r/100x140/images/anime/1223/96541.webp?s=bb76dbf7a98222cd60fd279cca8ab4de 2x"
+					src="https://cdn.myanimelist.net/r/50x70/images/anime/1223/96541.webp?s=263cff1b768e29f3cc841792b2dded2e">
+				</th>
+				<th>
+					<p class="textMan">nemi tekst</p>
+					<p class="textMan">drugi tekst</p>
+				</th>
+			</tr>
+		</table>
+	</div>
+	
+	<table>
+	<tr>
+	<div class="commentView" >
+		<label class="hederComment">Customer: Customer 1</label>
+		
+		<textarea name="comment" id="comment" class="commentText"  style="margin: 0px; width: 950px; height: 120px;resize: none;">ext messaging, or texting, is the act of composing and sending electronic messages, typically consisting of alphabetic and numeric characters, between two or more users of mobile devices, desktops/laptops, or other type of compatible computer. Text messages may be sent over a cellular network, or may also be sent via an Internet connection.
+
+The term originally referred to messages sent using the Short Message Service (SMS). It has grown beyond alphanumeric text to include multimedia messages using the Multimedia Messaging Service (MMS) containing digital images, videos, and sound content, as well as ideograms known as emoji (happy faces, sad faces, and other icons), and instant messenger applications (usually the term is used when on mobile devices).</textarea>
+		
+		<label class="label1">This coment is not approve</label>
+		<button type="button" onclick="document.getElementById('id02').style.display='block'" id="approve" > Approve</button>
+          <label>This comment exists</label>
+          <button type="button" onclick="document.getElementById('id01').style.display='block'" id="delete" >Delete</button>
+            
+	</div>
+	
+	</tr>
+	<tr>
+	<div class="commentView" >
+		<label class="hederComment">Customer: Customer 1</label>
+		
+		<textarea name="comment" id="comment" class="commentText"  style="margin: 0px; width: 950px; height: 140px;resize: none">ext messaging, or texting, is the act of composing and sending electronic messages, typically consisting of alphabetic and numeric characters, between two or more users of mobile devices, desktops/laptops, or other type of compatible computer. Text messages may be sent over a cellular network, or may also be sent via an Internet connection.
+
+The term originally referred to messages sent using the Short Message Service (SMS). It has grown beyond alphanumeric text to include multimedia messages using the Multimedia Messaging Service (MMS) containing digital images, videos, and sound content, as well as ideograms known as emoji (happy faces, sad faces, and other icons), and instant messenger applications (usually the term is used when on mobile devices).</textarea>
+		
+	</div>
+	
+	</tr>
+	
+	
+	</table>
+
 
 </body>
 </html>
