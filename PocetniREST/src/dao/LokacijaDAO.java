@@ -29,16 +29,16 @@ public class LokacijaDAO {
 		super();
 		lokacije=new HashMap<>();
 		try {
-			parseJSON();
+			parseJSON("");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
-	public  void generateJSON() throws IOException {
+	public  void generateJSON(String contextpath) throws IOException {
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File("lokacije.json"), JsonEncoding.UTF8);
+		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File(contextpath + "/data/lokacije.json"), JsonEncoding.UTF8);
 		jsonGenerator.writeStartObject();
 		jsonGenerator.writeFieldName("Lokacije");
 		jsonGenerator.writeStartArray();
@@ -52,7 +52,7 @@ public class LokacijaDAO {
 			jsonGenerator.writeStringField("postanskiBroj", l.getPostanskiBroj());
 			jsonGenerator.writeStringField("broj", l.getBroj()+"");
 			jsonGenerator.writeStringField("ulica",l.getUlica()+"");
-			//jsonGenerator.writeStringField("manifestacijaId", l.get+""); //TODO: mora ovde nekako da se dobavi id manifestacije??
+			//jsonGenerator.writeStringField("manifestacijaId", l.t+""); //TODO: mora ovde nekako da se dobavi id manifestacije??
 			jsonGenerator.writeEndObject(); 
 			jsonGenerator.writeEndObject();
 		}
@@ -65,9 +65,9 @@ public class LokacijaDAO {
 
 	private void ucitavanjeSlike() {}
 
-	public void parseJSON() throws JsonParseException, IOException {
+	public void parseJSON(String contextpath) throws JsonParseException, IOException {
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonParser jsonParser = jsonFactory.createParser(new File("lokacije.json"));
+		JsonParser jsonParser = jsonFactory.createParser(new File(contextpath + "/data/lokacije.json"));
 
 		if(jsonParser.nextToken()==JsonToken.START_OBJECT) {
 			JsonToken fieldName2 = jsonParser.nextToken();
@@ -79,9 +79,10 @@ public class LokacijaDAO {
 					while(jsonParser.nextToken()!=JsonToken.END_OBJECT) {
 						String fieldName = jsonParser.getCurrentName();
 						jsonParser.nextToken();  
-						if ("Lokacija".equals(fieldName)) { 
+						if ("Lokacija".equals(fieldName)) {
+							Lokacija lokacija=new Lokacija();
 							while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
-								Lokacija lokacija=new Lokacija();
+								
 								String nameField = jsonParser.getCurrentName();
 								jsonParser.nextToken(); // move to value
 

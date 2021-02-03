@@ -66,19 +66,19 @@ public class Sesija {
 		
 	}
 	public void sacuvaj() {
-		try {
+		/*try {
 			this.komentarDAO.generateJSON();
 		
 		this.kartaDAO.generateJSON();
 		this.manifestacijaDAO.generateJSON();
 		this.lokacijaDAO.generateJSON(); //TODO: razmisliti o lokacijama???
-		this.kupacDAO.generateJSON();
+	//	this.kupacDAO.generateJSON();
 		this.prodavacDAO.generateJSON();
 		this.administratorDAO.generateJSON();
 		} catch (IOException e) {
 			
 			System.out.print("Error with saving files");
-		}
+		}*/
 		
 	}
 

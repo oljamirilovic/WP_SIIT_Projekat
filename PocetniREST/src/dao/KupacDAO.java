@@ -51,9 +51,9 @@ public class KupacDAO  {
 		}return null;
 	}
 	
-	public void generateJSON() throws IOException {
+	public void generateJSON(String contextpath) throws IOException {
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File("kupci.json"), JsonEncoding.UTF8);
+		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File(contextpath + "/data/kupci.json"), JsonEncoding.UTF8);
 		jsonGenerator.writeStartObject();
 		jsonGenerator.writeFieldName("Kupci");
 		jsonGenerator.writeStartArray();
@@ -66,7 +66,6 @@ public class KupacDAO  {
 			jsonGenerator.writeStringField("prezime", k.getPrezime());
 			jsonGenerator.writeStringField("lozinka", k.getLozinka());
 			jsonGenerator.writeStringField("korisnickoIme", k.getKorisnickoIme());
-			DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
 			String dan=k.getDatumRodjenja();
 			jsonGenerator.writeStringField("datum", dan);
 			jsonGenerator.writeStringField("pol", k.getPol());

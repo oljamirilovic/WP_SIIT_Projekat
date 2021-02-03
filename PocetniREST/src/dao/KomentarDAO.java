@@ -66,9 +66,9 @@ public class KomentarDAO{
 		return score;
 	}
 
-	public  void generateJSON() throws IOException {
+	public  void generateJSON(String contextpath) throws IOException {
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File("komentari.json"), JsonEncoding.UTF8);
+		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File(contextpath + "/data/komentari.json"), JsonEncoding.UTF8);
 		jsonGenerator.writeStartObject();
 		jsonGenerator.writeFieldName("Komentari");
 		jsonGenerator.writeStartArray();
@@ -109,7 +109,6 @@ public class KomentarDAO{
 						String fieldName = jsonParser.getCurrentName();
 						jsonParser.nextToken();  
 						if ("Komentar ".equals(fieldName)) { 
-							System.out.print("*");
 							Komentar kom=new Komentar();
 							while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
 								//Komentar kom=new Komentar();

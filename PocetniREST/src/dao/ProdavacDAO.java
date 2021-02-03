@@ -58,9 +58,9 @@ public class ProdavacDAO {
 			return prodavci.get(korisnickoIme);
 		}return null;
 	}
-	public  void generateJSON() throws IOException {
+	public  void generateJSON(String contextpath) throws IOException {
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File("prodavci.json"), JsonEncoding.UTF8);
+		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File(contextpath + "/data/prodavci.json"), JsonEncoding.UTF8);
 		jsonGenerator.writeStartObject();
 		jsonGenerator.writeFieldName("Prodavci");
 		jsonGenerator.writeStartArray();

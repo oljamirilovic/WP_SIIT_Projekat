@@ -1,10 +1,6 @@
 <html>
     <head>
     <meta charset="ISO-8859-1">
-        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>-->
         
         <script type="text/javascript" src="js/jquery.min.js"></script>
 		<link href="js/toastr.min.css" rel="stylesheet"/>
@@ -19,9 +15,9 @@
     </head>
     <body>
         <div class="header">
-            <a class="active" href="#home">Home</a>
-            <button type="button" onclick="document.getElementById('id02').style.display='block'"  > Sign Up</button>
-            <button type="button" onclick="document.getElementById('id01').style.display='block'"  > Login</button>
+            <a class="active" href="http://localhost:8081/PocetniREST/unregStartUp.html">Home</a>
+            <button type="button" onclick="document.getElementById('id02').style.display='block'" id="signalSignUp"> Sign Up</button>
+            <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogin" > Login</button>
             <div class="search-container">
                 <form name="search" class ="example" action="/action_page.php" style="margin:auto;max-width:300px">
                     <input type="text" placeholder="Search.." name="search">
@@ -90,36 +86,6 @@
                             <td class="eventType">Event type</td>
                             <td class="score">Score</td>
                         </tr>
-                        <!-- <tr class="event-list">
-                            <td class="title al va-t word-break">
-                             
-                                <img width="50" height="70" alt="Anime: Fullmetal Alchemist" class="lazyloaded"
-                                border="0" data-src="https://cdn.myanimelist.net/r/50x70/images/anime/1223/96541.webp?s=263cff1b768e29f3cc841792b2dded2e" 
-                                data-srcset="https://cdn.myanimelist.net/r/50x70/images/anime/1223/96541.webp?s=263cff1b768e29f3cc841792b2dded2e 1x, https://cdn.myanimelist.net/r/100x140/images/anime/1223/96541.webp?s=bb76dbf7a98222cd60fd279cca8ab4de 2x" 
-                                srcset="https://cdn.myanimelist.net/r/50x70/images/anime/1223/96541.webp?s=263cff1b768e29f3cc841792b2dded2e 1x, https://cdn.myanimelist.net/r/100x140/images/anime/1223/96541.webp?s=bb76dbf7a98222cd60fd279cca8ab4de 2x"
-                                 src="https://cdn.myanimelist.net/r/50x70/images/anime/1223/96541.webp?s=263cff1b768e29f3cc841792b2dded2e">
-
-                                                            
-                            <div class="information di-ib mt4">
-                                <a style="font-size: 16px" href="https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood"
-                                    >Fullmetal Alchemist</a>
-                                    <br>
-                                   TV (64 eps)     
-                                <br>
-                                   Apr 2009 - Jul 2010     
-                            </div> 
-                            </td>
-                            <td class="score ac fs14">
-                                <div>
-                                    <span class="text score-label score-na" ></span>TV</span>
-                                </div>
-                            </td>
-                            <td class="score ac fs14" >
-                                <div >
-                                    <span class="text score-label score-na"><i class="far fa-star"></i>9.21</span>
-                                </div>
-                            </td>
-                        </tr>-->
 
                     </tbody>
                 </table>
@@ -161,7 +127,7 @@
                 <input type="text" placeholder="Enter Username" name="username" required>
           
                 <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
+                <input type="password" placeholder="Enter Password" name="pswrd" required>
           
                 <label for="name"><b>Name</b></label>
                 <input type="text" placeholder="Enter Name" name="name" required>
@@ -186,18 +152,5 @@
             </form>
           </div>
 
-          <script>
-            // Get the modal
-            var modal1 = document.getElementById('id01');
-            var modal2 = document.getElementById('id02');
-            
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal1.style.display = "none";
-                    modal2.style.display = "none";
-                }
-            }
-            </script>
     </body>
 </html>
