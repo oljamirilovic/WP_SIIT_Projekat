@@ -36,6 +36,7 @@ public class LokacijaDAO {
 		}
 
 	}
+
 	public  void generateJSON(String contextpath) throws IOException {
 		JsonFactory jsonFactory = new JsonFactory();
 		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File(contextpath + "/data/lokacije.json"), JsonEncoding.UTF8);

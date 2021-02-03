@@ -65,7 +65,11 @@ public class KartaDAO {
 			return karte.get(id);
 		}return null;
 	}
-
+	public void obrisi(String id) {
+		if(karte.containsKey(id)) { //obrisi, obirisi, a ne odustani
+			karte.get(id).setIzbrisana(true);
+		}
+	}
 
 	public  void generateJSON(String contextpath) throws IOException {
 		JsonFactory jsonFactory = new JsonFactory();
@@ -167,7 +171,22 @@ public class KartaDAO {
 			} jsonParser.close();
 		}
 	}
+	public void izmeni(Karta karta) {
+		if(this.karte.containsKey(karta.getId())) {
+			this.karte.put(karta.getId(), karta);
+		}
+		
+		
+	}
 
+
+
+	public Karta nadjiJednuKartu(String id) {
+		if(this.karte.containsKey(id)) {
+			return this.karte.get(id);
+		}
+		return null;
+	}
 
 
 }

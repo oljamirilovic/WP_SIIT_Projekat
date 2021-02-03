@@ -163,5 +163,15 @@ public class KupacDAO  {
 		jsonParser.close();
 
 	}
+	public void obrisiKupca(String id) {
+		if(this.kupci.containsKey(id)) {
+			this.kupci.get(id).setIzbrisan(true);
+		}
+	}
+	public void blokirajKupca(String id) {
+		if(this.kupci.containsKey(id)) {
+			this.kupci.get(id).setBlokiran(true);
+		}
+	}
 
 }

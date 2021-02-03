@@ -42,6 +42,23 @@ public class KomentarDAO{
 		komentari.add(kom);
 		return kom;
 	}
+	public Komentar odobri(Komentar k) {
+		Komentar kom= this.findAll().stream().filter(kome->kome.getId()==k.getId()).
+		findFirst().orElse(null);
+		if(kom!=null) {
+			kom.setOdobren(true);
+		}
+		return null;
+	}
+
+	public Komentar obrisi(String id) {
+		Komentar kom= this.findAll().stream().filter(kome->kome.getId()==Integer.parseInt(id)).
+		findFirst().orElse(null);
+		if(kom!=null) {
+			kom.setObrisan(false);
+		}
+		return null;
+	}
 	
 	public Collection<Komentar> findByEvent(String event){
 		Collection<Komentar> retval= new ArrayList<Komentar>();
