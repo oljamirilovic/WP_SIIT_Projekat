@@ -1,0 +1,181 @@
+.mt12 {
+    margin-top: 12px!important;
+}
+
+.di-t {
+    display: table!important;
+}
+
+.w100 {
+    width: 100%;
+}
+
+td {
+    font-size: 11px;
+    line-height: 1.5em;
+}
+
+table {
+    border-collapse: separate;
+    text-indent: initial;
+    border-spacing: 2px;
+}
+
+.di-tc {
+    display: table-cell!important;
+}
+
+.va-t {
+    vertical-align: top!important;
+}
+
+.anime-detail-header-stats .stats-block {
+    background-color: #f6f6f6;
+    border: #ebebeb 1px solid;
+    border-radius: 1px;
+    height: 68px;
+    padding: 8px 10px;
+}
+
+.po-r {
+    position: relative!important;
+}
+
+.clearfix {
+    display: block;
+}
+
+.score {
+    color: #323232;
+    display: block;
+    font-family: Avenir,lucida grande,tahoma,verdana,arial,sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    padding: 30px 0 22px;
+    position: relative;
+    text-align: center;
+    /*width: 60px;*/
+}
+
+.fl-l {
+    float: left!important;
+    margin-right: 80px;
+}
+
+
+div {
+    display: block;
+}
+
+.pt8 {
+    padding-top: 8px!important;
+}
+
+.pl20 {
+    padding-left: 20px!important;
+}
+
+.page-common .ml12 {
+    margin-left: 12px!important;
+}
+
+.di-ib {
+    display: inline-block!important;
+}
+
+.numbers {
+    color: #323232;
+    font-family: Avenir,lucida grande,tahoma,verdana,arial,sans-serif;
+    font-size: 16px;
+    margin-right: 24px;
+    white-space: nowrap;
+}
+
+span {
+    line-height: 1.5em;
+    margin: 0;
+    padding: 0;
+}
+
+.numbers:last-of-type {
+    margin-right: 0;
+}
+
+#content {
+    background-color: #fff;
+    border-color: #ebebeb;
+    border-style: solid;
+    border-width: 0 1px 1px;
+    padding: 5px 10px 10px;
+    position: relative;
+}
+
+.borderClass {
+    border-color: #ebebeb;
+    border-style: solid;
+    border-width: 0 0 1px;
+    padding: 3px;
+}
+
+#contentWrapper {
+    background-color: #fff;
+    min-height: 555px;
+    padding-bottom: 30px;
+    position: relative;
+}
+
+#contentWrapper {
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    text-align: left;
+    width: 1060px;
+}
+
+.floatRightHeader {
+    float: right;
+    font-size: 11px;
+    font-weight: 400;
+    padding-right: 2px;
+}
+
+ p, .textReadability, span {
+    line-height: 1.5em;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    border-color: #bebebe;
+    border-style: solid;
+    border-width: 0 0 1px;
+    color: #000;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 4px 0 5px;
+    padding: 3px 0;
+}
+
+.pb24 {
+    padding-bottom: 24px!important;
+}
+
+.score:before {
+    background-color: #2e51a2;
+    border-radius: 2px;
+    color: #fff;
+    content: attr(data-title);
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+    left: 50%;
+    line-height: 1.0em;
+    margin-left: -30px;
+    padding: 2px 0;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    top: 6px;
+    width: 60px;
+}

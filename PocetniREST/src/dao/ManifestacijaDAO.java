@@ -61,9 +61,15 @@ public class ManifestacijaDAO  {
 			jsonGenerator.writeStringField("postanskiBroj", k.getLokacija().getPostanskiBroj());
 			jsonGenerator.writeStringField("gDuzina", k.getLokacija().getGeografskaDuzina()+"");
 			jsonGenerator.writeStringField("gSirina", k.getLokacija().getGeografskaSirina()+"");
-			//DateTimeFormatter formater=DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			//String dan=k.getDatumVreme().format(formater);
-			jsonGenerator.writeStringField("datum", k.getDatumVreme());
+
+			jsonGenerator.writeStringField("preostaloRegular", k.getPreostaloRegular()+"");
+			jsonGenerator.writeStringField("preostaloVip", k.getPreostaloVip()+"");
+			jsonGenerator.writeStringField("preostaloFanpit", k.getPreostaloFanpit()+"");
+			jsonGenerator.writeStringField("datumPocetka", k.getDatumPocetka()+"");
+			jsonGenerator.writeStringField("datumKraja", k.getDatumKraja()+"");
+			jsonGenerator.writeStringField("vremePocetka", k.getVremePocetka()+"");
+			jsonGenerator.writeStringField("vremeKraja", k.getVremeKraja()+"");
+
 
 			jsonGenerator.writeEndObject(); 
 			jsonGenerator.writeEndObject();
@@ -106,18 +112,28 @@ public class ManifestacijaDAO  {
 								}else if("poster".equals(nameField)) {
 									man.setPoster(jsonParser.getText());
 								}
-								else if ("datum".equals(nameField)) {
-									//DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-									//LocalDateTime dan=LocalDateTime.parse(jsonParser.getText(), formater);
-									/*Date d=null;
-									try {
-										d = new SimpleDateFormat("yyyy-mm-dd").parse(jsonParser.getText());
-									} catch (ParseException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}*/
-									man.setDatumVreme(jsonParser.getText());
-								}else if ("cena".equals(nameField)) {
+								else if ("datumPocetka".equals(nameField)) {
+									man.setDatumPocetka(jsonParser.getText());
+								}
+								else if ("datumKraja".equals(nameField)) {
+									man.setDatumKraja(jsonParser.getText());
+								}
+								else if ("vremePocetka".equals(nameField)) {
+									man.setVremePocetka(jsonParser.getText());
+								}
+								else if ("vremeKraja".equals(nameField)) {
+									man.setVremeKraja(jsonParser.getText());
+								}
+								else if ("preostaloRegular".equals(nameField)) {
+									man.setPreostaloRegular(Integer.parseInt(jsonParser.getText()));
+								}
+								else if ("preostaloVip".equals(nameField)) {
+									man.setPreostaloVip(Integer.parseInt(jsonParser.getText()));
+								}
+								else if ("preostaloFanpit".equals(nameField)) {
+									man.setPreostaloFanpit(Integer.parseInt(jsonParser.getText()));
+								}
+								else if ("cena".equals(nameField)) {
 									man.setCenaKarte(Double.parseDouble(jsonParser.getText()));
 								}
 								else if("ulica".equals(nameField)) {

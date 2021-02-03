@@ -1,5 +1,6 @@
 package services;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -33,6 +34,14 @@ public class AdministratorService {
 		if(ctx.getAttribute("adminsDAO")==null) {
 			String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("adminsDAO", new AdministratorDao(contextPath)); 
+			/*AdministratorDao dao = (AdministratorDao) ctx.getAttribute("adminsDAO");
+			 
+			try {
+				dao.generateJSON(contextPath);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
 		}
 	}
 	

@@ -85,7 +85,7 @@ public class AdministratorDao {
 			jsonGenerator.writeStringField("prezime", admin.getPrezime());
 			String dan=admin.getDatumRodjenja();
 			jsonGenerator.writeStringField("rodjenje", dan);
-			jsonGenerator.writeStringField("pol", admin.getPol());
+			jsonGenerator.writeStringField("pol", "male");
 
 			jsonGenerator.writeEndObject(); 
 			jsonGenerator.writeEndObject();
