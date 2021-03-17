@@ -1,56 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="..\unregStartUp.css">
-<link rel="stylesheet" type="text/css" href="..\login.css">
-<link rel="stylesheet" type="text/css" href="..\signup.css">
+<link rel="stylesheet" type="text/css" href="..\\styles\\unregStartUp.css">
+<link rel="stylesheet" type="text/css" href="..\\styles\\login.css">
+<link rel="stylesheet" type="text/css" href="..\\styles\\signup.css">
+<link rel="stylesheet" type="text/css" href="..\\js\\makeManifestation.js">
 <link href="css/all.css" rel="stylesheet">
 <title>Make manifestation</title>
 </head>
 <body>
-
+<!-- TODO proveri heder i izbaci nepotrebno -->
 	<div class="header">
 		<a class="active" href="#home">Home</a>
-		<div class="search-container">
-			<form name="search" class="example" action="/action_page.php"
-				style="margin: auto; max-width: 300px">
-				<input type="text" placeholder="Search.." name="search">
-				<button type="submit">
-					<i class="fa fa-search"></i>
-				</button>
-			</form>
-		</div>
+		
 	</div>
-	<div id="id01" class="modal">
-		<div id="id02" class="modals">
-			<span onclick="document.getElementById('id02').style.display='none'"
-				class="close" title="Close Window">&times;</span>
-			<form class="modal-contents" action="/action_page.php">
-				<div class="containers">
-					<h1>Make manifestation</h1>
-					<p>Please fill in this form to organize manifestation.</p>
-					<hr>
-					<label for="name"><b>Name of manifestation</b></label> <input
-						type="text" placeholder="Enter Name" name="name" required>
+	<div class="row">
+		<div class="navbar">
+			<div class="advancedSearch">
+				<h3 class="title">Add events</h3>
+				<div class="content" id="eventsearch">
+					<form action id="send_info" class="advancedSearchForm">
+						<label style="display: block;">Manifestation name</label> <input type="text" name="name"
+							id="name">
+							 <label style="display: block;">Number of seets</label>
+							 <input
+							type="number" name="SeetsNumber" id="SeetsNumber">
+							<label style="display: block;">Type</label>
+							<input
+						   type="text" name="type" id="type">
+							<label style="display: block;">Date</label> 
+							<input
+							type="date" name="date" id="date" placeholder="yyyy-MM-dd">
+							<label style="display: block;">Price</label>
+							 <input
+							type="text" name="price" id="price" placeholder="Price">
+						<button type="submit" id="addM">
+							<i class="fa fa-search"></i>
+						</button>
+					</form>
 
-					<label for="type"><b>Type</b></label> <input type="text"
-						placeholder="Enter Type" name="type" required> <label
-						for="number"><b>Number of seets</b></label> <input type="number"
-						placeholder="Number of seets" name="number" required> <label
-						for="date"><b>Date</b></label> <input type="date"
-						placeholder="Date" name="date" required> <label
-						for="price"><b>Price</b></label> <input type="price"
-						placeholder="Price" name="price" required>
-
-
-					<div class="clearfix">
-						<button type="button"
-							onclick="document.getElementById('id02').style.display='none'"
-							class="cancelbtns">Cancel</button>
-						<button type="button" class="signupbtns">Organize</button>
-					</div>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
 </body>

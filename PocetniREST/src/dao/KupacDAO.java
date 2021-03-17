@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -172,6 +173,24 @@ public class KupacDAO  {
 		if(this.kupci.containsKey(id)) {
 			this.kupci.get(id).setBlokiran(true);
 		}
+	}
+	public ArrayList<Kupac> sumnjivi(){
+		ArrayList<Kupac> kupciS=new ArrayList<>();
+		for(Kupac k : this.kupci.values()) {
+			if(k.getKarte().size()>=5) {
+				int i=0;
+				for(Karta karta: k.getKarte()) {
+					if(karta.isStatus()==false) {
+						i++;
+					}
+					if(i>4) {
+						kupciS.add(k);
+						break;
+					}
+				}
+			}
+		}
+		return kupciS;
 	}
 
 }

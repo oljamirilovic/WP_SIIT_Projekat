@@ -215,7 +215,16 @@ public class ManifestacijaDAO  {
 	}
 
 	public void izmeni(String ime, Manifestacija man) {
-		if(this.manifestacije.containsKey(ime)) {
+		
+		for(Manifestacija m:this.manifestacije.values()) {
+			if(m.getLokacija().getGeografskaDuzina()==man.getLokacija().getGeografskaDuzina() &&
+					m.getLokacija().getGeografskaSirina()==man.getLokacija().getGeografskaSirina()
+					&& man.getDatumVreme().equals(man.getDatumVreme())){
+				return;
+			}
+					
+		}if(this.manifestacije.containsKey(ime) && 
+				(!ime.equals(man.getNaziv()) && !this.manifestacije.containsKey(man.getNaziv()))) {
 			this.manifestacije.remove(ime);
 			this.manifestacije.put(man.getNaziv(), man);
 			
@@ -228,6 +237,30 @@ public class ManifestacijaDAO  {
 			
 			
 		}
+	}
+
+	public Manifestacija add(Manifestacija event) {
+		if(this.manifestacije.containsKey(event.getNaziv())) {
+			return null;
+		} 
+		for(Manifestacija m:this.manifestacije.values()) {
+			if(m.getLokacija().getGeografskaDuzina()==event.getLokacija().getGeografskaDuzina() &&
+					m.getLokacija().getGeografskaSirina()==event.getLokacija().getGeografskaSirina()
+					&& event.getDatumVreme().equals(event.getDatumVreme())){
+				return null; //TODO, dodaj trajanje??
+			}
+					
+		}
+		this.manifestacije.put(event.getNaziv(), event);
+		return null;
+	}
+
+	public void obrisi(Manifestacija m) {
+		if(this.manifestacije.containsKey(m.getNaziv())) {
+			this.manifestacije.get(m.getNaziv()).setIzbrisana(true);
+		}//TODO lokaciju oslobodi??
+		
+		
 	}
 
 }

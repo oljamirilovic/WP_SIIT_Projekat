@@ -2,9 +2,13 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="..\unregStartUp.css">
-<link rel="stylesheet" type="text/css" href="..\login.css">
-<link rel="stylesheet" type="text/css" href="..\signup.css">
+<link rel="stylesheet" type="text/css" href="..\\styles\\unregStartUp.css">
+<link rel="stylesheet" type="text/css" href="..\\styles\\login.css">
+<link rel="stylesheet" type="text/css" href="..\\styles\\signup.css">
+<link rel="stylesheet" type="text/css" href="..\\js\\ticketsView.js">
+<link rel="stylesheet" type="text/css" href="..\\styles\\tablestort.css">
+<link rel="stylesheet" type="text/css" href="..\\js\\tablesort.js">
+
 <link href="css/all.css" rel="stylesheet">
 <title>view of cart</title>
 </head>
@@ -49,19 +53,27 @@
 			<div class="filter">
 				<h4>Filter tickets</h4>
 				<div class="content" id="filterevents">
-					<select selector="programTypes" placeholder="Event type">
-						<option>All Event types</option>
-						<option>Event type 1</option>
-						<option>Event type 2</option>
-						<option>Event type 3</option>
-					</select> <input type="checkbox" id="availableTickets"> <label
+					<select selector="programTypes" placeholder="Event type" name="typeF">
+						<option>All ticket types</option>
+						<option>vip</option>
+						<option>regular</option>
+						<option>fan pit</option>
+					</select> 
+					<label>Status of ticket</label>
+					<select selector="programTypes" placeholder="Event type" name="statusF">
+						<option>All ticket types</option>
+						<option>reserved</option>
+						<option>quit</option>
+						
+					</select> 
+					<input type="checkbox" id="availableTickets"> <label
 						for="availableTickets">Available tickets</label> <select
 						class="right">
 						<option>All criteria</option>
-						<option>Event name</option>
-						<option>Event date</option>
-						<option>Event price</option>
-						<option>Event loation</option>
+						<option>Name manifestation</option>
+						<option>Price</option>
+						<option>Date</option>
+						
 					</select> <label class="right">Select order:</label>
 				</div>
 				<div class="right"></div>
@@ -70,7 +82,7 @@
 	</div>
 	<div class="lowerrow">
 		<div class="pb12">
-			<table id="eventTable" border-color="grey" cellpaddiong="0"
+			<table class="table table-sortable" id="allTickets" border-color="grey" cellpaddiong="0"
 				cellspacing="0" width="100%" class="display-table">
 				<tbody>
 					<tr class="table-header">
@@ -80,6 +92,30 @@
 						<td>Customer</td>
 						<td>Id</td>
 						<td>Status</td><!-- dode jos red da li je izbrisana -->
+					</tr>
+					<tr>
+					<td>A</td>
+					<td>100</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					</tr>
+					<tr>
+					<td>C</td>
+					<td>200</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					</tr>
+					<tr>
+					<td>B</td>
+					<td>300</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
 					</tr>
 				</tbody>
 			</table>

@@ -125,6 +125,7 @@
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
       <Context docBase="PocetniREST" path="/PocetniREST" reloadable="true" source="org.eclipse.jst.jee.server:PocetniREST"/></Host>
+	  <Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>
     </Engine>
   </Service>
 </Server>

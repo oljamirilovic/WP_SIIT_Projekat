@@ -21,6 +21,7 @@ import beans.Manifestacija;
 import dao.KartaDAO;
 import dao.ManifestacijaDAO;
 
+@Path("\tickets")
 public class KartaServices {
 	@Context
 	ServletContext ctx;
@@ -50,7 +51,7 @@ public class KartaServices {
 	
 	
 	@PUT
-	@Path("/products/{ime}")
+	@Path("/tickets/{ime}")
 	@Produces(MediaType.APPLICATION_JSON)                 
 	@Consumes(MediaType.APPLICATION_JSON)                
 	public Karta update(Karta karta) {
@@ -60,6 +61,9 @@ public class KartaServices {
 		return dao.nadjiJednuKartu(karta.getId());
 		
 	}
+	
+	
+	
 	@DELETE
 	@Path("/products/{ime}")
 	@Produces(MediaType.APPLICATION_JSON)

@@ -88,7 +88,7 @@ public class ProdavacServices {
 	}
 
 	@GET
-	@Path("/pregledKupaca")
+	@Path("/myConsumers")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Kupac> getKupciOfProdavac(String username) {
 		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("ProdavacDAO");
@@ -121,6 +121,15 @@ public class ProdavacServices {
 	public void obrisi(Prodavac prodavac) {
 		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("ProdavacDAO");
 		dao.obrisi(prodavac);
+	}
+	@POST
+	@Path("/exists")
+	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Prodavac findOne(String username) {
+		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("ProdavacDAO");
+		Prodavac u = dao.find(username);
+		return u;
 	}
 
 }
