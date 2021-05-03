@@ -2,6 +2,8 @@ package dao;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -51,6 +53,10 @@ public class KupacDAO  {
 		}return null;
 	}
 	
+	public void updateOne(Kupac k) {
+		this.kupci.put(k.getKorisnickoIme(), k);
+	}
+	
 	public void generateJSON(String contextpath) throws IOException {
 		JsonFactory jsonFactory = new JsonFactory();
 		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File(contextpath + "/data/kupci.json"), JsonEncoding.UTF8);
@@ -69,7 +75,7 @@ public class KupacDAO  {
 			String dan=k.getDatumRodjenja();
 			jsonGenerator.writeStringField("datum", dan);
 			jsonGenerator.writeStringField("pol", k.getPol());
-			jsonGenerator.writeStringField("bododvi", k.getSakupljeniBodovi()+"");
+			jsonGenerator.writeStringField("bodovi", k.getSakupljeniBodovi()+"");
 			jsonGenerator.writeStringField("izbrisan", k.isIzbrisan()+"");
 			jsonGenerator.writeStringField("blokiran", k.isBlokiran()+"");
 			jsonGenerator.writeStringField("tipKupca", k.getTip().getTipKupca());
@@ -77,7 +83,6 @@ public class KupacDAO  {
 			jsonGenerator.writeStringField("popust", k.getTip().getPopust()+"");
 			jsonGenerator.writeEndObject(); 
 			jsonGenerator.writeEndObject(); 
-			jsonGenerator.writeEndObject();
 		}
 
 		jsonGenerator.writeEndArray();

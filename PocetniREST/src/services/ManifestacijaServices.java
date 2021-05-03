@@ -1,5 +1,7 @@
 package services;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -34,24 +36,77 @@ public class ManifestacijaServices {
 		if(ctx.getAttribute("eventsDAO")==null) {
 			String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("eventsDAO", new ManifestacijaDAO(contextPath)); 
+			ctx.setAttribute("searchClicked", false);
+			ctx.setAttribute("filterClicked", false);
 		}
+		
+		
 	}
 
 	@GET
 	@Path("/getEvents")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Manifestacija> getEvents(){
-		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("eventsDAO");
-		Collection<Manifestacija> us = dao.findAll();
-		if(us == null) {
-			dao = new ManifestacijaDAO(ctx.getRealPath("")); 
-			ctx.setAttribute("eventsDAO", dao);
+		ManifestacijaDAO dao = null;
+		Collection<Manifestacija> us = new ArrayList<Manifestacija>();
+		Boolean searchClicked = (Boolean) ctx.getAttribute("searchClicked");
+		Boolean filterClicked = (Boolean) ctx.getAttribute("filterClicked");
+		if(searchClicked || filterClicked) {
+			dao= (ManifestacijaDAO) ctx.getAttribute("searchFilterEventDAO");
+			us = dao.findAll();	
+			ctx.setAttribute("searchClicked", false);
+			ctx.setAttribute("filterClicked", false);
+			
 		}
+		else if(!searchClicked && !filterClicked) {
+			dao= (ManifestacijaDAO) ctx.getAttribute("eventsDAO");
+			us = dao.findAll();
+			if(us == null) {
+				dao = new ManifestacijaDAO(ctx.getRealPath("")); 
+				ctx.setAttribute("eventsDAO", dao);
+			}
+		}
+		
 		return us;
-		//vraca listu svih korisnika koje imamo kao json
 	}
 	
-	//TODO add
+	@POST
+	@Path("/addSearchedAndFilteredEvents")
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public void addSearchedAndFilteredEvents(Manifestacija m) {
+		
+		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("searchFilterEventDAO");
+		
+		dao.addEvent(m);
+		ctx.setAttribute("searchFilterEventDAO", dao);
+	}
+	
+	
+	@POST
+	@Path("/addSearched")
+	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean addSearched(Manifestacija manif) {
+		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("searchFilterEventDAO");
+
+		dao.addEvent(manif);
+		ctx.setAttribute("searchFilterEventDAO", dao);
+		return true;
+	}
+	
+	
+	@POST
+	@Path("/findEventsWithTitle")
+	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Manifestacija> findEventsWithTitle(String title) {
+		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("eventsDAO");
+		
+		String s = title.substring(7, title.length()-2);
+		Collection<Manifestacija> retval = dao.findForSearch(s);
+				
+		return retval;
+	}
 	
 	
 	@POST
@@ -83,5 +138,33 @@ public class ManifestacijaServices {
 		return m;
 	}
 	
+	@POST
+	@Path("/setSearchClicked")
+	public void setSearchClicked() {
+		ctx.setAttribute("searchClicked", true);
+		ManifestacijaDAO dao = new ManifestacijaDAO();
+		ctx.setAttribute("searchFilterEventDAO", dao);
+	}
+	
+	@GET
+	@Path("/getTotalCost")
+	@Produces(MediaType.APPLICATION_JSON)
+	public double getTotalCost() {		
+		Manifestacija m = (Manifestacija)ctx.getAttribute("currentEvent");
+		Kupac k = (Kupac)ctx.getAttribute("currentCustomer");
+		double totalCost = 0;
+		for (String s : k.getTempReservedTypes()) {
+			if(s.equalsIgnoreCase("Regular")) {
+				totalCost += m.getCenaKarte();
+			}
+			else if(s.equalsIgnoreCase("VIP")) {
+				totalCost += m.getCenaKarte()*2;
+			}
+			else {
+				totalCost += m.getCenaKarte()*4;
+			}
+		}
+		return totalCost;
+	}
 	
 }

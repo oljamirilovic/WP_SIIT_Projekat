@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -25,9 +26,14 @@ public class KartaDAO {
 	HashMap<String, Karta> karte;
 	private String contextPath;
 
-	public KartaDAO() {
+	public KartaDAO(String contextpath) {
 		this.karte=new HashMap<>();
-
+		try {
+			parseJSON(contextpath);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 
 	}
@@ -54,6 +60,16 @@ public class KartaDAO {
 		}
 		karte.put(karta.getId(), karta);
 		return karta;
+	}
+	
+	public Collection<Karta> searchCustomer(String name){
+		Collection<Karta> ret = new ArrayList<Karta>();
+		for (Karta k : karte.values()) {
+			if(k.getKorisnickoIme().equals(name)) {
+				ret.add(k);
+			}
+		}
+		return ret;
 	}
 
 	public Collection<Karta> findAll(){
@@ -85,12 +101,9 @@ public class KartaDAO {
 			jsonGenerator.writeStringField("id", k.getId());
 			jsonGenerator.writeStringField("manifestacija", k.getNazivmanifestacije());
 			jsonGenerator.writeStringField("izbrisana", k.isIzbrisana()+"");
-			DateTimeFormatter formater=DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			String dan=k.getDatum().format(formater);
-			jsonGenerator.writeStringField("datum", dan);
+			jsonGenerator.writeStringField("datum", k.getDatum() +"");
 			jsonGenerator.writeStringField("status", k.isStatus()+"");
 			jsonGenerator.writeStringField("kupac", k.getKorisnickoIme());
-			jsonGenerator.writeStringField("tip", k.getTip());
 			jsonGenerator.writeStringField("tipKarte", k.getTipKarte());
 			jsonGenerator.writeEndObject(); 
 			jsonGenerator.writeEndObject();
@@ -129,10 +142,12 @@ public class KartaDAO {
 
 								} else if ("id".equals(nameField)) {
 									karta.setId(jsonParser.getText());
-								}else if ("datum".equals(nameField)) {
-									DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd"); 
-									LocalDate dan=LocalDate.parse(jsonParser.getText(), formatter);
-									karta.setDatum(dan);
+								}
+								else if ("manifestacija".equals(nameField)) {
+									karta.setNazivmanifestacije(jsonParser.getText());
+								}
+								else if ("datum".equals(nameField)) {
+									karta.setDatum(jsonParser.getText());
 								}else if ("izbrisana".equals(nameField)) {
 									if(jsonParser.getText().equals("true")) {
 										karta.setIzbrisana(true);
@@ -148,17 +163,8 @@ public class KartaDAO {
 								}
 								else if ("kupac".equals(nameField)) {
 									karta.setKorisnickoIme(jsonParser.getText());
-	
-									
-								}
-								else if ("manifestacija".equals(nameField)) {
-									karta.setNazivmanifestacije(jsonParser.getText());
-
-								}else if ("tip".equals(nameField)) {
-									karta.setTip(jsonParser.getText());
-
-								}
-								else if ("manifestacija".equals(nameField)) {
+								}								
+								else if ("tipKarte".equals(nameField)) {
 									karta.setTipKarte(jsonParser.getText());
 
 								}

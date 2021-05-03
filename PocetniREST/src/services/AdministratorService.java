@@ -15,6 +15,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.Administrator;
+import beans.Prodavac;
 import dao.AdministratorDao;
 
 @Path("/admins")
@@ -69,6 +70,23 @@ public class AdministratorService {
 		Administrator user = dao.find(s);
 		
 		return user;
+	}
+	
+	
+	@POST
+	@Path("/setCurrentAdmin")
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public void setCurrentAdmin(Administrator m) {
+		ctx.setAttribute("currentAdmin", m); 
+		
+	}
+	
+	@GET
+	@Path("/getCurrentAdmin")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Administrator getCurrentAdmin(){
+		Administrator m = (Administrator)ctx.getAttribute("currentAdmin");
+		return m;
 	}
 	
 }

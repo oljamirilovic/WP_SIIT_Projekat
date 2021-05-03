@@ -6,6 +6,13 @@ var rootURL5 = "../PocetniREST/rest/comments/getScore";
 var rootURL6 = "../PocetniREST/rest/customers/add";
 var rootURL7 = "../PocetniREST/rest/events/searchEvent";
 var rootURL8 = "../PocetniREST/rest/events/setCurrentEvent";
+var rootURL9 = "../PocetniREST/rest/customers/setCurrentCustomer";
+var rootURL10 = "../PocetniREST/rest/salesmen/setCurrentSalesmen";
+var rootURL11 = "../PocetniREST/rest/admins/setCurrentAdmin";
+var rootURL12 = "../PocetniREST/rest/events/findEventsWithTitle";
+var rootURL13 = "../PocetniREST/rest/events/addSearched";
+var rootURL14 = "../PocetniREST/rest/events/setSearchClicked";
+
 
 findAll();
 
@@ -39,7 +46,6 @@ function showEvent(id){
 					dataType : "json",
 					data :  JSON.stringify(result),
 					success :function(){
-						//TODO event window
 						window.location.href = "http://localhost:8081/PocetniREST/html/unregEvent.html";
 					},
 					error : function(XMLHttpRequest, textStatus, errorThrown){
@@ -59,6 +65,8 @@ function showEvent(id){
 function renderList(data){
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	
+	removeTableContent();
+		
 	$.each(list, function(index, event) {
 		//samo aktivne se prikazuju
 		if(event.status){
@@ -103,7 +111,6 @@ function renderList(data){
 	});
 		
 }
-
 
 
 $(document).ready(function(){
@@ -151,7 +158,24 @@ $(document).ready(function(){
 												invalidInput("Invalid username! ","container");
 											}else{
 												if($('input[name=psw]').val() == result2.lozinka){
-													//TODO admin window
+													
+													$.ajax({
+														type : 'POST',
+														url : rootURL11,
+														contentType : 'application/json',
+														dataType : "json",
+														data :  JSON.stringify(result2),
+														success :function(){
+															
+															//TODO admin window
+															window.location.href = "http://localhost:8081/PocetniREST/html/adminStartUp.html";
+														},
+														error : function(XMLHttpRequest, textStatus, errorThrown){
+															alert("AJAX ERROR: "+errorThrown);
+														}
+													});
+													
+													
 												}
 												else{
 													invalidInput("Invalid password! ","container");
@@ -175,7 +199,23 @@ $(document).ready(function(){
 												invalidInput("Account blocked! ","container");
 											}
 											else{
-												//TODO salesmen window
+												
+												$.ajax({
+													type : 'POST',
+													url : rootURL10,
+													contentType : 'application/json',
+													dataType : "json",
+													data :  JSON.stringify(result1),
+													success :function(){
+														
+														//TODO salesmen window
+														window.location.href = "http://localhost:8081/PocetniREST/html/salesmanStartUp.html";
+													},
+													error : function(XMLHttpRequest, textStatus, errorThrown){
+														alert("AJAX ERROR: "+errorThrown);
+													}
+												});
+												
 											}
 										}
 										else{
@@ -202,8 +242,21 @@ $(document).ready(function(){
 									
 								}
 								else{
-									// opens customer window
-									window.location.href = "http://localhost:8081/PocetniREST/html/customer.html";
+									$.ajax({
+										type : 'POST',
+										url : rootURL9,
+										contentType : 'application/json',
+										dataType : "json",
+										data :  JSON.stringify(result),
+										success :function(){
+											// opens customer window TODO set currentCustomer
+											window.location.href = "http://localhost:8081/PocetniREST/html/customer.html";
+										},
+										error : function(XMLHttpRequest, textStatus, errorThrown){
+											alert("AJAX ERROR: "+errorThrown);
+										}
+									});
+									
 								}
 							}
 							else{
@@ -216,6 +269,9 @@ $(document).ready(function(){
 					alert("AJAX ERROR: " + errorThrown);
 				}
 			});
+		}
+		else{
+			invalidInput("All fields are required! ","container");
 		}
 	})
 	
@@ -243,7 +299,7 @@ $(document).ready(function(){
 			else{
 			$.ajax({
 				type : 'POST',
-				url : rootURL2,
+				url : rootURL2, //"../PocetniREST/rest/customers/searchUsername";
 				contentType : 'application/json',
 				dataType : "json",
 				data :  JSON.stringify({
@@ -256,7 +312,7 @@ $(document).ready(function(){
 					else{
 					$.ajax({
 						type: 'POST',
-						url: rootURL3,
+						url: rootURL3, //"../PocetniREST/rest/salesmen/searchUsername";
 						contentType: 'application/json',
 						dataType : "json",
 						data : JSON.stringify({
@@ -269,7 +325,7 @@ $(document).ready(function(){
 							else{
 							$.ajax({
 								type : 'POST',
-								url : rootURL4,
+								url : rootURL4, //"../PocetniREST/rest/admins/searchUsername";
 								contentType : 'application/json',
 								dataType : "json",
 								data :  JSON.stringify({
@@ -281,7 +337,6 @@ $(document).ready(function(){
 										
 									}else{
 										
-										//TODO create user and userPage
 										let data = {
 												"korisnickoIme": id,
 												"lozinka": psw,
@@ -293,13 +348,26 @@ $(document).ready(function(){
 										
 										$.ajax({
 											type: 'POST',
-											url: rootURL6,
+											url: rootURL6, //"../PocetniREST/rest/customers/add";
 											contentType: 'application/json',
 											dataType : "json",
 											data : JSON.stringify(data),
 											success : function(result){
-												console.log(result);
-												window.location.href = "http://localhost:8081/PocetniREST/html/customer.html";
+												
+												$.ajax({
+													type : 'POST',
+													url : rootURL9, //"../PocetniREST/rest/customers/setCurrentCustomer";
+													contentType : 'application/json',
+													dataType : "json",
+													data :  JSON.stringify(result),
+													success :function(){
+														
+														window.location.href = "http://localhost:8081/PocetniREST/html/customer.html";
+													},
+													error : function(XMLHttpRequest, textStatus, errorThrown){
+														alert("AJAX ERROR: "+errorThrown);
+													}
+												});
 												},
 											error : function(XMLHttpRequest, textStatus, errorThrown){
 												alert("AJAX ERROR: "+errorThrown);
@@ -331,6 +399,101 @@ $(document).ready(function(){
 		}		
 	})
 	
+	
+	/////////////////////////////////////////////////////MAP////////////////////////////////////////////////////////////////////////////////
+	
+	var gsirina;
+	var gduzina;
+	
+	map.on('click', function (evt) { 
+		var lonlat  = ol.proj.toLonLat(evt.coordinate).map(function(val) {
+          return val.toFixed(6);
+        });
+		gsirina = lonlat[1];//lat
+		gduzina = lonlat[0];//lon
+		var lon = document.getElementById('lon').value = lonlat[0];
+        var lat = document.getElementById('lat').value = lonlat[1];
+        
+        simpleReverseGeocoding(document.getElementById('lon').value, document.getElementById('lat').value);
+		
+	})
+	
+	document.getElementById('reversegeocoding').addEventListener('click', function(e) {
+        if (document.getElementById('lon').value && document.getElementById('lat').value) {
+          simpleReverseGeocoding(document.getElementById('lon').value, document.getElementById('lat').value);
+        }
+      });
+	
+	///////////////////////////////////////////////////////SEARCH//////////////////////////////////////////////////////////////////////////////
+	
+	$('#searchBtn').click(function(e){
+		var title = $('input[name=title]').val();
+		var fromDate = $('input[name="fromdate"]').val();
+		var toDate = $('input[name=todate]').val();
+		var minPrice = $('input[name=minPrice]').val();
+		var maxPrice = $('input[name=maxPrice]').val();
+		
+		
+		if(title!=""){
+			
+			setSearchClicked();
+			
+			$.ajax({
+				type : 'POST',
+				url : rootURL12,
+				contentType : 'application/json',
+				dataType : "json",
+				data :  JSON.stringify({
+					"id" : title,
+				}),
+				success : function(result){
+					if(result!=null){
+						if(fromDate!="" || toDate!="" || minPrice!="" || maxPrice!="" || gsirina!="" || gduzina!=""){
+						
+							$.each(result, function(index, event){
+								
+								checkSearchParams(fromDate,toDate,minPrice,maxPrice,gduzina,gsirina,event);
+							})
+						}else if(fromDate=="" && toDate=="" && minPrice=="" && maxPrice=="" && gsirina=="" && gduzina==""){
+							$.each(result, function(index, event){
+								addSearchFilterEvent(event);
+							})
+						}
+							
+						findAll();
+					}
+					
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown){
+					alert("AJAX ERROR: "+errorThrown);
+				}
+			});
+			
+		}else if(fromDate!="" || toDate!="" || minPrice!="" || maxPrice!="" || gsirina!="" || gduzina!=""){
+			///
+			$.ajax({
+				type : 'GET',
+				url : rootURL1,
+				dataType : "json",
+				success : function(data){
+					var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+					
+					setSearchClicked();
+					
+					$.each(list, function(index, event){
+						
+						checkSearchParams(fromDate,toDate,minPrice,maxPrice,gduzina,gsirina,event)
+						
+					})
+					
+					findAll();
+					
+				}
+			});
+		}
+		
+	})
+	
 	var modal;
 	$('#signalSignUp').click(function(e){
         modal = document.getElementById('id02');
@@ -338,6 +501,10 @@ $(document).ready(function(){
 	
 	$('#signalLogin').click(function(e){
 		modal = document.getElementById('id01');
+	})
+	
+	$('#locationBtn').click(function(e){
+		modal = document.getElementById('id03');
 	})
 	
 	window.onclick = function(event) {
@@ -365,4 +532,85 @@ function invalidInput(mesg,cont){
 	elements[0].append(div);
 }
 
+function simpleReverseGeocoding(lon, lat) {
+    fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
+      return response.json();
+    }).then(function(json) {
+      //document.getElementById('address').innerHTML = json.display_name;
+      document.getElementById('address').innerHTML = json.address.road +", "+json.address.house_number+", "+json.address.city+", "+json.address.postcode;
+     
+    })
+  }
 
+
+function setSearchClicked(){
+	$.ajax({
+		type : 'POST',
+		url : rootURL14,
+		contentType : 'application/json',
+		dataType : "json",
+		success :function(){
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown){
+			alert("AJAX ERROR: "+errorThrown);
+		}
+	});
+}
+
+function removeTableContent(){
+	var paras = document.getElementsByClassName("event-list");
+	
+		while(paras[0]) {
+		    paras[0].parentNode.removeChild(paras[0]);
+		}
+	}
+
+function checkSearchParams(fromDate,toDate,minPrice,maxPrice,gduzina,gsirina,event){
+	if(fromDate!=""){
+		if(Date.parse(fromDate) >= Date.parse(event.datumPocetka)){
+			addSearchFilterEvent(event);
+		}
+	}
+	if(toDate!=""){
+		if(Date.parse(toDate) >= Date.parse(event.datumKraja)){
+			addSearchFilterEvent(event);
+		}
+	}
+	if(minPrice!=""){
+		if(parseInt(minPrice)<=parseInt(event.cenaKarte)){
+			addSearchFilterEvent(event);
+		}
+	}
+	if(maxPrice!=""){
+		if(parseInt(maxPrice)>=parseInt(event.cenaKarte)){
+			addSearchFilterEvent(event);
+		}
+	}
+	if(gduzina!=""){
+		if(gduzina==parseInt(event.lokacija.geografskaDuzina)){
+			addSearchFilterEvent(event);
+		}
+	}
+	if(gsirina!=""){
+		if(gsirina==parseInt(event.lokacija.geografskaSirina)){
+			addSearchFilterEvent(event);
+		}
+	}
+}
+
+
+function addSearchFilterEvent(event){
+	$.ajax({
+		type: 'POST',
+		url: rootURL13, 
+		contentType: 'application/json',
+		dataType : "json",
+		data : JSON.stringify(event),
+		success : function(result){
+			
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown){
+			alert("AJAX ERROR: "+errorThrown);
+		}
+	});
+}

@@ -1,1 +1,31 @@
-{"Karte":[{"Karta":{"cena":"100.0","id":"123","manifestacija":"Manifestacija3","izbrisana":"false","datum":"2021-01-31","status":"true","kupac":"natasa32","tip":"tip","tipKarte":"tip"}},{"Karta":{"cena":"100.0","id":"124","manifestacija":"Manifestacija3","izbrisana":"false","datum":"2021-01-31","status":"true","kupac":"natasa32","tip":"tip","tipKarte":"tip"}}]}
+{"Karte":[
+    {"Karta":{
+        "cena":"100.0",
+        "id":"0000000001",
+        "manifestacija":"Glass theater",
+        "izbrisana":"false",
+        "datum":"2020-01-10",
+        "status":"true",
+        "kupac":"mika",
+        "tipKarte":"Regular"}
+    },
+        {"Karta":{
+            "cena":"1000.0",
+            "id":"00000000002",
+            "manifestacija":"Pink Floyd",
+            "izbrisana":"false",
+            "datum":"2021-05-31",
+            "status":"true",
+            "kupac":"mika",
+            "tipKarte":"Regular"}
+    },
+        {"Karta":{
+            "cena":"4000.0",
+            "id":"00000000003",
+            "manifestacija":"Pink Floyd",
+            "izbrisana":"false",
+            "datum":"2021-05-31",
+            "status":"true",
+            "kupac":"mika",
+            "tip":"VIP",
+            "tipKarte":"VIP"}}]}

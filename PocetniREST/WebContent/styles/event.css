@@ -1,3 +1,25 @@
+.leftbar button{
+  background: lightsteelblue;
+  border: none;
+  color: white;
+  cursor: pointer;
+  width: 15%;
+  padding: 12.5px;
+  font-size: 17px;
+  float: left;
+  vertical-align: bottom!important;
+  margin: 5px 0;
+}
+
+.pb0 {
+    padding-bottom: 0!important;
+}
+
+.profileRows {
+    margin: 0;
+    padding: 10px 0;
+}
+
 .mt12 {
     margin-top: 12px!important;
 }

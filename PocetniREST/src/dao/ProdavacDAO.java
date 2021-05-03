@@ -139,16 +139,16 @@ public class ProdavacDAO {
 		jsonParser.close();
 
 	}
-	public Collection<Kupac> nadjiKupce(String username, Collection<Karta> karte) {
+	public Collection<String> nadjiKupce(String username, Collection<Karta> karte) {
 		Prodavac p=this.prodavci.get(username);
 		Collection<Manifestacija> m=p.getManifestacije();
 		//na sesiji bi trebalo da imamo kolekciju karata
 		//Collection<Karta> karte=new ArrayList<Karta>();
-		ArrayList<Kupac> kupci=new ArrayList<>();
+		ArrayList<String> kupci=new ArrayList<>();
 		for(Manifestacija ma:m) {
 			for(Karta k : karte) {
-				if(k.getManifestacija().getNaziv().equals(ma.getNaziv())) {
-					kupci.add(k.getKupac());
+				if(k.getNazivmanifestacije().equals(ma.getNaziv())) {
+					kupci.add(k.getKorisnickoIme());
 				}
 			}
 		}
@@ -162,7 +162,7 @@ public class ProdavacDAO {
 		//TODO iz liste karata pravi novu listu karata
 		for(Manifestacija ma:m) {
 			for(Karta k : karte) {
-				if(k.getManifestacija().getNaziv().equals(ma.getNaziv()) && k.isStatus()) {
+				if(k.getNazivmanifestacije().equals(ma.getNaziv()) && k.isStatus()) {
 					karte1.add(k);
 				}
 			}

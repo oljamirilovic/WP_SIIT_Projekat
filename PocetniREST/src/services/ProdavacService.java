@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Manifestacija;
 import beans.Prodavac;
 import dao.ProdavacDAO;
 
@@ -61,5 +62,22 @@ public class ProdavacService {
 		
 		return user;
 	}
+	
+	@POST
+	@Path("/setCurrentSalesmen")
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public void setCurrentSalesmen(Prodavac m) {
+		ctx.setAttribute("currentSalesmen", m); 
+		
+	}
+	
+	@GET
+	@Path("/getCurrentSalesmen")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Prodavac getCurrentSalesmen(){
+		Prodavac m = (Prodavac)ctx.getAttribute("currentSalesmen");
+		return m;
+	}
+	
 	
 }

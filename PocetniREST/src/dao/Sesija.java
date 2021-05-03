@@ -59,7 +59,7 @@ public class Sesija {
 		//this.kupacDAO=new KupacDAO();
 		this.lokacijaDAO=new LokacijaDAO();
 		//this.manifestacijaDAO=new ManifestacijaDAO();
-		this.kartaDAO=new KartaDAO();
+		//this.kartaDAO=new KartaDAO();
 		//this.komentarDAO=new KomentarDAO();	
 		//i jos tip karte
 		

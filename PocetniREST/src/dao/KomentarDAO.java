@@ -99,6 +99,8 @@ public class KomentarDAO{
 			jsonGenerator.writeStringField("ocena", k.getOcena()+"");
 			jsonGenerator.writeStringField("imeManifestacije", k.getImeManifestacije()+"");
 			jsonGenerator.writeStringField("imeKupca", k.getImeKupca()+""); //korisnicko ime kupca
+			jsonGenerator.writeStringField("odobren", k.isOdobren()+"");
+			jsonGenerator.writeStringField("obrisan", k.isObrisan()+"");
 			jsonGenerator.writeEndObject(); 
 			jsonGenerator.writeEndObject(); 
 		}

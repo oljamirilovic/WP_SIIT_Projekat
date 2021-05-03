@@ -1,4 +1,5 @@
 package services;
+import java.io.IOException;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +14,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.Komentar;
+import beans.Kupac;
+import beans.TipKupca;
 import dao.KomentarDAO;
+import dao.KupacDAO;
 
 @Path("/comments")
 public class KomentarService {
@@ -40,6 +44,7 @@ public class KomentarService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Komentar> getComments(){
 		KomentarDAO dao = (KomentarDAO) ctx.getAttribute("commentsDAO");
+		
 		Collection<Komentar> us = dao.findAll();
 		if(us == null) {
 			dao = new KomentarDAO(ctx.getRealPath("")); 
@@ -59,5 +64,36 @@ public class KomentarService {
 		return score;
 	}
 	
-	//TODO search and add
+	
+	@POST
+	@Path("/getCommentsForEvent")
+	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Komentar> getCommentsForEvent(String eventName){
+		KomentarDAO dao = (KomentarDAO) ctx.getAttribute("commentsDAO");
+		String s = eventName.substring(7, eventName.length()-2);
+		
+		Collection<Komentar> us = dao.findByEvent(s);
+		
+		return us;
+	}
+	
+	@POST
+	@Path("/add")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Komentar add(Komentar kom) {
+		KomentarDAO dao = (KomentarDAO) ctx.getAttribute("commentsDAO");
+		int i = dao.findAll().size();
+		kom.setId(i+1);
+		Komentar retVal = dao.addKomentar(kom);
+		ctx.setAttribute("commentsDAO", dao);
+		try {
+			dao.generateJSON(ctx.getRealPath(""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return retVal;
+	}
 }

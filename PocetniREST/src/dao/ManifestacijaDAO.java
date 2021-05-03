@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import beans.Administrator;
 import beans.Karta;
 import beans.Komentar;
+import beans.Kupac;
 import beans.Lokacija;
 import beans.Manifestacija;
 
@@ -37,11 +39,15 @@ public class ManifestacijaDAO  {
 			e.printStackTrace();
 		}
 	}
+	
+	public void updateOne(Manifestacija m) {
+		this.manifestacije.put(m.getNaziv(), m);
+	}
 
-	public void generateJSON() throws IOException {
+	public void generateJSON(String contextpath) throws IOException {
 
 		JsonFactory jsonFactory = new JsonFactory();
-		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File("manifestacije.json"), JsonEncoding.UTF8);
+		JsonGenerator jsonGenerator = jsonFactory.createGenerator(new File(contextpath + "/data/manifestacije.json"), JsonEncoding.UTF8);
 		jsonGenerator.writeStartObject();
 		jsonGenerator.writeFieldName("Manifestacije");
 		jsonGenerator.writeStartArray();
@@ -55,20 +61,22 @@ public class ManifestacijaDAO  {
 			jsonGenerator.writeStringField("tip", k.getTipManifestacije()+"");
 			jsonGenerator.writeStringField("status", k.isStatus()+"");
 			jsonGenerator.writeStringField("izbrisana", k.isIzbrisana()+"");
+			jsonGenerator.writeStringField("ulica", k.getLokacija().getUlica()+"");
 			jsonGenerator.writeStringField("lokacijaBroj", k.getLokacija().getBroj());
 			jsonGenerator.writeStringField("drzava", k.getLokacija().getDrzava());
 			jsonGenerator.writeStringField("mesto", k.getLokacija().getMesto());
 			jsonGenerator.writeStringField("postanskiBroj", k.getLokacija().getPostanskiBroj());
 			jsonGenerator.writeStringField("gDuzina", k.getLokacija().getGeografskaDuzina()+"");
 			jsonGenerator.writeStringField("gSirina", k.getLokacija().getGeografskaSirina()+"");
-
-			jsonGenerator.writeStringField("preostaloRegular", k.getPreostaloRegular()+"");
-			jsonGenerator.writeStringField("preostaloVip", k.getPreostaloVip()+"");
-			jsonGenerator.writeStringField("preostaloFanpit", k.getPreostaloFanpit()+"");
 			jsonGenerator.writeStringField("datumPocetka", k.getDatumPocetka()+"");
 			jsonGenerator.writeStringField("datumKraja", k.getDatumKraja()+"");
 			jsonGenerator.writeStringField("vremePocetka", k.getVremePocetka()+"");
 			jsonGenerator.writeStringField("vremeKraja", k.getVremeKraja()+"");
+			jsonGenerator.writeStringField("poster", k.getPoster()+"");
+			jsonGenerator.writeStringField("preostaloRegular", k.getPreostaloRegular()+"");
+			jsonGenerator.writeStringField("preostaloVip", k.getPreostaloVip()+"");
+			jsonGenerator.writeStringField("preostaloFanpit", k.getPreostaloFanpit()+"");
+			
 
 
 			jsonGenerator.writeEndObject(); 
@@ -98,7 +106,6 @@ public class ManifestacijaDAO  {
 						if ("Manifestacija".equals(fieldName)) { 
 							Manifestacija man=new Manifestacija();
 							while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
-								//Manifestacija man=new Manifestacija();
 								String nameField = jsonParser.getCurrentName();
 								jsonParser.nextToken(); // move to value
 
@@ -176,7 +183,6 @@ public class ManifestacijaDAO  {
 								}
 
 
-								//this.manifestacije.put(man.getNaziv(), man);
 							}this.manifestacije.put(man.getNaziv(), man);
 						} 
 					}
@@ -192,10 +198,33 @@ public class ManifestacijaDAO  {
 		}
 		return null;
 	}
+	
+	public Collection<Manifestacija> findForSearch(String text) {
+		Collection<Manifestacija> ret = new ArrayList<Manifestacija>();
+		for (String title : manifestacije.keySet()) {
+			if(title.toLowerCase().contains(text.toLowerCase())) {
+				ret.add(manifestacije.get(title));
+			}
+		}
+		
+		return ret;
+	}
 
 	public Collection<Manifestacija> findAll() {
 		return manifestacije.values();
 	}
+	
+	public void addEvent(Manifestacija m) {
+		if(!this.manifestacije.containsKey(m.getNaziv())) {
+			this.manifestacije.put(m.getNaziv(), m);
+		}
+		
+	}
+	
+	public ManifestacijaDAO() {
+		this.manifestacije=new HashMap<>();
+	}
+
 	public Manifestacija odobri(String naziv) {
 		if(this.manifestacije.containsKey(naziv)) {
 			this.manifestacije.get(naziv).setStatus(true); //odobren
@@ -244,6 +273,14 @@ public class ManifestacijaDAO  {
 			
 			
 		}
+	}
+
+	public HashMap<String, Manifestacija> getManifestacije() {
+		return manifestacije;
+	}
+
+	public void setManifestacije(HashMap<String, Manifestacija> manifestacije) {
+		this.manifestacije = manifestacije;
 	}
 
 }

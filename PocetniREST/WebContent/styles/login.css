@@ -18,6 +18,16 @@ input[type=text], input[type=password] {
     width: 100%;
   }
   
+  .ok {
+    background: #4c6baf;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+  
   div.red{
   	color: red;
   }
@@ -42,6 +52,11 @@ input[type=text], input[type=password] {
   
   img.avatar {
     width: 20%;
+    border-radius: 50%;
+  }
+  
+  i.avatar{
+  	width: 20%;
     border-radius: 50%;
   }
   

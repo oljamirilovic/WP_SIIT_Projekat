@@ -4,10 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Karta {
-	private Kupac kupac;
 	private String id;
-	private Manifestacija manifestacija;
-	private LocalDate datum;
+	private String datum;
 	private double cena;
 	private boolean status; //true rezervisana false odustanak
 	private String tipKarte;
@@ -15,6 +13,17 @@ public class Karta {
 	private String korisnickoIme, nazivmanifestacije;
 	
 	
+	public Karta( String id, String datum, double cena, boolean status,
+			String tipKarte, boolean izbrisana, String korisnickoIme, String nazivmanifestacije) {
+		this.id = id;
+		this.datum = datum;
+		this.cena = cena;
+		this.status = status;
+		this.tipKarte = tipKarte;
+		this.izbrisana = izbrisana;
+		this.korisnickoIme = korisnickoIme;
+		this.nazivmanifestacije = nazivmanifestacije;
+	}
 	public String getTipKarte() {
 		return tipKarte;
 	}
@@ -39,28 +48,16 @@ public class Karta {
 	public void setIzbrisana(boolean izbrisana) {
 		this.izbrisana = izbrisana;
 	}
-	public Kupac getKupac() {
-		return kupac;
-	}
-	public void setKupac(Kupac kupac) {
-		this.kupac = kupac;
-	}
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public Manifestacija getManifestacija() {
-		return manifestacija;
-	}
-	public void setManifestacija(Manifestacija manifestacija) {
-		this.manifestacija = manifestacija;
-	}
-	public LocalDate getDatum() {
+	public String getDatum() {
 		return datum;
 	}
-	public void setDatum(LocalDate datum) {
+	public void setDatum(String datum) {
 		this.datum = datum;
 	}
 	public double getCena() {
@@ -74,12 +71,6 @@ public class Karta {
 	}
 	public void setStatus(boolean status) {
 		this.status = status;
-	}
-	public String getTip() {
-		return tipKarte;
-	}
-	public void setTip(String tip) {
-		this.tipKarte = tip;
 	}
 	public Karta() {
 		super();

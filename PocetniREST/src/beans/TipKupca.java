@@ -30,8 +30,8 @@ public class TipKupca {
 	
 	public TipKupca(String tip) {
 		this.tipKupca = tip;
-		this.bodovi = 35;
-		this.popust = 3;
+		this.bodovi = 3000;
+		this.popust = 1;
 	}
 	
 }

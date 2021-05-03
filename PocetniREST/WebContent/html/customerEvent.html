@@ -5,7 +5,7 @@
         <script type="text/javascript" src="../js/jquery.min.js"></script>
 		<link href="../js/toastr.min.css" rel="stylesheet"/>
 		<script type="text/javascript" src="../js/toastr.min.js"></script>
-        <script type="text/javascript" src="../js/unregEvent.js"> </script>
+        <script type="text/javascript" src="../js/customerEvent.js"> </script>
 
         <link rel="stylesheet" type="text/css" href="../styles/unregStartUp.css">
         <link rel="stylesheet" type="text/css" href="../styles/login.css">
@@ -16,10 +16,11 @@
     </head>
     <body>
         <div class="header">
-            <a class="active" href="http://localhost:8081/PocetniREST/unregStartUp.html">Home</a>
-            <button type="button" onclick="document.getElementById('id02').style.display='block'" id="signalSignUp"> Sign Up</button>
-            <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogin" > Login</button>
-            
+            <a class="active" href="http://localhost:8081/PocetniREST/html/customer.html">Home</a>
+            <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogout" > Log Out</button>
+            <div class="search-container">
+                <button type="button"  id="accountBtn" >Account<i style="margin-left: 10px" class="fa fa-user" ></i></button>
+            </div>
         </div>
         <div class="row">
             <div class="navbar">
@@ -34,14 +35,16 @@
         <div class="lowerrow">
         <div class="pb12">
         <div id="content">
-            <table border="0" cellpadding="0" cellspacing="0" widdth="100%">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%" >
                 <tbody>
                     <tr>
                         <td class="borderClass" width="225" style="border-width: 0 1px 0 0;" valign="top">
-                            <div style="width: 225px;">
+                            <div style="width: 225px;" id="leftbar">
                                 <div style="text-align: center;" id="poster">
                                     <!--  <img class=" lazyloaded" data-src="https://cdn.myanimelist.net/images/anime/1000/110531.jpg" alt="Shingeki no Kyojin: The Final Season" itemprop="image" src="https://cdn.myanimelist.net/images/anime/1000/110531.jpg">-->
                                 </div>
+                                <div class="profileRows pb0" ><button type="button" onclick="document.getElementById('id04').style.display='block'" id="signalBuyTicket" >Buy tickets</button></div>
+                                <div class="profileRows pb0" ><button type="button" onclick="document.getElementById('id02').style.display='block'" id="signalComment" >Add comment</button></div>
                             </div>
                         </td>
                         <td valign="top" style="padding-left: 5px;">
@@ -66,7 +69,7 @@
                                                           </div>
                                                         
                                                           <div class="stats-block po-r clearfix">
-                                                          
+                                                                                                                    
                                                             <div class="fl-l score" data-title="score" id="score">
                                                               <!-- <div class="score-label score-9" style="margin-left: 24px;">9.20</div>-->
                                                             </div>
@@ -90,6 +93,15 @@
                                                           </div>
 
                                                           <div class="stats-block po-r clearfix" >
+                                                            <div class="di-ib ml12 pl20 pt8" id="fanPit">
+                                                              <!-- <span class="numbers ranked" ><strong>FAN PIT:</strong></span>
+                                                              <span class="numbers popularity"><strong>4000</strong>dollars</span>
+                                                              <span class="numbers members"><strong>20</strong>left</span>-->
+                                                            </div>
+                                                          </div>
+                                                          
+                                                          
+                                                          <div class="stats-block po-r clearfix" >
                                                             <div class="di-ib ml12 pl20 pt8" id="vipTickets">
                                                               <!-- <span class="numbers ranked" ><strong>VIP:</strong></span>
                                                               <span class="numbers popularity" style="margin-left: 32px;"><strong>2000</strong>dollars</span>
@@ -97,14 +109,6 @@
                                                             </div>
                                                           </div>
 
-                                                          <div class="stats-block po-r clearfix" >
-                                                            <div class="di-ib ml12 pl20 pt8" id="fanPit">
-                                                              <!-- <span class="numbers ranked" ><strong>FAN PIT:</strong></span>
-                                                              <span class="numbers popularity"><strong>4000</strong>dollars</span>
-                                                              <span class="numbers members"><strong>20</strong>left</span>-->
-                                                            </div>
-                                                          </div>
-                                                         
                                                           <div class="stats-block po-r clearfix">
                                                             <div class="di-ib ml12 pl20 pt8" id="location">
                                                               <!-- <span class="numbers ranked" ><strong>Location:</strong></span>
@@ -117,18 +121,23 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                        <tr>
+					                		<td class="pb24" id="reviews"></td>
+					                	</tr>
                                     </tbody>
                                 </table>
                             </div>
                         </td>
                     </tr>
+                	
                 </tbody>
             </table>
         </div>
         </div>
         </div>
 
-        <div id="id01" class="modal">
+
+          <div id="id01" class="modal">
   
             <form class="modal-content animate" action="/action_page.php" method="post">
               <div class="imgcontainer">
@@ -137,13 +146,12 @@
               </div>
           
               <div class="container" name="container">
-                <label for="uname"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="uname" required>
-          
-                <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
+                <label for="question"><b>Continue log out?</b></label>
                   
-                <button type="button" class="submitLogin" id="loginBtn">Login</button>
+                <div class="clearfix">
+                  <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtns" >Cancel</button>
+                  <button type="button" class="signupbtns" id="logoutBtn">Log out</button>
+                </div>
                 
               </div>
           
@@ -152,39 +160,107 @@
               </div>
             </form>
           </div>
-
+          
           <div id="id02" class="modals">
             <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Window">&times;</span>
             <form class="modal-contents" action="/action_page.php">
               <div class="containers">
-                <h1>Sign Up</h1>
-                <p>Please fill in this form to create an account.</p>
+                <h1>Add comment</h1>
+                <p>We value your opinion</p>
                 <hr>
-                <label for="username"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="username" required>
-          
-                <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="pswrd" required>
-          
-                <label for="name"><b>Name</b></label>
-                <input type="text" placeholder="Enter Name" name="name" required>
+                <label for="comment"><b>Text</b></label>
+                <input type="text" placeholder="Write text" name="comment" required>
                 
-                <label for="surname"><b>Surname</b></label>
-                <input type="text" placeholder="Enter Surname" name="surname" required>
-                
-                <label for="birthday"><b>Birthday</b></label>
-                <input placeholder="Birthday" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="birthday" max="today" required/>
-                
-                <label for="gender"><b>Gender</b></label>
-                <select name="gender">
-                  <option>Male</option>
-                  <option>Female</option>
-                </select>                
-                
+                <label for="comment"><b>Score</b></label>
+                <input placeholder="Enter your score" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" min="1" max="5" name="personalScore" />
+                                
                 <div class="clearfix">
                   <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtns" >Cancel</button>
-                  <button type="button" class="signupbtns" id="signupBtn">Sign Up</button>
+                  <button type="button" class="signupbtns" id="confirmBtn">Confirm</button>
                 </div>
+              </div>
+            </form>
+          </div>
+
+		<div id="id03" class="modal">
+  
+            <form class="modal-content animate" action="/action_page.php" method="post">
+              <div class="imgcontainer" >
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Window">&times;</span>
+                <img src="../images/blue-check2.png" alt="Avatar" class="avatar">
+				<h4 style="text-align: center;font-size: 26px;">Awesome!</h4>
+				<h2 style="text-align: center;font-size: 20px;">Your comment is waiting to be approved!</h2>
+              </div>
+          
+              <div class="container">                  
+                <button type="button" onclick="document.getElementById('id03').style.display='none'" class="ok">OK</button>
+                
+              </div>
+          
+              <div class="container" style="background-color:transparent">
+                
+              </div>
+            </form>
+          </div>
+          
+          <div id="id04" class="modals">
+            <span onclick="document.getElementById('id04').style.display='none'" class="close" title="Close Window">&times;</span>
+            <form class="modal-contents" action="/action_page.php">
+              <div class="containers">
+                <h1>Buy tickets</h1>
+                <p>Fill in the required fields</p>
+                <hr>
+                <label for="ticketType"><b>Ticket type: </b></label>
+                <select id="ticketType" name ="ticketType">
+                </select>
+                                
+                <label for="numOfTickets"><b>	Number of tickets: </b></label>
+                <input type="number"  min="1"  name="numOfTickets" id = "numOfTickets" width="10%"/>
+                <button type="button" id="addTicket">Add to cart</button> 
+                
+                <div id="cart">
+                	<br>
+                	<span ></span>                	
+                	<br><h2 style="text-align: center;font-size: 20px;" ><b>Your tickets</b><i style="margin-left: 10px" class="fa fa-shopping-cart" ></i> :</h2>
+                	<div style="display: flex;justify-content: center;">
+                		<table id="cartTable" border="1" cellpaddiong="0" cellspacing="0" width="50%" style="text-align: center;align-self: center;margin: 0 auto;" class="display-table">
+		                    <tbody>
+		                        <tr class="table-header">
+		                        	<td >Type</td>
+		                        	<td >Price</td>
+		                            <td >&nbsp;</td>
+		                        </tr>
+		
+		                    </tbody>
+		                </table>
+                	</div>
+                </div>             	
+                                             
+                <div class="clearfix">
+                  <button type="button" onclick="document.getElementById('id04').style.display='none'" class="cancelbtns" id="ticketCancelBtn">Cancel</button>
+                  <button type="button" class="signupbtns" id="buyTicketBtn">Confirm</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          
+          <div id="id05" class="modal">
+  
+            <form class="modal-content animate" action="/action_page.php" method="post">
+              <div class="imgcontainer" id="imgcontainer">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Window">&times;</span>
+                <img src="../images/dollars.jpg" alt="Avatar" class="avatar">
+				<h4 style="text-align: center;font-size: 26px;">Confirm ticket reservation</h4>
+				
+              </div>
+          
+              <div class="clearfix">
+                  <button type="button" onclick="document.getElementById('id05').style.display='none'" class="cancelbtns" >Cancel</button>
+                  <button type="button" class="signupbtns" id="confirmTicketBtn">Confirm</button>
+                </div>
+          
+              <div class="container" style="background-color:transparent">
+                
               </div>
             </form>
           </div>
