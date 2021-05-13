@@ -214,10 +214,11 @@ public class ManifestacijaDAO  {
 		return manifestacije.values();
 	}
 	
-	public void addEvent(Manifestacija m) {
+	public Manifestacija addEvent(Manifestacija m) {
 		if(!this.manifestacije.containsKey(m.getNaziv())) {
 			this.manifestacije.put(m.getNaziv(), m);
-		}
+			return m;
+		}return null;
 		
 	}
 	
@@ -258,6 +259,7 @@ public class ManifestacijaDAO  {
 		}
 		
 	}
+	
 
 	public void izmeni(String ime, Manifestacija man) {
 		if(this.manifestacije.containsKey(ime)) {

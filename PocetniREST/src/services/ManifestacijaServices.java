@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -166,5 +167,29 @@ public class ManifestacijaServices {
 		}
 		return totalCost;
 	}
-	
+	@POST
+	@Path("/add")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Manifestacija  add(Manifestacija  event) {
+		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("eventsDAO");
+		Manifestacija retVal = dao.addEvent(event);
+		return retVal;
+	}
+	@POST
+	@Path("/exists")
+	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Manifestacija findOne(String name) {
+		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("eventsDAO");
+		Manifestacija m = dao.find(name);
+		return m;
+	}
+	@DELETE
+	@Path("/delete")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void obrisi(Manifestacija m) {
+		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("eventsDAO");
+		dao.obrisi(m.getNaziv());
+	}
 }
