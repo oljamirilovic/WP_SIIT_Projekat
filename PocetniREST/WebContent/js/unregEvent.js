@@ -56,7 +56,12 @@ function renderResult(data){
     }
     else{
     	$('#score').append('<div class="score-label score-9" style="margin-left: 24px;">N/A</div>');
-    	$('#status').append('<div class="score-label score-9">Active</div>');
+    	if(event.status){
+			$('#status').append('<div class="score-label score-9">Active</div>');
+		}    		
+		else{
+			$('#status').append('<div class="score-label score-9">Inactive</div>');
+		}
     }
 	
 	$('#type').append('<div class="score-label score-9" >'+ event.tipManifestacije +'</div>');

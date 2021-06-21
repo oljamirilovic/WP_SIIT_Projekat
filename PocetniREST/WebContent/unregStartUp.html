@@ -103,7 +103,7 @@
                 <input type="text" placeholder="Enter Username" name="uname" required>
           
                 <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
+                <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
                   
                 <button type="button" class="submitLogin" id="loginBtn">Login</button>
                 
@@ -135,7 +135,7 @@
                 <input type="text" placeholder="Enter Surname" name="surname" required>
                 
                 <label for="birthday"><b>Birthday</b></label>
-                <input placeholder="Birthday" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="birthday" max="today" required/>
+                <input placeholder="Birthday" class="textbox-n" type="text" onfocus="(this.type='date')" max='2021-6-20' id="birthday" onblur="(this.type='text', this.max='2021-6-20')" name="birthday" max="today" required/>
                                  
                 <label for="gender"><b>Gender</b></label>
                 <select name="gender">

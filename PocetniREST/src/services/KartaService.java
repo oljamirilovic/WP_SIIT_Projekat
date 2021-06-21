@@ -57,7 +57,7 @@ public class KartaService {
 		return us;
 		
 	}
-	
+		
 	@POST
 	@Path("/searchOwner")
 	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -87,8 +87,7 @@ public class KartaService {
 		
 		karta.setId(ten_lenght);
 		
-		Karta retval = dao.addKarta(karta);
-		
+		dao.addKarta(karta);		
 		ctx.setAttribute("ticketsDAO", dao);
 		try {
 			dao.generateJSON(ctx.getRealPath(""));
@@ -96,6 +95,71 @@ public class KartaService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@POST
+	@Path("/cancelReservedTicket")
+	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public void cancelReservedTicket(String ticketId) {
+		KartaDAO dao = (KartaDAO) ctx.getAttribute("ticketsDAO");		
+		String s = ticketId.substring(7, ticketId.length()-2);
+		Karta k = dao.find(s);
+		
+		KupacDAO kupacdao = (KupacDAO) ctx.getAttribute("customersDAO");
+		ManifestacijaDAO manifdao = (ManifestacijaDAO) ctx.getAttribute("eventsDAO");// TODO dal je karta onda dostupna?
+		Kupac kupac = (Kupac)ctx.getAttribute("currentCustomer");
+		Manifestacija manif = manifdao.find(k.getNazivmanifestacije());
+		
+		kupac.setSakupljeniBodovi(kupac.getSakupljeniBodovi()- k.getCena()/1000*133*4);
+		if((kupac.getTip().getBodovi()-1000)>kupac.getSakupljeniBodovi()) {
+			TipKupca tipk = new TipKupca();
+			if(kupac.getTip().getTipKupca().equals("Gold")) {
+				tipk.setIme("Silver");
+				tipk.setBodovi(4000);
+				tipk.setPopust(3);
+			}else if(kupac.getTip().getTipKupca().equals("Silver")) {
+				tipk.setIme("Bronze");
+				tipk.setBodovi(3000);
+				tipk.setPopust(1);
+			}else {
+				tipk.setIme("Bronze");
+				tipk.setBodovi(3000);
+				tipk.setPopust(1);
+			}
+			kupac.setTip(tipk);
+		}
+		ctx.setAttribute("currentCustomer", kupac);		
+		kupacdao.updateOne(kupac);
+		ctx.setAttribute("customersDAO", kupacdao);
+		
+		if(k.getTipKarte().equalsIgnoreCase("Regular")) {
+			manif.setPreostaloRegular(manif.getPreostaloRegular()+1);
+		}
+		else if(k.getTipKarte().equalsIgnoreCase("VIP")) {
+			manif.setPreostaloVip(manif.getPreostaloVip()+1);
+		}
+		else {
+			manif.setPreostaloFanpit(manif.getPreostaloFanpit()+1);
+		}
+		
+		ctx.setAttribute("currentEvent", manif);		
+		manifdao.updateOne(manif);
+		ctx.setAttribute("eventsDAO", manifdao);
+		
+		k.setStatus(false);
+		dao.updateOne(k);
+		ctx.setAttribute("ticketsDAO", dao);
+		
+		try {
+			dao.generateJSON(ctx.getRealPath(""));
+			kupacdao.generateJSON(ctx.getRealPath(""));
+			manifdao.generateJSON(ctx.getRealPath(""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	@POST
@@ -129,11 +193,12 @@ public class KartaService {
 			}
 			else {
 				manif.setPreostaloFanpit(manif.getPreostaloFanpit()-1);
-				cena = manif.getCenaKarte()*2;
+				cena = manif.getCenaKarte()*2;				
 			}
+			cena = cena - cena * (kupac.getTip().getPopust()/100);
 			
 			Karta novaKarta = new Karta(ten_lenght, manif.getDatumPocetka(), cena, true, type, false, kupac.getKorisnickoIme(), manif.getNaziv());
-			Karta retval = dao.addKarta(novaKarta);
+			dao.addKarta(novaKarta);
 			ctx.setAttribute("ticketsDAO", dao);
 			try {
 				dao.generateJSON(ctx.getRealPath(""));
@@ -155,6 +220,10 @@ public class KartaService {
 					tipk.setBodovi(4000);
 					tipk.setPopust(3);
 				}else if(kupac.getTip().getTipKupca().equals("Silver")) {
+					tipk.setIme("Gold");
+					tipk.setBodovi(4000);
+					tipk.setPopust(5);
+				}else {
 					tipk.setIme("Gold");
 					tipk.setBodovi(4000);
 					tipk.setPopust(5);

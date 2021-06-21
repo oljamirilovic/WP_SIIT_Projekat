@@ -158,10 +158,10 @@ public class ManifestacijaServices {
 				totalCost += m.getCenaKarte();
 			}
 			else if(s.equalsIgnoreCase("VIP")) {
-				totalCost += m.getCenaKarte()*2;
+				totalCost += m.getCenaKarte()*4;
 			}
 			else {
-				totalCost += m.getCenaKarte()*4;
+				totalCost += m.getCenaKarte()*2;
 			}
 		}
 		return totalCost;

@@ -19,7 +19,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import beans.Administrator;
 import beans.Karta;
 import beans.Kupac;
-
+import beans.Manifestacija;
 import beans.Prodavac;
 
 public class KartaDAO {
@@ -71,9 +71,13 @@ public class KartaDAO {
 		}
 		return ret;
 	}
-
+	
 	public Collection<Karta> findAll(){
 		return karte.values();
+	}
+	
+	public void updateOne(Karta m) {
+		this.karte.put(m.getId(), m);
 	}
 
 	public Karta find(String id) {

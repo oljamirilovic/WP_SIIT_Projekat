@@ -124,6 +124,30 @@ public class KupacService {
 		
 		return false;
 	}
+
+	@POST
+	@Path("/saveProfileChanges")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Kupac saveProfileChanges(Kupac user) {
+		Kupac k = (Kupac)ctx.getAttribute("currentCustomer");
+		k.setDatumRodjenja(user.getDatumRodjenja());
+		k.setIme(user.getIme());
+		k.setLozinka(user.getLozinka());
+		k.setPol(user.getPol());
+		k.setPrezime(user.getPrezime());
+		KupacDAO dao = (KupacDAO) ctx.getAttribute("customersDAO");
+		ctx.setAttribute("currentCustomer", k); 
+		dao.updateOne(k);
+		ctx.setAttribute("customersDAO", dao);
+		try {
+			dao.generateJSON(ctx.getRealPath(""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return k;
+	}
 	
 	/*@POST
 	@Path("/setCustomerPoints")

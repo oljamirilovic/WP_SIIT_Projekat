@@ -124,7 +124,7 @@ public class KupacDAO  {
 									kupac.setPol(jsonParser.getText());
 								}
 								else if ("bodovi".equals(nameField)) {
-									kupac.setSakupljeniBodovi(Integer.parseInt(jsonParser.getText()));
+									kupac.setSakupljeniBodovi(Double.parseDouble(jsonParser.getText()));
 								}else if ("bodoviTipa".equals(nameField)) {
 									if(kupac.getTip()==null) {kupac.setTip(new beans.TipKupca());}
 									kupac.getTip().setBodovi(Integer.parseInt(jsonParser.getText()));

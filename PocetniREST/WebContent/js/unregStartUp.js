@@ -64,6 +64,20 @@ function showEvent(id){
 
 function renderList(data){
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+
+	var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    if(dd<10){
+            dd='0'+dd
+        } 
+        if(mm<10){
+            mm='0'+mm
+        } 
+
+    today = yyyy+'-'+mm+'-'+dd;
+    document.getElementById("birthday").setAttribute("max", today);
 	
 	removeTableContent();
 		
@@ -112,8 +126,18 @@ function renderList(data){
 		
 }
 
+//TODO make psw visible/hidden
+function myFunction() {
+	var x = document.getElementById("psw");
+	if (x.type === "password") {
+	  x.type = "text";
+	} else {
+	  x.type = "password";
+	}
+  }
 
 $(document).ready(function(){
+
 	
 	$('#loginBtn').click(function(e){
 		if($('input[name=uname]').val()!="" && $('input[name=psw]').val()!= ""){
@@ -219,7 +243,7 @@ $(document).ready(function(){
 											}
 										}
 										else{
-											invalidInput("Invalid password! ");
+											invalidInput("Invalid password! ","container");
 										}
 									}				
 															
