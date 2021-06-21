@@ -285,4 +285,21 @@ public class ManifestacijaDAO  {
 		this.manifestacije = manifestacije;
 	}
 
+	public void izmeni(String string, String dan, String fan, String kraj, String ukupno, String tip,
+			String cena, String vip) {
+		if(this.manifestacije.containsKey(string)) {
+			Manifestacija m=this.manifestacije.get(string);
+			m.setDatumPocetka(dan);
+			m.setBrojMesta(Integer.parseInt(ukupno));
+			m.setCenaKarte(Double.parseDouble(cena));
+			m.setPreostaloFanpit(Integer.parseInt(fan));
+			m.setPreostaloVip(Integer.parseInt(vip));
+			m.setDatumKraja(kraj);
+			m.setTipManifestacije(tip);
+			
+			
+		}
+		
+	}
+
 }

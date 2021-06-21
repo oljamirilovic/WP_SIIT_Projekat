@@ -1,12 +1,14 @@
-var rootURL = "../PocetniREST/rest/sellers/add";
+var rootURL = "../rest/salesmen/add";
 //var rootURL2 = "../PocetniREST/rest/users/getUsers";
-var rootURL1 = "../PocetniREST/rest/sellers/exists";
+var rootURL1 = "../rest/salesmen/exists";
 //povezano je sa htmlom, proveri za back
 
+
 $(document).ready(function(){
-	
+	console.log("da")
 	$('#addSeller').click(function(e){ //btn na koji se klikne
 		console.log("uslo");
+		alert("bane");
 		e.preventDefault();
 		
 		var d = new Date();
@@ -14,12 +16,12 @@ $(document).ready(function(){
 				
 		
 		if($("input[name=date]").val() != null && (Date.parse(strDate) > Date.parse($("input[name=date]").val()))
-				&& t!=null && $("input[name=name]").val() != null
+				&& d!=null && $("input[name=name]").val() != null
 				&& $("input[name=lastName]").val() != null && $("input[name=Username]").val() != null && $("input[name=Password]").val() != null
 				){
 			
 			var id = $("input[name=Username]").val();
-			 
+			 console.log(id)
 			$.ajax({
 				type : 'POST',
 				url : rootURL1, //proveri da li vec postoji

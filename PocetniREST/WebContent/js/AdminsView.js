@@ -1,5 +1,5 @@
 
-var rootURL2 = "../rest/salesmen/myConsumersAll";
+var rootURL2 = "../rest/admins/getAdmins";
 
 
 findAll();
@@ -23,10 +23,8 @@ function renderList(data){
                 tr = $('<tr></tr>');
                 tr.append('<td>' + event.ime + '</td>' +
                             '<td>' + event.prezime+ '</td>' +
-                            '<td>' + event.korisnickoIme + '</td>' +
-                             '<td>' + event.datumRodjenja+ '</td>'+
-                        '<td>' + event.tip.tipKupca+ '</td>' 
-                        +'<td>' + event.karte.length + '</td>' );
+                            '<td>' + event.korisnickoIme + '</td>'
+                              );
                         
                     $('#ConsumesTable').append(tr);
         

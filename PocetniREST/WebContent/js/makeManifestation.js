@@ -1,6 +1,6 @@
-var rootURL = "http://localhost:8080/PocetniREST/rest/events/add";
+var rootURL = "../rest/events/add";
 //var rootURL2 = "../PocetniREST/rest/users/getUsers";
-var rootURL4 = "http://localhost:8080/PocetniREST/rest/events/exists";
+var rootURL4 = "../rest/events/exists";
 //TODO datumi,zatim ono da iskoci kada se doda, i popraviti dugmice
 
 $(document).ready(function(){
@@ -12,9 +12,10 @@ $(document).ready(function(){
 		var strDate = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
 				
 		//TODOOproveri ovu proveru sa date
-		if($("input[name=date]").val() != null && (Date.parse(strDate) > Date.parse($("input[name=date]").val()))
-				&& t!=null && $("input[name=name]").val() != null
-				&& $("input[name=price]").val() != null && $("input[name=SeetsNumber]").val() != null ){
+		if($("input[name=date]").val() != null  && $("input[name=EndDate]").val() != null && $("input[name=VipSeetsNumber]").val() != null
+				&& d!=null && $("input[name=name]").val() != null && $("input[name=FanSeetsNumber]").val() != null
+				&& $("input[name=price]").val() != null && $("input[name=SeetsNumber]").val() != null  && $("input[name=type]").val() != null){
+					if( (Date.parse(strDate) < Date.parse($("input[name=date]").val())) && Date.parse($("input[name=date]").val())< Date.parse($("input[name=EndDate]").val()) ){
 			
 			var id = $("input[name=name]").val();
 			 
@@ -27,12 +28,17 @@ $(document).ready(function(){
 					"id" : id,
 				}),
 				success : function(result){
-					if(result==null){
+					if(result==null){alert("da")
 						let data = { //namesti nov //TODO dodati i oljine atrribute??
+							
 								"naziv": $("input[name=name]").val(),
 								"brojMesta": $("input[name=SeetsNumber]").val(),
 								"cenaKarte": $("input[name=price").val(),
 								"datumVreme": $("input[name=date]").val(),
+								"krajProslave":$("input[name=EndDate]").val(),
+								"tip":$("input[name=type]").val(),
+								"vip":$("input[name=VipSeetsNumber]").val(),
+								"fan":$("input[name=FanSeetsNumber]").val()
 								
 							};
 						
@@ -44,9 +50,10 @@ $(document).ready(function(){
 							dataType : "json",
 							data : JSON.stringify(data),
 							success : function(result){
+								alert("res")
 								console.log(result);
 								//TODO da ode na stranicu sa svim manifestacijama i da iskoci prozorce
-								window.location.href = "http://localhost:8080/PocetniREST/AllManifestationView.html";
+								window.location.href = "http://localhost:8080/PocetniREST/SellersManifestation.html";
 								},
 							error : function(XMLHttpRequest, textStatus, errorThrown){ //TODO: sta ako je lokacija zauzeta?? 
 								alert("AJAX ERROR: "+errorThrown);
@@ -65,10 +72,10 @@ $(document).ready(function(){
 				}
 			
 			})
-		}
+		}}
 		else if($("input[name=date]").val() == null || (Date.parse(strDate) < Date.parse($("input[name=date]").val()))
-		&& t!=null && $("input[name=name]").val() != null
-		&& $("input[name=[price]").val() != null && $("input[name=SeetsNumber]").val() != null 
+		&& d==null && $("input[name=name]").val() == null
+		&& $("input[name=price]").val() == null && $("input[name=SeetsNumber]").val() == null 
 		){
 			var d = $('<div></div>');
 			d.append('<p>'+'Not valid input.' + '</p>');

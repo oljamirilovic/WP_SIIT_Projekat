@@ -1,6 +1,7 @@
 package beans;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Prodavac extends Korisnik {
 	private boolean izbrisan;
@@ -17,6 +18,13 @@ public class Prodavac extends Korisnik {
 
 	public Prodavac() {
 		super();
+		this.manifestacije=new ArrayList<>();
+	}
+
+	public Prodavac(HashMap<String, String> user) {//{date=1999-01-01, lastName=e, password=, gender=male, name=e, username=e}
+		super(user.get("username"),user.get("password"),user.get("name"),user.get("lastName"),user.get("gender"),user.get("date"));
+		this.izbrisan=false;
+		this.nlokiran=false;
 		this.manifestacije=new ArrayList<>();
 	}
 

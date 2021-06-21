@@ -17,9 +17,7 @@
     <body>
         <div class="header">
             <a class="active" href="http://localhost:8081/PocetniREST/unregStartUp.html">Home</a>
-            <button type="button" onclick="document.getElementById('id02').style.display='block'" id="signalSignUp"> Sign Up</button>
-            <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogin" > Login</button>
-            
+           
         </div>
         <div class="row">
             <div class="navbar">
@@ -128,66 +126,7 @@
         </div>
         </div>
 
-        <div id="id01" class="modal">
-  
-            <form class="modal-content animate" action="/action_page.php" method="post">
-              <div class="imgcontainer">
-                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Window">&times;</span>
-                <img src="../images/avatar.png" alt="Avatar" class="avatar">
-              </div>
-          
-              <div class="container" name="container">
-                <label for="uname"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="uname" required>
-          
-                <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
-                  
-                <button type="button" class="submitLogin" id="loginBtn">Login</button>
-                
-              </div>
-          
-              <div class="container" style="background-color:transparent">
-                
-              </div>
-            </form>
-          </div>
-
-          <div id="id02" class="modals">
-            <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Window">&times;</span>
-            <form class="modal-contents" action="/action_page.php">
-              <div class="containers">
-                <h1>Sign Up</h1>
-                <p>Please fill in this form to create an account.</p>
-                <hr>
-                <label for="username"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="username" required>
-          
-                <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="pswrd" required>
-          
-                <label for="name"><b>Name</b></label>
-                <input type="text" placeholder="Enter Name" name="name" required>
-                
-                <label for="surname"><b>Surname</b></label>
-                <input type="text" placeholder="Enter Surname" name="surname" required>
-                
-                <label for="birthday"><b>Birthday</b></label>
-                <input placeholder="Birthday" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="birthday" max="today" required/>
-                
-                <label for="gender"><b>Gender</b></label>
-                <select name="gender">
-                  <option>Male</option>
-                  <option>Female</option>
-                </select>                
-                
-                <div class="clearfix">
-                  <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtns" >Cancel</button>
-                  <button type="button" class="signupbtns" id="signupBtn">Sign Up</button>
-                </div>
-              </div>
-            </form>
-          </div>
+        
 
     </body>
 </html>

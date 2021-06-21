@@ -6,6 +6,11 @@ public class TipKupca {
 	private double popust;
 	private int bodovi;
 	
+	
+	
+	public void setTipKupca(String tipKupca) {
+		this.tipKupca = tipKupca;
+	}
 	public String getTipKupca() {
 		return tipKupca;
 	}
