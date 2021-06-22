@@ -29,7 +29,7 @@ function simpleReverseGeocoding(lon, lat) {
         }
       });
 	
-	$('#searchBtn').click(function(e){
+	/*$('#searchBtn').click(function(e){
 		var title = $('input[name=title]').val();
 		var fromDate = $('input[name="fromdate"]').val();
 		var toDate = $('input[name=todate]').val();
@@ -59,5 +59,5 @@ function simpleReverseGeocoding(lon, lat) {
 			
 		}
 		
-	})
+	})*/
 	

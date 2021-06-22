@@ -12,7 +12,10 @@ var rootURL11 = "../PocetniREST/rest/admins/setCurrentAdmin";
 var rootURL12 = "../PocetniREST/rest/events/findEventsWithTitle";
 var rootURL13 = "../PocetniREST/rest/events/addSearched";
 var rootURL14 = "../PocetniREST/rest/events/setSearchClicked";
+var rootURL15 = "../PocetniREST/rest/events/getEventTypes";
 
+var beforeFilter = [];
+var afterEventTypeFilter = [];
 
 findAll();
 
@@ -65,6 +68,24 @@ function showEvent(id){
 function renderList(data){
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 
+	$.ajax({
+		type : 'GET',
+		url : rootURL15, //getEventTypes
+		dataType : "json",
+		success :function(result){
+			var eventTypes = result == null ? [] : (result instanceof Array ? result : [ result ]);
+			$('<option>').val(0).text("All types").appendTo('#eventTypes');
+
+			$.each(eventTypes, function(index, t){
+				$('<option>').val(index+1).text(t).appendTo('#eventTypes');
+			})
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown){
+			alert("AJAX ERROR: "+errorThrown);
+		}
+	});
+
+	//limit datepicker to today
 	var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1; //January is 0!
@@ -89,8 +110,12 @@ function renderList(data){
 	        
 	        tr.append('<td class="ac"><img width="100" height="120" class="lazyloaded" border="0" src="images/' + event.poster + '" alt="' + event.poster + '"></td>');
 	        
-	        tr.append('<td class="title ac va-c word-break"><a style="font-size: 18px" onclick= "showEvent(\''+event.naziv+'\')"  href=\"#\">' + event.naziv + '</a><br>Date: ' + event.datumPocetka + ' ' + event.vremePocetka + '<br>Ticket price: ' + event.cenaKarte +' dollars</td>');
-	        	        
+	        tr.append('<td class="title ac va-c word-break"><a style="font-size: 18px" onclick= "showEvent(\''+event.naziv+'\')"  href=\"#\">' + event.naziv + '</a></td>');
+	        
+			tr.append('<td class="title ac va-c word-break"><a style="font-size:18px">' + event.datumPocetka + ' ' + event.vremePocetka + '</a></td>');
+
+			tr.append('<td class="title ac va-c word-break"><a style="font-size:18px">' + event.cenaKarte + '</a></td>');
+
 	        tr.append('<td class="title ac va-c word-break"><a style="font-size:18px">' + event.lokacija.ulica + " " + event.lokacija.broj + '</a><br>' + event.lokacija.mesto + " " + event.lokacija.postanskiBroj +'</td>');
 	        
 	        tr.append('<td class="score ac fs14"><div><span class="text score-label score-na" ></span>' + event.tipManifestacije + '</span></div></td>');
@@ -108,8 +133,18 @@ function renderList(data){
 						"id" : id,
 					}),
 					success : function(result1){
-			        	tr.append('<td class="score ac fs14" ><div ><span class="text score-label score-na"><i class="far fa-star"></i>' + result1 + '</span></div></td>') 
+						var added = false;
+						if(!added){
+							tr.append('<td class="score ac fs14" ><div ><span class="text score-label score-na"><i class="far fa-star"></i>' + result1 + '</span></div></td>') 
+							added = true;
+						}
+						if(added){
+							var preostalo = parseInt(event.preostaloRegular) + parseInt(event.preostaloVip) + parseInt(event.preostaloFanpit);
 
+							tr.append('<td class="score ac fs14" style="display:none;"><div><span class="text score-label score-na" ></span>' + preostalo + '</span></div></td>');
+							
+							tr.append('<td class="score ac fs14" style="display:none;"><div><span class="text score-label score-na" ></span>' + event.lokacija.ulica + ", " + event.lokacija.broj + ", " + event.lokacija.mesto + ", " + event.lokacija.postanskiBroj + '</span></div></td>');
+						}
 					},
 					error : function(XMLHttpRequest, textStatus, errorThrown) {
 						alert("AJAX ERROR: " + errorThrown);
@@ -118,11 +153,35 @@ function renderList(data){
 	        	 	        	
 	        }
 	        else{
-	        	tr.append('<td class="score ac fs14" ><div ><span class="text score-label score-na"><i class="far fa-star"></i>N/A</span></div></td>')
-	        }
+				var added = false;
+				if(!added){
+					tr.append('<td class="score ac fs14" ><div ><span class="text score-label score-na"><i class="far fa-star"></i>N/A</span></div></td>')
+					added = true;
+				}
+				if(added){
+					var preostalo = parseInt(event.preostaloRegular) + parseInt(event.preostaloVip) + parseInt(event.preostaloFanpit);
+
+					tr.append('<td class="score ac fs14" style="display:none;"><div><span class="text score-label score-na" ></span>' + preostalo + '</span></div></td>');
+					
+					tr.append('<td class="score ac fs14" style="display:none;"><div><span class="text score-label score-na" ></span>' + event.lokacija.geografskaSirina + ' ' + event.lokacija.geografskaDuzina +  '</span></div></td>');
+				}
+			}
+
+			
 	        $('#eventTable').append(tr);
 		}
 	});
+	
+	//$("div.content select.right").val("Date recent");
+	$('div.content select.right option[value="3"]').attr("selected",true);
+	var sel = document.getElementById("mySelect");
+	sortBy(sel.selectedIndex);
+
+	var temp = document.getElementById("eventTable").getElementsByTagName("tr");
+	for (i = 1; i < temp.length; i++) {
+			beforeFilter[i] = temp[i].style.display;	
+			afterEventTypeFilter[i] = temp[i].style.display;		
+	}
 		
 }
 
@@ -134,11 +193,34 @@ function myFunction() {
 	} else {
 	  x.type = "password";
 	}
-  }
+}
+
+var graphic = null;
 
 $(document).ready(function(){
 
+	var modal;
+
+	$('#signalSignUp').click(function(e){
+        modal = document.getElementById('id02');
+	})
 	
+	$('#signalLogin').click(function(e){
+		modal = document.getElementById('id01');
+	})
+	
+	$('#locationBtn').click(function(e){
+		modal = document.getElementById('id03');
+	})
+	
+	window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+	///////////////////////////////////////LOGIN////////////////////////////////////////////////////
+
 	$('#loginBtn').click(function(e){
 		if($('input[name=uname]').val()!="" && $('input[name=psw]').val()!= ""){
 			
@@ -426,8 +508,8 @@ $(document).ready(function(){
 	
 	/////////////////////////////////////////////////////MAP////////////////////////////////////////////////////////////////////////////////
 	
-	var gsirina;
-	var gduzina;
+	var gsirina = 0;
+	var gduzina = 0;
 	
 	map.on('click', function (evt) { 
 		var lonlat  = ol.proj.toLonLat(evt.coordinate).map(function(val) {
@@ -440,7 +522,23 @@ $(document).ready(function(){
         
         simpleReverseGeocoding(document.getElementById('lon').value, document.getElementById('lat').value);
 		
+		var layer = new ol.layer.Vector({
+			source: new ol.source.Vector({
+				features: [
+					new ol.Feature({
+						geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat]))
+					})
+				]
+			})
+		});
+		if(graphic != null){
+			map.removeLayer(graphic);			
+		}
+		graphic = layer;
+		map.addLayer(layer);
+
 	})
+
 	
 	document.getElementById('reversegeocoding').addEventListener('click', function(e) {
         if (document.getElementById('lon').value && document.getElementById('lat').value) {
@@ -450,92 +548,160 @@ $(document).ready(function(){
 	
 	///////////////////////////////////////////////////////SEARCH//////////////////////////////////////////////////////////////////////////////
 	
+	var added = false;
+
 	$('#searchBtn').click(function(e){
-		var title = $('input[name=title]').val();
-		var fromDate = $('input[name="fromdate"]').val();
-		var toDate = $('input[name=todate]').val();
-		var minPrice = $('input[name=minPrice]').val();
-		var maxPrice = $('input[name=maxPrice]').val();
-		
-		
-		if(title!=""){
-			
-			setSearchClicked();
-			
-			$.ajax({
-				type : 'POST',
-				url : rootURL12,
-				contentType : 'application/json',
-				dataType : "json",
-				data :  JSON.stringify({
-					"id" : title,
-				}),
-				success : function(result){
-					if(result!=null){
-						if(fromDate!="" || toDate!="" || minPrice!="" || maxPrice!="" || gsirina!="" || gduzina!=""){
-						
-							$.each(result, function(index, event){
-								
-								checkSearchParams(fromDate,toDate,minPrice,maxPrice,gduzina,gsirina,event);
-							})
-						}else if(fromDate=="" && toDate=="" && minPrice=="" && maxPrice=="" && gsirina=="" && gduzina==""){
-							$.each(result, function(index, event){
-								addSearchFilterEvent(event);
-							})
-						}
-							
-						findAll();
+		var title = $('input[name=title]').val().toLowerCase();
+		var fromDate = $('input[name="fromdate"]').val().toLowerCase();
+		var toDate = $('input[name=todate]').val().toLowerCase();
+		var minPrice = Number($('input[name=minPrice]').val().toLowerCase());
+		var maxPrice = Number($('input[name=maxPrice]').val().toLowerCase());
+
+		var table, tr, td, i, txtValue;
+		table = document.getElementById("eventTable");
+		tr = table.getElementsByTagName("tr");
+
+		if(title!="" || fromDate!="" || toDate!="" || minPrice!=0 || maxPrice!=0 || gsirina!=0 || gduzina!=0 ){
+			added = false;
+			for (i = 1; i < tr.length; i++) {
+				tr[i].style.display = "none";
+			}		
+
+			if(title!="") {
+				var addedNow = false;
+				for (i = 1; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName("td")[1];
+					if (td) {
+						txtValue = td.innerText;
+						if (txtValue.toLowerCase().indexOf(title) > -1) {
+							tr[i].style.display = "";
+							addedNow = true;
+						} 
 					}
-					
-				},
-				error : function(XMLHttpRequest, textStatus, errorThrown){
-					alert("AJAX ERROR: "+errorThrown);
 				}
-			});
-			
-		}else if(fromDate!="" || toDate!="" || minPrice!="" || maxPrice!="" || gsirina!="" || gduzina!=""){
-			///
-			$.ajax({
-				type : 'GET',
-				url : rootURL1,
-				dataType : "json",
-				success : function(data){
-					var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
-					
-					setSearchClicked();
-					
-					$.each(list, function(index, event){
-						
-						checkSearchParams(fromDate,toDate,minPrice,maxPrice,gduzina,gsirina,event)
-						
-					})
-					
-					findAll();
-					
+				added = addedNow;
+			}
+			if(fromDate != "" && !(title!="" && !added)){
+				var addedNow = false;
+				for (i = 1; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName("td")[2];
+					if (td) {
+						txtValue = td.innerText;						 
+						if(tr[i].style.display == "" && Date.parse(txtValue) < Date.parse(fromDate)){
+							tr[i].style.display = "none";
+						}
+						else if(!added && Date.parse(txtValue) >= Date.parse(fromDate)){
+							tr[i].style.display = "";
+							addedNow = true;
+						}
+					}
 				}
-			});
+				added = addedNow;
+			}
+			if(toDate != "" && !((title!="" || fromDate!="") && !added)){
+				var addedNow = false;
+				for (i = 1; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName("td")[2];
+					if (td) {
+						txtValue = td.innerText;
+						if(tr[i].style.display == "" && Date.parse(txtValue) > Date.parse(toDate)){
+							tr[i].style.display = "none";
+						}
+						else if (!added && Date.parse(txtValue) <= Date.parse(toDate)) {
+							tr[i].style.display = "";
+							addedNow = true;
+						} 
+					}
+				}
+				added = addedNow;
+			}
+			if(minPrice != 0 && !((title!="" || fromDate!="" || toDate!="") && !added)){
+				var addedNow = false;
+				for (i = 1; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName("td")[3];
+					if (td) {
+						txtValue = Number(td.innerText.toLowerCase()) ;
+						if(tr[i].style.display == "" && txtValue < minPrice){
+							tr[i].style.display = "none";
+						}
+						else if (!added && txtValue >= minPrice) {
+							tr[i].style.display = "";
+							addedNow = true;
+						} 
+					}
+				}
+				added = addedNow;
+			}
+			if(maxPrice != 0 && !((title!="" || fromDate!="" || toDate!="" || minPrice!=0) && !added)){
+				var addedNow = false;
+				for (i = 1; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName("td")[3];
+					if (td) {
+						txtValue = Number(td.innerText.toLowerCase()) ;
+						if(tr[i].style.display == "" && txtValue > maxPrice){
+							tr[i].style.display = "none";
+						}
+						else if (!added && txtValue <= maxPrice) {
+							tr[i].style.display = "";
+							addedNow = true;
+						} 
+					}
+				}
+				added = addedNow;
+			}
+			if(gsirina!=0 && gduzina!=0 && !((title!="" || fromDate!="" || toDate!="" || minPrice!=0 || maxPrice!=0) && !added)){
+				var addedNow = false;
+				for (i = 1; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName("td")[8];
+					if (td) {
+						txtValue = td.innerText;
+						var adr = document.getElementById('address').innerHTML;
+						if(tr[i].style.display == "" && txtValue.toLowerCase().indexOf(adr.toLowerCase()) <= -1){
+							tr[i].style.display = "none";
+						}
+						else if (!added && txtValue.toLowerCase().indexOf(adr.toLowerCase()) > -1) {
+							tr[i].style.display = "";
+							addedNow = true;
+						} 
+					}
+				}
+				added = addedNow;
+			}
 		}
+		else if(title=="" && fromDate=="" && toDate=="" && minPrice=="" && maxPrice=="" && gsirina=="" && gduzina=="" ){
+			added = false;
+			for (i = 1; i < tr.length; i++) {
+				tr[i].style.display = "";
+			}
+		}
+		var temp = document.getElementById("eventTable").getElementsByTagName("tr");
+		for (i = 1; i < temp.length; i++) {
+				beforeFilter[i] = temp[i].style.display;
+				afterEventTypeFilter[i] = temp[i].style.display;
+		}
+
+		filterEventTypes();
+		var sel = document.getElementById("mySelect");
+		sortBy(sel.selectedIndex);
 		
-	})
+	});
 	
-	var modal;
-	$('#signalSignUp').click(function(e){
-        modal = document.getElementById('id02');
-	})
 	
-	$('#signalLogin').click(function(e){
-		modal = document.getElementById('id01');
-	})
-	
-	$('#locationBtn').click(function(e){
-		modal = document.getElementById('id03');
-	})
-	
-	window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
+	////////////////////////////////////////////////SORT////////////////////////////////////////
+	$('#mySelect').on('change', function() {
+		var e = document.getElementById("mySelect");
+		sortBy(e.selectedIndex);		  
+	});
+
+	///////////////////////////////////////FILTER EVENT TYPES////////////////////////////////////////////////////////
+	$('#eventTypes').on('change', function() {
+		filterEventTypes();
+	});
+
+	////////////////////////////////////FILTER ONLY TICKETS LEFT///////////////////////////////////////////////////////////
+	$('#availableTickets').click(function() {
+		filterTicketsLeft();
+	});
 	
 })
 
@@ -567,20 +733,6 @@ function simpleReverseGeocoding(lon, lat) {
   }
 
 
-function setSearchClicked(){
-	$.ajax({
-		type : 'POST',
-		url : rootURL14,
-		contentType : 'application/json',
-		dataType : "json",
-		success :function(){
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown){
-			alert("AJAX ERROR: "+errorThrown);
-		}
-	});
-}
-
 function removeTableContent(){
 	var paras = document.getElementsByClassName("event-list");
 	
@@ -589,52 +741,174 @@ function removeTableContent(){
 		}
 	}
 
-function checkSearchParams(fromDate,toDate,minPrice,maxPrice,gduzina,gsirina,event){
-	if(fromDate!=""){
-		if(Date.parse(fromDate) >= Date.parse(event.datumPocetka)){
-			addSearchFilterEvent(event);
+function sortBy(index){
+	/*var e = document.getElementById("mySelect");*/
+	var indexSelected = index;
+	var table, rows, switching, i, x, y, tr, shouldSwitch, dir, switchcount, n = 0;
+	if(indexSelected%2 == 0){
+		dir = "asc";
+	}	
+	else{
+		dir = "desc";
+	}	
+	if(indexSelected == 0 || indexSelected == 1){//name
+		n = 1;
+	}else if(indexSelected == 2 || indexSelected == 3){//date
+		n = 2;
+	}else if(indexSelected == 4 || indexSelected == 5){//price
+		n = 3;
+	}else if(indexSelected == 6 || indexSelected == 7){//location
+		n = 4;
+	}
+
+	table = document.getElementById("eventTable");
+	tr = table.getElementsByTagName("tr");
+	var backup = [];
+	for(var i = 1; i < (tr.length-1); i++){
+		backup[i] = [tr[i].getElementsByTagName("td")[1], tr[i].style.display];
+	}
+		
+	switching = true;
+	while (switching) {
+		switching = false;
+		//rows = table.rows;
+		rows = table.getElementsByTagName("tr");
+		for (i = 1; i < (rows.length-1); i++) {
+		shouldSwitch = false;		
+		x = rows[i].getElementsByTagName("TD")[n];
+		y = rows[i + 1].getElementsByTagName("TD")[n];
+		var xval = (n==3) ? Number(x.innerText.toLowerCase()) : x.innerText.toLowerCase();
+		var yval = (n==3) ? Number(y.innerText.toLowerCase()) : y.innerText.toLowerCase();
+		if (dir == "asc") {				
+			if (xval > yval) {
+				shouldSwitch = true;
+				break;
+			}				
+		} else if (dir == "desc") {
+			if (xval < yval) {
+			shouldSwitch = true;
+			break;
+			}
+		}
+		}
+		if (shouldSwitch) {
+		rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		switching = true;
+		} 
+	}
+	for(var i = 1; i < (tr.length); i++){
+		for (var j = 1; j < backup.length; j++) {
+			if (backup[j][0] == tr[i].getElementsByTagName("td")[1]) {
+				tr[i].style.display = backup[j][1];
+				break;
+			}
 		}
 	}
-	if(toDate!=""){
-		if(Date.parse(toDate) >= Date.parse(event.datumKraja)){
-			addSearchFilterEvent(event);
-		}
+
+	var temp = document.getElementById("eventTable").getElementsByTagName("tr");
+	for (i = 1; i < temp.length; i++) {
+			beforeFilter[i] = temp[i].style.display;
+			afterEventTypeFilter[i] = temp[i].style.display;
 	}
-	if(minPrice!=""){
-		if(parseInt(minPrice)<=parseInt(event.cenaKarte)){
-			addSearchFilterEvent(event);
+
+	filterEventTypes();
+}
+
+
+
+function filterEventTypes(){
+	var e = document.getElementById("eventTypes");
+	var input, filter, table, tr, td, i, txtValue;
+	if(e.options.length > 0){
+		input = e.options[e.selectedIndex].text;
+		filter = input.toUpperCase();
+		table = document.getElementById("eventTable");
+		tr = table.getElementsByTagName("tr");
+
+		if(input == "All types"){
+			if(beforeFilter.length > 0){
+				for (i = 1; i < beforeFilter.length; i++) {
+					if(  beforeFilter[i] == ""){
+						tr[i].style.display = "";
+						afterEventTypeFilter[i] = "";
+					}
+				}
+			}
+			else{
+				for (i = 1; i < tr.length; i++) {
+					tr[i].style.display = "";
+					afterEventTypeFilter[i] = "";					
+				}
+			}			
 		}
-	}
-	if(maxPrice!=""){
-		if(parseInt(maxPrice)>=parseInt(event.cenaKarte)){
-			addSearchFilterEvent(event);
-		}
-	}
-	if(gduzina!=""){
-		if(gduzina==parseInt(event.lokacija.geografskaDuzina)){
-			addSearchFilterEvent(event);
-		}
-	}
-	if(gsirina!=""){
-		if(gsirina==parseInt(event.lokacija.geografskaSirina)){
-			addSearchFilterEvent(event);
+
+		// Loop through all table rows, and hide those who don't match the search query
+		else{
+			if(beforeFilter.length > 0){
+				for (i = 1; i < (beforeFilter.length); i++) {
+					td = tr[i].getElementsByTagName("td")[5];
+					if (td) {
+						txtValue = td.innerText;
+						if (beforeFilter[i] == "" && txtValue.toUpperCase().indexOf(filter) > -1) {
+							tr[i].style.display = "";
+							afterEventTypeFilter[i] = "";
+						} else {
+							tr[i].style.display = "none";
+							afterEventTypeFilter[i] = "none";
+						}
+					}
+				}
+			}else{
+				for (i = 1; i < (tr.length); i++) {
+					td = tr[i].getElementsByTagName("td")[5];
+					if (td) {
+						txtValue = td.innerText;
+						if (txtValue.toUpperCase().indexOf(filter) > -1) {
+							tr[i].style.display = "";
+							afterEventTypeFilter[i] = "";
+						} else {
+							tr[i].style.display = "none";
+							afterEventTypeFilter[i] = "none";
+						}
+					}
+				}
+			}
+			
 		}
 	}
 }
 
-
-function addSearchFilterEvent(event){
-	$.ajax({
-		type: 'POST',
-		url: rootURL13, 
-		contentType: 'application/json',
-		dataType : "json",
-		data : JSON.stringify(event),
-		success : function(result){
-			
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown){
-			alert("AJAX ERROR: "+errorThrown);
+function filterTicketsLeft(){
+	var table, tr, td, i, txtValue;
+	table = document.getElementById("eventTable");
+	tr = table.getElementsByTagName("tr");
+	if($('#availableTickets').prop('checked')) {
+		if(afterEventTypeFilter.length > 0){
+			for (i = 1; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[7];
+				if (td) {
+					txtValue = Number(td.innerText);
+					if (afterEventTypeFilter[i] == "" && txtValue >= 1) {
+						tr[i].style.display = "";
+					} else if(afterEventTypeFilter[i] == "" && txtValue < 1){
+						tr[i].style.display = "none";
+					}
+				}
+			}
 		}
-	});
+		
+	} else {
+		if(afterEventTypeFilter.length > 0){
+			for (i = 1; i < afterEventTypeFilter.length; i++) {
+				if(  afterEventTypeFilter[i] == ""){
+					tr[i].style.display = "";
+				}
+			}
+		}else{
+			for (i = 1; i < tr.length; i++) {
+					tr[i].style.display = "";
+				
+			}
+		}
+	}
 }
