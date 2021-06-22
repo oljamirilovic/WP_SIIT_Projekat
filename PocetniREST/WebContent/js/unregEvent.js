@@ -85,10 +85,12 @@ function renderResult(data){
 	$('#location').append('<span class="numbers ranked" ><strong>Location:</strong></span>');
 	$('#location').append('<span class="numbers popularity"><strong>' + event.lokacija.ulica + " " + event.lokacija.broj +'</strong></span>');
 	$('#location').append('<span class="numbers members">' + event.lokacija.mesto + " " + event.lokacija.postanskiBroj +'</span>');
-	
+	$('#location').append('<span class="numbers members"><button type="button" class="locationRow" style="" onclick="document.getElementById(\'id03\').style.display=\'block\'" id="'+ event.lokacija.geografskaDuzina + ' ' + event.lokacija.geografskaSirina +'" ><i class="fa fa-globe-americas"></i></button></span>');
 	
 	
 }
+
+var graphic = null;
 
 $(document).ready(function(){
 	
@@ -372,8 +374,81 @@ $(document).ready(function(){
 			}
 		}		
 	})
-	
+
 	var modal;
+	var overlay;
+	var closer, lon, lat;
+
+	$("#detailsTable").on('click', '.locationRow', function (){		
+		var ret = $(this).attr('id').split(" ");
+		lat = ret[1];
+		lon = ret[0];
+
+		map.getView().setCenter(ol.proj.fromLonLat([lon, lat]));
+
+		var layer = new ol.layer.Vector({
+			source: new ol.source.Vector({
+				features: [
+					new ol.Feature({
+						geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat]))
+					})
+				]
+			})
+		});
+
+		if(graphic != null){
+			map.removeLayer(graphic);			
+		}
+		graphic = layer;
+		map.addLayer(layer);
+
+		var container = document.getElementById('popup');
+        closer = document.getElementById('popup-closer');
+
+        overlay = new ol.Overlay({
+            element: container,
+            autoPan: true,
+            autoPanAnimation: {
+                duration: 250
+            }
+        });
+		fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
+			return response.json();
+			}).then(function(json) {
+			//document.getElementById('address').innerHTML = json.display_name;
+			var tempcontent = document.getElementById('popup-content');
+			tempcontent.innerHTML = '<b>' + json.address.road +" "+json.address.house_number+"</b><br />"+json.address.city+" "+json.address.postcode;
+			
+		})
+		overlay.setPosition(ol.proj.fromLonLat([lon, lat]));
+        map.addOverlay(overlay);
+
+        closer.onclick = function () {
+            overlay.setPosition(undefined);
+            closer.blur();
+            return false;
+        };
+		modal = document.getElementById('id03');
+	})
+
+	map.on('singleclick', function (event) {
+		var content = document.getElementById('popup-content');
+		if (map.hasFeatureAtPixel(event.pixel) === true) {
+			var coordinate = event.coordinate;
+			fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
+			return response.json();
+			}).then(function(json) {
+			//document.getElementById('address').innerHTML = json.display_name;
+			content.innerHTML = '<b>' + json.address.road +" "+json.address.house_number+"</b><br />"+json.address.city+" "+json.address.postcode;
+			
+			})
+			overlay.setPosition(coordinate);
+		} else {
+			overlay.setPosition(undefined);
+			closer.blur();
+		}
+	});
+		
 	$('#signalSignUp').click(function(e){
         modal = document.getElementById('id02');
 	})
@@ -389,6 +464,8 @@ $(document).ready(function(){
     }
 	
 })
+
+
 
 function invalidInput(mesg,cont){
 	var reds = document.getElementsByClassName("red");

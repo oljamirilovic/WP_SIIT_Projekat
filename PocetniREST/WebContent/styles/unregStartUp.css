@@ -153,6 +153,19 @@ font-size: 0.8125rem;
   margin: 5px 0;
 }
 
+/*.locationRow{
+  background: #2e51a2;
+  border: none;
+  color: white;
+  cursor: pointer;
+  width: 10%;
+  float: right;
+  padding: 12.5px;
+  font-size: 17px;
+  vertical-align: bottom!important;
+  margin: 5px 0;
+}*/
+
 form.advancedSearchForm button:hover {
   opacity: 0.8;
 }
@@ -521,7 +534,34 @@ table {
   padding: 30px;
 }
 
+.ol-popup {
+  font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif !important;
+  font-size: 12px;
+  position: absolute;
+  background-color: white;
+  -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+  bottom: 12px;
+  left: -50px;
+  min-width: 100px;
+}
 
+.ol-popup:before {
+  border-top-color: #cccccc;
+  border-width: 11px;
+  left: 48px;
+  margin-left: -11px;
+}
+
+.ol-popup:after {
+  border-top-color: white;
+  border-width: 10px;
+  left: 48px;
+  margin-left: -10px;
+}
 
   /* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
 @media screen and (max-width: 500px) {
