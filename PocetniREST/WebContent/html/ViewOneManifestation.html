@@ -1,0 +1,165 @@
+<html>
+    <head>
+    <meta charset="ISO-8859-1">
+        
+        <script type="text/javascript" src="../js/jquery.min.js"></script>
+		<link href="../js/toastr.min.css" rel="stylesheet"/>
+		<script type="text/javascript" src="../js/toastr.min.js"></script>
+        <script type="text/javascript" src="../js/SellerViewOneManifestation.js"> </script>
+
+        <link rel="stylesheet" type="text/css" href="../styles/unregStartUp.css">
+        <link rel="stylesheet" type="text/css" href="../styles/login.css">
+        <link rel="stylesheet" type="text/css" href="../styles/signup.css">
+        <link rel="stylesheet" type="text/css" href="../styles/event.css">
+        <link href="../css/all.css" rel="stylesheet"> <!--load all styles width:225px za sliku-->
+
+    </head>
+    <body>
+        <div class="header">
+            <a class="active" href="http://localhost:8081/PocetniREST/html/customer.html">Home</a>
+            <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogout" > Log Out</button>
+            <div class="search-container">
+                <button type="button"  id="accountBtn" >Account<i style="margin-left: 10px" class="fa fa-user" ></i></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="navbar">
+                <div class="advancedSearch" id="title">
+                    <!-- <h3 class="title" style="font-size: 20px; text-align: center;">Manifestacija1
+                    </h3>-->
+                </div>
+            </div>
+        </div> 
+        
+
+        <div class="lowerrow">
+        <div class="pb12">
+        <div id="content">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%" >
+                <tbody>
+                    <tr>
+                        <td class="borderClass" width="225" style="border-width: 0 1px 0 0;" valign="top">
+                            <div style="width: 225px;" id="leftbar">
+                                <div style="text-align: center;" id="poster">
+                                    <!--  <img class=" lazyloaded" data-src="https://cdn.myanimelist.net/images/anime/1000/110531.jpg" alt="Shingeki no Kyojin: The Final Season" itemprop="image" src="https://cdn.myanimelist.net/images/anime/1000/110531.jpg">-->
+                                </div>
+                               </div>
+                        </td>
+                        <td valign="top" style="padding-left: 5px;">
+                            <div class="js-scrollfix-bottom-rel">
+                                <div style="width: 728px; margin: 0 auto;"></div>
+                                <a name="lower"></a>
+                                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="top">
+                                                <div class="pb16">
+                                                    <div class="di-t w100 mt12">
+                                                        <div class="anime-detail-header-stats di-tc va-t ">
+                                                        
+                                                        	<div class="stats-block po-r clearfix">
+                                                            <div class="fl-l score" data-title="Starts" id="startDate">
+                                                              <!-- <div class="score-label score-9" style="margin-left: 24px;">2021-01-31 12:00</div>-->
+                                                            </div>
+                                                            <div class="fl-l score" data-title="Ends" id="endDate">
+                                                              <!-- <div class="score-label score-9">2021-01-31 13:00</div>-->
+                                                            </div>
+                                                          </div>
+                                                        
+                                                          <div class="stats-block po-r clearfix">
+                                                                                                                    
+                                                            <div class="fl-l score" data-title="score" id="score">
+                                                              <!-- <div class="score-label score-9" style="margin-left: 24px;">9.20</div>-->
+                                                            </div>
+                                                            <div class="fl-l score" data-title="status" id="status">
+                                                              <!-- <div class="score-label score-9">Inactive</div>-->
+                                                            </div>
+                                                            <div class="fl-l score" data-title="Type" id="type">
+                                                              <!-- <div class="score-label score-9">Concert</div>-->
+                                                            </div>
+                                                            <div class="fl-l score" data-title="Seats" id="seats">
+                                                              <!-- <div class="score-label score-9">100</div>-->
+                                                            </div>
+                                                          </div>
+
+                                                          <div class="stats-block po-r clearfix" >
+                                                            <div class="di-ib ml12 pl20 pt8" id="regularTickets">
+                                                              <!-- <span class="numbers ranked"><strong>Regular:</strong></span>
+                                                              <span class="numbers popularity" style="margin-left: 1px;"><strong>1000</strong>dollars</span>
+                                                              <span class="numbers members"><strong>50</strong>left</span>-->
+                                                            </div>
+                                                          </div>
+
+                                                          <div class="stats-block po-r clearfix" >
+                                                            <div class="di-ib ml12 pl20 pt8" id="fanPit">
+                                                              <!-- <span class="numbers ranked" ><strong>FAN PIT:</strong></span>
+                                                              <span class="numbers popularity"><strong>4000</strong>dollars</span>
+                                                              <span class="numbers members"><strong>20</strong>left</span>-->
+                                                            </div>
+                                                          </div>
+                                                          
+                                                          
+                                                          <div class="stats-block po-r clearfix" >
+                                                            <div class="di-ib ml12 pl20 pt8" id="vipTickets">
+                                                              <!-- <span class="numbers ranked" ><strong>VIP:</strong></span>
+                                                              <span class="numbers popularity" style="margin-left: 32px;"><strong>2000</strong>dollars</span>
+                                                              <span class="numbers members"><strong>30</strong>left</span>-->
+                                                            </div>
+                                                          </div>
+
+                                                          <div class="stats-block po-r clearfix">
+                                                            <div class="di-ib ml12 pl20 pt8" id="location">
+                                                              <!-- <span class="numbers ranked" ><strong>Location:</strong></span>
+                                                              <span class="numbers popularity"><strong>Sujetska 3</strong></span>
+                                                              <span class="numbers members">Novi Sad 2100</span>-->
+                                                            </div>
+                                                          </div>
+                                                      </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+					                		<td class="pb24" id="reviews"></td>
+					                	</tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                	
+                </tbody>
+            </table>
+        </div>
+        </div>
+        </div>
+
+
+          <div id="id01" class="modal">
+  
+            <form class="modal-content animate" action="/action_page.php" method="post">
+              <div class="imgcontainer">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Window">&times;</span>
+                <img src="../images/avatar.png" alt="Avatar" class="avatar">
+              </div>
+          
+              <div class="container" name="container">
+                <label for="question"><b>Continue log out?</b></label>
+                  
+                <div class="clearfix">
+                  <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtns" >Cancel</button>
+                  <button type="button" class="signupbtns" id="logoutBtn">Log out</button>
+                </div>
+                
+              </div>
+          
+              <div class="container" style="background-color:transparent">
+                
+              </div>
+            </form>
+          </div>
+          
+ 
+
+    </body>
+</html>

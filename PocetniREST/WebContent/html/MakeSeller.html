@@ -1,10 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+ <meta charset="ISO-8859-1">
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<link href="../js/toastr.min.css" rel="stylesheet"/>
+		<script type="text/javascript" src="../js/toastr.min.js"></script>
+        <script type="text/javascript" src="../js/makeSeller.js"> </script>
+
+<link rel="stylesheet" type="text/css" href="..\\styles\\unregStartUp.css">
+<link rel="stylesheet" type="text/css" href="..\\styles\\login.css">
+<link rel="stylesheet" type="text/css" href="..\\styles\\signup.css">
+<link rel="stylesheet" type="text/js" href="..\\js\\makeSeller.js">
+<link href="../css/all.css" rel="stylesheet"> 
+<title>Make seller</title>
 </head>
 <body>
 
+	<div class="header">
+		<a class="active" href="#home">Home</a>
+		
+	</div>
+	<div class="row">
+		<div class="navbar">
+			<div class="advancedSearch">
+				<h3 class="title">Add seller</h3>
+				<div class="content" id="eventsearch">
+					<form action id="send_info" class="advancedSearchForm">
+						<label style="display: block;">Name</label> <input type="text" name="name"
+							id="name"><br><br><br>
+							 <label style="display: block;">Last name</label>
+							 <input
+							type="text" name="lastName" id="lastName"><br><br><br><br>
+							<label style="display: block;">Password</label>
+							 <input
+							type="password" name="Password" id="password">
+							<label style="display: block;">Username</label>
+							 <input
+							type="text" name="Username" id="username"><br><br><br><br>
+							<label style="display: block;">Birthday</label> 
+							<input
+							type="text" name="date" id="date" placeholder="yyyy-MM-dd"><br><br><br><br>
+							<label style="display: block;">Gender</label>
+							 <select name="gender" onChange="JSGetSelectedItem()">
+						<option value="male">male</option>
+						<option value="female">female</option>
+				</select><br><br><br><br>
+						<button type="submit" id="addSeller" >Save seller
+							<i class="submit"></i>
+						</button>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
+

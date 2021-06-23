@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet"	href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
+<meta charset="ISO-8859-1">
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<link href="../js/toastr.min.css" rel="stylesheet"/>
+		<script type="text/javascript" src="../js/toastr.min.js"></script>
+        <script type="text/javascript" src="../js/ViewCustomerBySeller.js"> </script>
+
+
+<link rel="stylesheet" type="text/css" href="..\\styles\\unregStartUp.css">
+<link rel="stylesheet" type="text/css" href="..\\styles\\login.css">
+<link rel="stylesheet" type="text/css" href="..\\styles\\signup.css">
+<link rel="stylesheet" type="text/css" href="..\\js\\UserView.js">
+<link rel="stylesheet" type="text/css" href="..\\js\\ViewCustomerBySeller.js">
+<link href="../css/all.css" rel="stylesheet">
+<!--load all styles -->
+</head>
+<body>
+	<div class="header">
+		<a class="active" href="#home">Home</a>
+		<div class="search-container">
+			<form name="search" class="example" action="/action_page.php"
+				style="margin: auto; max-width: 300px">
+				<input type="text" placeholder="Search.." name="search">
+				<button type="submit">
+					<i class="fa fa-search"></i>
+				</button>
+			</form>
+		</div>
+	</div>
+	<div class="row">
+            <div class="navbar">
+                <div class="advancedSearch">
+                    <h3 class="title">
+                        Search people
+                    </h3>
+                    <div class="content" id="eventsearch" >
+                        <form action id="send_search" class="advancedSearchForm">
+                            <label>Username</label><input type="text" name="username" 
+                            id="usernameSerach" style="width: 50px" ><label>Name</label>
+                            <input type="text" name="name" id="nameSearch"style="width: 50px" >
+                            <label>Last Name</label><input type="text" name="lastname" 
+                            id="LastnameSearch"style="width: 50px" >
+                            <button type="submit" ><i class="fa fa-search"></i></button>
+                        </form> 
+
+                    </div>
+                </div>
+            </div>
+        </div> 
+	<div class="lowerrow">
+		<div class="filterbar">
+			<div class="filter">
+				<h4>Filter events</h4>
+				<div class="content" id="filterevents">
+					</select> <input type="checkbox" id="availablePeople"> <label
+						for="availableTickets">Available people</label> <select
+						class="right">
+						<option>All criteria</option>
+						<option>Name</option>
+						<option>Last name</option>
+						<option>User name</option>
+						
+					</select> <label class="right">Select order:</label>
+				</div>
+				<div class="right"></div>
+			</div>
+		</div>
+	</div>
+	<div class="lowerrow">
+		<div class="pb12">
+			<table id="ConsumesTable" border-color="grey" cellpaddiong="0"
+				cellspacing="0" width="100%" class="display-table">
+				<tbody>
+					<tr class="table-header">
+						<td name="Name">Name</td>
+						<td name="LastName">Last name</td>
+						<td name="Username">Username</td>
+						<td name="NumberOfPoints">Number of manifestation</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

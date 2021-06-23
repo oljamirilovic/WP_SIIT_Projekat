@@ -214,10 +214,11 @@ public class ManifestacijaDAO  {
 		return manifestacije.values();
 	}
 	
-	public void addEvent(Manifestacija m) {
+	public Manifestacija addEvent(Manifestacija m) {
 		if(!this.manifestacije.containsKey(m.getNaziv())) {
 			this.manifestacije.put(m.getNaziv(), m);
-		}
+			return m;
+		}return null;
 		
 	}
 	
@@ -258,6 +259,7 @@ public class ManifestacijaDAO  {
 		}
 		
 	}
+	
 
 	public void izmeni(String ime, Manifestacija man) {
 		if(this.manifestacije.containsKey(ime)) {
@@ -281,6 +283,23 @@ public class ManifestacijaDAO  {
 
 	public void setManifestacije(HashMap<String, Manifestacija> manifestacije) {
 		this.manifestacije = manifestacije;
+	}
+
+	public void izmeni(String string, String dan, String fan, String kraj, String ukupno, String tip,
+			String cena, String vip) {
+		if(this.manifestacije.containsKey(string)) {
+			Manifestacija m=this.manifestacije.get(string);
+			m.setDatumPocetka(dan);
+			m.setBrojMesta(Integer.parseInt(ukupno));
+			m.setCenaKarte(Double.parseDouble(cena));
+			m.setPreostaloFanpit(Integer.parseInt(fan));
+			m.setPreostaloVip(Integer.parseInt(vip));
+			m.setDatumKraja(kraj);
+			m.setTipManifestacije(tip);
+			
+			
+		}
+		
 	}
 
 }

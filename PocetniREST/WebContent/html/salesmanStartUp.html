@@ -1,5 +1,113 @@
-<html>
+<!-- <html>
 <body>
-SALESMAN HOME PAGE
+ADMIN HOME PAGE
+
+<a href="http://localhost:8080/PocetniREST/html/MakeSeller.html">kreiranje prodavca</a><br>
+<a href="http://localhost:8080/PocetniREST/html/ConsumesView.html">pregled korisnika</a><br>
+<a href="http://localhost:8080/PocetniREST/html/CartView.html">pregled karata</a><br>
+<a href="http://localhost:8080/PocetniREST/html/AllAdminsView.html">pregled admina</a><br>
+<a href="http://localhost:8080/PocetniREST/html/AllSellersView.html">pregled kupaca</a><br>
+<a href="http://localhost:8080/PocetniREST/html/MakeManifestation.html">kreiranje manifestacije</a><br>
+<a href="http://localhost:8080/PocetniREST/html/ComentsView.html">odobravanje i pregled komentara</a><br>
+
 </body>
+</html>-->
+<html>
+    <head>
+    <meta charset="ISO-8859-1">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+        <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+        <script type="text/javascript" src="..//js/jquery.min.js"></script>
+		<link href="..//js/toastr.min.css" rel="stylesheet"/>
+		<script type="text/javascript" src="..//js/toastr.min.js"></script>
+        <script type="text/javascript" src="..//js/adminStart.js"> </script>
+        
+        <link rel="stylesheet" type="text/css" href="..//styles/unregStartUp.css">
+        <link rel="stylesheet" type="text/css" href="..//styles/login.css">
+        <link rel="stylesheet" type="text/css" href="..//styles/signup.css">
+        <link href="..//css/all.css" rel="stylesheet"> <!--load all styles -->
+
+    </head>
+    <body>
+        <div class="header">
+            <a class="active" href="http://localhost:8081/PocetniREST/unregStartUp.html">Home</a>
+            <button type="button" onclick="document.getElementById('id02').style.display='block'" id="signalSignUp"> Make manifestation</button>
+            <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogin" > Sold cards</button>
+           <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogin" > Customers</button>
+           <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogin" > Comments</button>
+           
+           
+            <div class="search-container">
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="navbar">
+                <div class="advancedSearch">
+                    <h3 class="title">
+                        Search events
+                    </h3>
+                    <div class="content" id="eventsearch" >
+                        <form action id="send_search" class="advancedSearchForm">
+                        	<input type="text" placeholder="Title.." name="title">
+                            <input placeholder="From.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="fromdate" />
+                            <input placeholder="To.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="todate" />
+                            <input placeholder="Min price" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="minPrice" />
+                            <input placeholder="Max price" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="maxPrice" />
+                            <button type="button" onclick="document.getElementById('id03').style.display='block'" class="locationBtn" id="locationBtn"> Location</button>
+                            <button type="submit" class="subbutton" id="searchBtn"><i class="fa fa-search"></i></button>
+                        </form> 
+
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="lowerrow">
+            <div class="filterbar">
+                <div class="filter">
+                    <h4>
+                        Filter events
+                    </h4>
+                    <div class="content" id="filterevents">
+                        <select selector="programTypes" placeholder="Event type">
+                            <option>All Event types</option>
+                            <option>Event type 1</option>
+                            <option>Event type 2</option>
+                            <option>Event type 3</option>
+                        </select>
+                        <input type="checkbox" id="availableTickets" >
+                        <label for="availableTickets">Available tickets</label>
+
+                        <select class="right">
+                            <option>All criteria</option>
+                            <option>Event name</option>
+                            <option>Event date</option>
+                            <option>Event price</option>
+                            <option>Event location</option>
+                        </select>
+                        <label class="right">Select order:</label>
+                    </div>
+                    <div class="right"></div>
+                </div>
+            </div>
+        </div>
+        <div class="lowerrow">
+            <div class="pb12">
+                <table id="eventTable" border="1" cellpaddiong="0" cellspacing="0" width="100%" class="display-table">
+                    <tbody>
+                        <tr class="table-header">
+                        	<td >Poster</td>
+                            <td class="title">Details</td>
+                            <td >Location</td>
+                            <td class="eventType">Event type</td>
+                            <td class="score">Score</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </body>
 </html>

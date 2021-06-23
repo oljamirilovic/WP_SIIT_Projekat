@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,7 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import com.sun.xml.internal.ws.util.StringUtils;
+//import com.sun.xml.internal.ws.util.StringUtils;
 
 import beans.Karta;
 import beans.Kupac;
@@ -251,6 +252,26 @@ public class KartaService {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	@POST
+	@Path("/tickets/{ime}")
+	@Produces(MediaType.APPLICATION_JSON)                 
+	@Consumes(MediaType.APPLICATION_JSON)                
+	public Karta update(Karta karta) {
+		KartaDAO dao=(KartaDAO) ctx.getAttribute("KartaDAO");
+		dao.izmeni(karta);
+		
+		return dao.nadjiJednuKartu(karta.getId());
+		
+	}
+	@DELETE
+	@Path("/products/{ime}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void delete(String ime) {
+		KartaDAO dao=(KartaDAO) ctx.getAttribute("KartaDAO");
+		if(dao.nadjiJednuKartu(ime)!=null) {
+			dao.obrisi(ime);
 		}
 	}
 	

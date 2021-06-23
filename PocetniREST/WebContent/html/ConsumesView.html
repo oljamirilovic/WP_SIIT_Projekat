@@ -8,10 +8,12 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="..\\unregStartUp.css">
-<link rel="stylesheet" type="text/css" href="..\\login.css">
-<link rel="stylesheet" type="text/css" href="..\\signup.css">
-<link href="css/all.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="..\\styles\\unregStartUp.css">
+<link rel="stylesheet" type="text/css" href="..\\styles\\login.css">
+<link rel="stylesheet" type="text/css" href="..\\styles\\signup.css">
+<!-- <link rel="stylesheet" type="text/css" href="..\\js\\UserView.js"> -->
+<link rel="stylesheet" type="text/css" href="..\\js\\ViewCustomerBySeller.js">
+<link href="..\\css/all.css" rel="stylesheet">
 <!--load all styles -->
 </head>
 <body>
@@ -53,10 +55,16 @@
 				<h4>Filter events</h4>
 				<div class="content" id="filterevents">
 					<select selector="programTypes" placeholder="Event type">
-						<option>All Event types</option>
-						<option>Rool</option>
-						<option>Type of user</option>
-					</select> <input type="checkbox" id="availablePeople"> <label
+						<option>All user types</option>
+						<option>Gold</option>
+						<option>Silver</option>
+						<option>Bronza</option></select>
+						<select selector="programTypes" placeholder="Event type">
+						<option>All rools </option>
+						<option>Admin</option>
+						<option>Seller</option>
+						<option>Consumer</option></select>
+						 <input type="checkbox" id="availablePeople"> <label
 						for="availableTickets">Available people</label> <select
 						class="right">
 						<option>All criteria</option>
@@ -72,17 +80,17 @@
 	</div>
 	<div class="lowerrow">
 		<div class="pb12">
-			<table id="eventTable" border-color="grey" cellpaddiong="0"
+			<table id="ConsumesTable" border-color="grey" cellpaddiong="0"
 				cellspacing="0" width="100%" class="display-table">
 				<tbody>
 					<tr class="table-header">
-						<td class="Name">Name</td>
-						<td class="LastName">Last name</td>
-						<td class="Username">Username</td>
-						<td class="NumberOfPoints">Number of points</td>
-						<td class="NumberOfBoughtTickets">Number of bought tickets</td>
-						<td class="Role">Roole</td>
-						<td class="Type">Type</td>
+						<td name="Name">Name</td>
+						<td name="LastName">Last name</td>
+						<td name="Username">Username</td>
+						<td name="NumberOfPoints">Number of points</td>
+						<td name="NumberOfBoughtTickets">Number of bought tickets</td>
+						<td name="Role">Roole</td>
+						<td name="Type">Type</td>
 					</tr>
 				</tbody>
 			</table>

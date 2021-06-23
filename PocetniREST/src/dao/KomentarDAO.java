@@ -69,6 +69,17 @@ public class KomentarDAO{
 		}
 		return retval;		
 	}
+	public Collection<Komentar> findAllByEvent(String event){
+		Collection<Komentar> retval= new ArrayList<Komentar>();
+		for (Komentar komentar : komentari) {
+			
+			if(komentar.getImeManifestacije().equals(event)) {
+				System.out.println(komentar.getId());
+				retval.add(komentar);
+			}
+		}
+		return retval;		
+	}
 	
 	public double findAverageEventScore(String event) {
 		Collection<Komentar> retval = findByEvent(event);
@@ -115,7 +126,7 @@ public class KomentarDAO{
 	public void parseJSON(String contextpath) throws JsonParseException, IOException {
 		JsonFactory jsonFactory = new JsonFactory();
 		JsonParser jsonParser = jsonFactory.createParser(new File(contextpath + "/data/komentari.json"));
-	
+		
 		if(jsonParser.nextToken()==JsonToken.START_OBJECT) {
 			JsonToken fieldName2 = jsonParser.nextToken();
 
@@ -133,9 +144,10 @@ public class KomentarDAO{
 								//Komentar kom=new Komentar();
 								String nameField = jsonParser.getCurrentName();
 								jsonParser.nextToken(); // move to value
-
+								
 								if ("text".equals(nameField)) {
 									kom.setText(jsonParser.getText());
+									
 
 								} else if ("ocena".equals(nameField)) {
 									kom.setOcena(Integer.parseInt(jsonParser.getText()));

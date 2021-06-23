@@ -1,5 +1,7 @@
 package beans;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 
 public class Manifestacija {
 	private String naziv;
@@ -146,6 +148,26 @@ public class Manifestacija {
 
 	public Manifestacija() {
 		super();
+	}
+
+	public Manifestacija(HashMap<String, String> event1) {
+		// //{fan=3, datumVreme=2021-06-20, brojMesta=3, cenaKarte=3444, naziv=f, tip=3, vip=3, krajProslave=2021-06-26}
+		int fanMesto=Integer.parseInt(event1.get("fan"));
+		int vipMesto=Integer.parseInt(event1.get("vip"));
+		int obicnoMesto=Integer.parseInt(event1.get("brojMesta"));
+		int cena=Integer.parseInt(event1.get("cenaKarte"));
+		String tip=event1.get("tip");
+		String naziv=event1.get("naziv");
+		//TODO pocetak i kraj
+		this.datumPocetka=event1.get("datumVreme");
+		this.datumKraja=event1.get("krajProslave");
+		this.brojMesta=obicnoMesto+fanMesto+vipMesto;//ako je ovo ukupno??
+		this.naziv=naziv;
+		this.cenaKarte=cena;
+		this.preostaloFanpit=fanMesto; //TODO , da li da imamo inicijalizovano, ili  na koji  nacin posle u toku rada da proverimo koliko ima mesta ukupno??
+		this.preostaloVip=vipMesto;
+		this.preostaloRegular=obicnoMesto;
+		this.tipManifestacije=tip;
 	}
 
 

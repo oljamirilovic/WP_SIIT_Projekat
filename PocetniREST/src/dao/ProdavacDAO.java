@@ -20,6 +20,7 @@ import beans.Karta;
 import beans.Kupac;
 import beans.Manifestacija;
 import beans.Prodavac;
+import beans.TipKupca;
 
 public class ProdavacDAO {
 	private  HashMap<String, Prodavac> prodavci;
@@ -141,6 +142,7 @@ public class ProdavacDAO {
 	}
 	public Collection<String> nadjiKupce(String username, Collection<Karta> karte) {
 		Prodavac p=this.prodavci.get(username);
+		if(p!=null) {
 		Collection<Manifestacija> m=p.getManifestacije();
 		//na sesiji bi trebalo da imamo kolekciju karata
 		//Collection<Karta> karte=new ArrayList<Karta>();
@@ -154,8 +156,35 @@ public class ProdavacDAO {
 		}
 		
 		return kupci;	}
+		return null;
+	
+	}
+	public Collection<Kupac> nadjiCeleKupce(String username, Collection<Karta>karte, Collection<Kupac> sviKupci){
+		Collection<String> pronadjeniKupci=nadjiKupce(username, karte);
+		Collection<Kupac> filtrirano=new ArrayList<Kupac>();
+		for(Kupac k: sviKupci) {
+			for(String ime : pronadjeniKupci) {
+				if(ime.equals(k.getKorisnickoIme())) {
+					filtrirano.add(k);
+				}
+			}
+			
+		}
+		if(filtrirano.size()==0) { //TODO ovo izb posle
+			Kupac k=new Kupac("g","G","g","g","g","g");
+			k.setKarte(new ArrayList<Karta>());
+			k.setTip(new TipKupca());
+			k.getTip().setTipKupca("gl");
+			filtrirano.add(k);
+		}
+		return filtrirano;
+		
+		
+		
+	}
 	public Collection<Karta> nadjiKarte(String username,Collection<Karta> karte ) {
 		Prodavac p=this.prodavci.get(username);
+		if(p!=null) {
 		Collection<Manifestacija> m=p.getManifestacije();
 		
 		Collection<Karta> karte1=new ArrayList<Karta>();
@@ -167,7 +196,11 @@ public class ProdavacDAO {
 				}
 			}
 	}
-		return karte1;
+		return karte1;}
+		
+		return null;
+		
+		
 	}
 
 	public void blokiraj(Prodavac user) {
@@ -183,5 +216,12 @@ public class ProdavacDAO {
 			 this.prodavci.get(user).setIzbrisan(true);
 		 }
 		
+	}
+
+
+	public Prodavac addUser(HashMap<String, String> user) {
+		//System.out.println(user);//{date=1999-01-01, lastName=e, password=, gender=male, name=e, username=e}
+		Prodavac prodavac=new Prodavac(user);
+		return null;
 	}
 }

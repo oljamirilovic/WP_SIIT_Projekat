@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<link href="../js/toastr.min.css" rel="stylesheet"/>
+		<script type="text/javascript" src="../js/toastr.min.js"></script>
+        <script type="text/javascript" src="../js/approveManifestation.js"> </script>
+
+<link rel="stylesheet" type="text/css" href="..\\styles\\unregStartUp.css">
+<link rel="stylesheet" type="text/css" href="..\\styles\\login.css">
+<link rel="stylesheet" type="text/css" href="..\\styles\\signup.css">
+<link rel="stylesheet" type="text/js" href="..\\js\\approveManifestation.js">
+<link href="../css/all.css" rel="stylesheet"> 
+<title>Make manifestation</title>
+</head>
+<body>
+<!-- TODO proveri heder i izbaci nepotrebno -->
+	<div class="header">
+		<a class="active" href="#home">Home</a>
+		
+	</div>
+	<div class="row">
+		<div class="navbar">
+			<div class="advancedSearch">
+				<h3 class="title">Add events</h3>
+				<div class="content" id="eventsearch">
+					<form action id="send_info" class="advancedSearchForm">
+						<label style="display: block;">Manifestation name</label> <input type="text" name="name"
+							id="name">
+							 <label style="display: block;">Number of regular seets</label>
+							 <input
+							type="number" name="SeetsNumber" id="SeetsNumber">
+							 <label style="display: block;">Number of fan pit seets</label>
+							 <input
+							type="number" name="FanSeetsNumber" id="FanSeetsNumber">
+							 <label style="display: block;">Number of vip seets</label>
+							 <input
+							type="number" name="VipSeetsNumber" id="VipSeetsNumber">
+							<label style="display: block;">Type</label>
+							<input
+						   type="text" name="type" id="type">
+							<label style="display: block;">Date of begining</label> 
+							<input
+							type="date" name="date" id="date" placeholder="yyyy-MM-dd">
+							<label style="display: block;">Date of ending</label> 
+							<input
+							type="date" name="EndDate" id="EndDate" placeholder="yyyy-MM-dd">
+							<label style="display: block;">Price</label>
+							 <input
+							type="text" name="price" id="price" placeholder="Price">
+						<button type="submit" id="approve">
+							<i class="submit">Odobri</i>
+						</button>
+						<button type="delete" id="delete">
+							<i class="delete">Delete</i>
+						</button>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
