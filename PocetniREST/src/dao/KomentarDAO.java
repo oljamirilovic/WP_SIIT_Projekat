@@ -63,7 +63,7 @@ public class KomentarDAO{
 	public Collection<Komentar> findByEvent(String event){
 		Collection<Komentar> retval= new ArrayList<Komentar>();
 		for (Komentar komentar : komentari) {
-			if(komentar.getImeManifestacije().equals(event) && !komentar.isObrisan() && komentar.isOdobren()) {
+			if(komentar.getImeManifestacije().equals(event)) {
 				retval.add(komentar);
 			}
 		}
@@ -85,12 +85,14 @@ public class KomentarDAO{
 		Collection<Komentar> retval = findByEvent(event);
 		double score = 0;
 		for (Komentar komentar : retval) {
-			score += komentar.getOcena();
+			if(komentar.isOdobren()) {
+				score += komentar.getOcena();
+			}
 		}
 		if(!retval.isEmpty()) {
 			score = score/retval.size();
 		}
-		
+		score =(double)Math.round(score * 100.0) / 100.0;
 		return score;
 	}
 

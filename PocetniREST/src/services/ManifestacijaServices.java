@@ -1,4 +1,5 @@
 package services;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -125,6 +126,41 @@ public class ManifestacijaServices {
 			ret.add(tip.toString());
 		}
 		return ret;
+	}
+	
+	@GET
+	@Path("/aproveCurrentEvent")
+	public void aproveCurrentEvent() {		
+		Manifestacija m = (Manifestacija)ctx.getAttribute("currentEvent");
+		m.setStatus(true);
+		ctx.setAttribute("currentEvent", m); 
+		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("eventsDAO");
+		dao.updateOne(m);
+		ctx.setAttribute("eventsDAO", dao);
+		try {
+			dao.generateJSON(ctx.getRealPath(""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@GET
+	@Path("/dismissCurrentEvent")
+	public void dismissCurrentEvent() {		
+		Manifestacija m = (Manifestacija)ctx.getAttribute("currentEvent");
+		m.setStatus(false);
+		m.setIzbrisana(true);
+		ctx.setAttribute("currentEvent", m); 
+		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("eventsDAO");
+		dao.updateOne(m);
+		ctx.setAttribute("eventsDAO", dao);
+		try {
+			dao.generateJSON(ctx.getRealPath(""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 

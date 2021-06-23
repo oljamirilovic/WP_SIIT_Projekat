@@ -6,6 +6,7 @@ var rootURL9 = "../rest/events/getEventTypes";
 
 var beforeFilter = [];
 var afterEventTypeFilter = [];
+var withAvailableTickets = false;
 var graphic = null;
 
 findAll();
@@ -80,7 +81,6 @@ function renderList(data){
 	
 	$.each(list, function(index, event) {
 		//prikazuju se i aktivne i neaktivne
-		var stat = (event.status) ? "ACTIVE" : "INACTIVE";
         if(event.status){
             var tr = $('<tr class="event-list"></tr>');
             var d = new Date();
@@ -240,143 +240,185 @@ $(document).ready(function(){
 
       ///////////////////////////////////////////////////////SEARCH//////////////////////////////////////////////////////////////////////////////
 	
-	var added = false;
+	  var added = false;
 
-	$('#searchBtn').click(function(e){
-		var title = $('input[name=title]').val().toLowerCase();
-		var fromDate = $('input[name="fromdate"]').val().toLowerCase();
-		var toDate = $('input[name=todate]').val().toLowerCase();
-		var minPrice = Number($('input[name=minPrice]').val().toLowerCase());
-		var maxPrice = Number($('input[name=maxPrice]').val().toLowerCase());
-
-		var table, tr, td, i, txtValue;
-		table = document.getElementById("eventTable");
-		tr = table.getElementsByTagName("tr");
-
-		if(title!="" || fromDate!="" || toDate!="" || minPrice!=0 || maxPrice!=0 || gsirina!=0 || gduzina!=0 ){
-			added = false;
-			for (i = 1; i < tr.length; i++) {
-				tr[i].style.display = "none";
-			}		
-
-			if(title!="") {
-				var addedNow = false;
-				for (i = 1; i < tr.length; i++) {
-					td = tr[i].getElementsByTagName("td")[1];
-					if (td) {
-						txtValue = td.innerText;
-						if (txtValue.toLowerCase().indexOf(title) > -1) {
-							tr[i].style.display = "";
-							addedNow = true;
-						} 
-					}
-				}
-				added = addedNow;
-			}
-			if(fromDate != "" && !(title!="" && !added)){
-				var addedNow = false;
-				for (i = 1; i < tr.length; i++) {
-					td = tr[i].getElementsByTagName("td")[2];
-					if (td) {
-						txtValue = td.innerText;						 
-						if(tr[i].style.display == "" && Date.parse(txtValue) < Date.parse(fromDate)){
-							tr[i].style.display = "none";
-						}
-						else if(!added && Date.parse(txtValue) >= Date.parse(fromDate)){
-							tr[i].style.display = "";
-							addedNow = true;
-						}
-					}
-				}
-				added = addedNow;
-			}
-			if(toDate != "" && !((title!="" || fromDate!="") && !added)){
-				var addedNow = false;
-				for (i = 1; i < tr.length; i++) {
-					td = tr[i].getElementsByTagName("td")[2];
-					if (td) {
-						txtValue = td.innerText;
-						if(tr[i].style.display == "" && Date.parse(txtValue) > Date.parse(toDate)){
-							tr[i].style.display = "none";
-						}
-						else if (!added && Date.parse(txtValue) <= Date.parse(toDate)) {
-							tr[i].style.display = "";
-							addedNow = true;
-						} 
-					}
-				}
-				added = addedNow;
-			}
-			if(minPrice != 0 && !((title!="" || fromDate!="" || toDate!="") && !added)){
-				var addedNow = false;
-				for (i = 1; i < tr.length; i++) {
-					td = tr[i].getElementsByTagName("td")[3];
-					if (td) {
-						txtValue = Number(td.innerText.toLowerCase()) ;
-						if(tr[i].style.display == "" && txtValue < minPrice){
-							tr[i].style.display = "none";
-						}
-						else if (!added && txtValue >= minPrice) {
-							tr[i].style.display = "";
-							addedNow = true;
-						} 
-					}
-				}
-				added = addedNow;
-			}
-			if(maxPrice != 0 && !((title!="" || fromDate!="" || toDate!="" || minPrice!=0) && !added)){
-				var addedNow = false;
-				for (i = 1; i < tr.length; i++) {
-					td = tr[i].getElementsByTagName("td")[3];
-					if (td) {
-						txtValue = Number(td.innerText.toLowerCase()) ;
-						if(tr[i].style.display == "" && txtValue > maxPrice){
-							tr[i].style.display = "none";
-						}
-						else if (!added && txtValue <= maxPrice) {
-							tr[i].style.display = "";
-							addedNow = true;
-						} 
-					}
-				}
-				added = addedNow;
-			}
-			if(gsirina!=0 && gduzina!=0 && !((title!="" || fromDate!="" || toDate!="" || minPrice!=0 || maxPrice!=0) && !added)){
-				var addedNow = false;
-				for (i = 1; i < tr.length; i++) {
-					td = tr[i].getElementsByTagName("td")[8];
-					if (td) {
-						txtValue = td.innerText;
-						var adr = document.getElementById('address').innerHTML;
-						if(tr[i].style.display == "" && txtValue.toLowerCase().indexOf(adr.toLowerCase()) <= -1){
-							tr[i].style.display = "none";
-						}
-						else if (!added && txtValue.toLowerCase().indexOf(adr.toLowerCase()) > -1) {
-							tr[i].style.display = "";
-							addedNow = true;
-						} 
-					}
-				}
-				added = addedNow;
-			}
-		}
-		else if(title=="" && fromDate=="" && toDate=="" && minPrice=="" && maxPrice=="" && gsirina=="" && gduzina=="" ){
-			added = false;
-			for (i = 1; i < tr.length; i++) {
-				tr[i].style.display = "";
-			}
-		}
-		var temp = document.getElementById("eventTable").getElementsByTagName("tr");
-		for (i = 1; i < temp.length; i++) {
-				beforeFilter[i] = temp[i].style.display;
-				afterEventTypeFilter[i] = temp[i].style.display;
-		}
-
-		filterEventTypes();
-		var sel = document.getElementById("mySelect");
-		sortBy(sel.selectedIndex);
-		
-	});
+	  $('#searchBtn').click(function(e){
+		  var title = $('input[name=title]').val().toLowerCase();
+		  var fromDate = $('input[name="fromdate"]').val().toLowerCase();
+		  var toDate = $('input[name=todate]').val().toLowerCase();
+		  var minPrice = Number($('input[name=minPrice]').val().toLowerCase());
+		  var maxPrice = Number($('input[name=maxPrice]').val().toLowerCase());
+  
+		  var table, tr, td, i, txtValue;
+		  table = document.getElementById("eventTable");
+		  tr = table.getElementsByTagName("tr");
+  
+		  if(title!="" || fromDate!="" || toDate!="" || minPrice!=0 || maxPrice!=0 || gsirina!=0 || gduzina!=0 ){
+			  added = false;
+			  for (i = 1; i < tr.length; i++) {
+				  tr[i].style.display = "none";
+			  }		
+  
+			  if(title!="") {
+				  var addedNow = false;
+				  for (i = 1; i < tr.length; i++) {
+					  td = tr[i].getElementsByTagName("td")[1];
+					  if (td) {
+						  txtValue = td.innerText;
+						  if (txtValue.toLowerCase().indexOf(title) > -1) {
+							  td = tr[i].getElementsByTagName("td")[7];
+							  txtValue = Number(td.innerText);
+							  if(withAvailableTickets && txtValue >= 1){
+								  tr[i].style.display = "";
+							  }else if(!withAvailableTickets){
+								  tr[i].style.display = "";		
+							  }
+							  addedNow = true;
+						  } 
+					  }
+				  }
+				  added = addedNow;
+			  }
+			  if(fromDate != "" && !(title!="" && !added)){
+				  var addedNow = false;
+				  for (i = 1; i < tr.length; i++) {
+					  td = tr[i].getElementsByTagName("td")[2];
+					  if (td) {
+						  txtValue = td.innerText;						 
+						  if(tr[i].style.display == "" && Date.parse(txtValue) < Date.parse(fromDate)){
+							  tr[i].style.display = "none";
+						  }
+						  else if(!added && Date.parse(txtValue) >= Date.parse(fromDate)){
+							  td = tr[i].getElementsByTagName("td")[7];
+							  txtValue = Number(td.innerText);
+							  if(withAvailableTickets && txtValue >= 1){
+								  tr[i].style.display = "";
+							  }else if(!withAvailableTickets){
+								  tr[i].style.display = "";		
+							  }
+							  addedNow = true;
+						  }
+					  }
+				  }
+				  added = addedNow;
+			  }
+			  if(toDate != "" && !((title!="" || fromDate!="") && !added)){
+				  var addedNow = false;
+				  for (i = 1; i < tr.length; i++) {
+					  td = tr[i].getElementsByTagName("td")[2];
+					  if (td) {
+						  txtValue = td.innerText;
+						  if(tr[i].style.display == "" && Date.parse(txtValue) > Date.parse(toDate)){
+							  tr[i].style.display = "none";
+						  }
+						  else if (!added && Date.parse(txtValue) <= Date.parse(toDate)) {
+							  td = tr[i].getElementsByTagName("td")[7];
+							  txtValue = Number(td.innerText);
+							  if(withAvailableTickets && txtValue >= 1){
+								  tr[i].style.display = "";
+							  }else if(!withAvailableTickets){
+								  tr[i].style.display = "";		
+							  }
+							  addedNow = true;
+						  } 
+					  }
+				  }
+				  added = addedNow;
+			  }
+			  if(minPrice != 0 && !((title!="" || fromDate!="" || toDate!="") && !added)){
+				  var addedNow = false;
+				  for (i = 1; i < tr.length; i++) {
+					  td = tr[i].getElementsByTagName("td")[3];
+					  if (td) {
+						  txtValue = Number(td.innerText.toLowerCase()) ;
+						  if(tr[i].style.display == "" && txtValue < minPrice){
+							  tr[i].style.display = "none";
+						  }
+						  else if (!added && txtValue >= minPrice) {
+							  td = tr[i].getElementsByTagName("td")[7];
+							  txtValue = Number(td.innerText);
+							  if(withAvailableTickets && txtValue >= 1){
+								  tr[i].style.display = "";
+							  }else if(!withAvailableTickets){
+								  tr[i].style.display = "";		
+							  }
+							  addedNow = true;
+						  } 
+					  }
+				  }
+				  added = addedNow;
+			  }
+			  if(maxPrice != 0 && !((title!="" || fromDate!="" || toDate!="" || minPrice!=0) && !added)){
+				  var addedNow = false;
+				  for (i = 1; i < tr.length; i++) {
+					  td = tr[i].getElementsByTagName("td")[3];
+					  if (td) {
+						  txtValue = Number(td.innerText.toLowerCase()) ;
+						  if(tr[i].style.display == "" && txtValue > maxPrice){
+							  tr[i].style.display = "none";
+						  }
+						  else if (!added && txtValue <= maxPrice) {
+							  td = tr[i].getElementsByTagName("td")[7];
+							  txtValue = Number(td.innerText);
+							  if(withAvailableTickets && txtValue >= 1){
+								  tr[i].style.display = "";
+							  }else if(!withAvailableTickets){
+								  tr[i].style.display = "";		
+							  }
+							  addedNow = true;
+						  } 
+					  }
+				  }
+				  added = addedNow;
+			  }
+			  if(gsirina!=0 && gduzina!=0 && !((title!="" || fromDate!="" || toDate!="" || minPrice!=0 || maxPrice!=0) && !added)){
+				  var addedNow = false;
+				  for (i = 1; i < tr.length; i++) {
+					  td = tr[i].getElementsByTagName("td")[8];
+					  if (td) {
+						  txtValue = td.innerText;
+						  var adr = document.getElementById('address').innerHTML;
+						  if(tr[i].style.display == "" && txtValue.toLowerCase().indexOf(adr.toLowerCase()) <= -1){
+							  tr[i].style.display = "none";
+						  }
+						  else if (!added && txtValue.toLowerCase().indexOf(adr.toLowerCase()) > -1) {
+							  td = tr[i].getElementsByTagName("td")[7];
+							  txtValue = Number(td.innerText);
+							  if(withAvailableTickets && txtValue >= 1){
+								  tr[i].style.display = "";
+							  }else if(!withAvailableTickets){
+								  tr[i].style.display = "";		
+							  }
+							  addedNow = true;
+						  } 
+					  }
+				  }
+				  added = addedNow;
+			  }
+		  }
+		  else if(title=="" && fromDate=="" && toDate=="" && minPrice=="" && maxPrice=="" && gsirina=="" && gduzina=="" ){
+			  added = false;
+			  for (i = 1; i < tr.length; i++) {
+				  td = tr[i].getElementsByTagName("td")[7];
+				  txtValue = Number(td.innerText);
+				  if(withAvailableTickets && txtValue >= 1){
+					  tr[i].style.display = "";
+				  }else if(!withAvailableTickets){
+					  tr[i].style.display = "";		
+				  }
+			  }
+		  }
+		  var temp = document.getElementById("eventTable").getElementsByTagName("tr");
+		  for (i = 1; i < temp.length; i++) {
+				  beforeFilter[i] = temp[i].style.display;
+				  afterEventTypeFilter[i] = temp[i].style.display;
+		  }
+  
+		  filterEventTypes();
+		  var sel = document.getElementById("mySelect");
+		  sortBy(sel.selectedIndex);
+		  
+	  });
 	
 	
 	////////////////////////////////////////////////SORT////////////////////////////////////////
@@ -396,23 +438,6 @@ $(document).ready(function(){
 	});
 	
 })
-
-function invalidInput(mesg,cont){
-	var reds = document.getElementsByClassName("red");
-	
-	if(reds.length != 0){
-		for(var k = 0; k < reds.length; k++){
-			reds[k].parentNode.removeChild(reds[k]);
-		}								 
-	}
-        
-	var elements = document.getElementsByClassName(cont);
-	var div = document.createElement('div');
-	div.className = 'red';
-	div.textContent = mesg;
-	div.id = "error";
-	elements[0].append(div);
-}
 
 function removeTableContent(){
 	var paras = document.getElementsByClassName("event-list");
@@ -454,9 +479,16 @@ function sortBy(index){
 
 	table = document.getElementById("eventTable");
 	tr = table.getElementsByTagName("tr");
-	var backup = [];
+	var backup = [{}];
+	var backupAfter = [];
+	var backupBefore = [];
 	for(var i = 1; i < (tr.length-1); i++){
-		backup[i] = [tr[i].getElementsByTagName("td")[1], tr[i].style.display];
+		var h = tr[i].getElementsByTagName("TD")[1].innerText.toLowerCase();
+		backup[i] = {name : h, disp: tr[i].style.display};
+		if(afterEventTypeFilter.length > 0){
+		backupAfter[i] = (afterEventTypeFilter[i] == "") ? "" : "none";
+		backupBefore[i] = (beforeFilter[i] == "") ? "" : "none";
+		}
 	}
 		
 	switching = true;
@@ -489,21 +521,26 @@ function sortBy(index){
 	}
 	for(var i = 1; i < (tr.length); i++){
 		for (var j = 1; j < backup.length; j++) {
-			if (backup[j][0] == tr[i].getElementsByTagName("td")[1]) {
-				tr[i].style.display = backup[j][1];
+			if (backup[j].name == tr[i].getElementsByTagName("td")[1].innerText.toLowerCase()) {
+				tr[i].style.display = backup[j].disp;
+				if(afterEventTypeFilter.length > 0){
+				afterEventTypeFilter[i] = backupAfter[j];
+				beforeFilter[i] = backupBefore[j];
+				}
 				break;
 			}
 		}
 	}
 
-	var temp = document.getElementById("eventTable").getElementsByTagName("tr");
+	/*var temp = document.getElementById("eventTable").getElementsByTagName("tr");
 	for (i = 1; i < temp.length; i++) {
 			beforeFilter[i] = temp[i].style.display;
 			afterEventTypeFilter[i] = temp[i].style.display;
 	}
 
-	filterEventTypes();
+	filterEventTypes();*/
 }
+
 
 function filterEventTypes(){
 	var e = document.getElementById("eventTypes");
@@ -517,16 +554,28 @@ function filterEventTypes(){
 		if(input == "All types"){
 			if(beforeFilter.length > 0){
 				for (i = 1; i < beforeFilter.length; i++) {
-					if(  beforeFilter[i] == ""){
-						tr[i].style.display = "";
+					td = tr[i].getElementsByTagName("td")[7];
+					txtValue = Number(td.innerText);
+					if(  beforeFilter[i] == "" ){
 						afterEventTypeFilter[i] = "";
+						if(withAvailableTickets && txtValue >= 1){
+							tr[i].style.display = "";
+						}else if(!withAvailableTickets){
+							tr[i].style.display = "";
+						}
 					}
 				}
 			}
 			else{
 				for (i = 1; i < tr.length; i++) {
-					tr[i].style.display = "";
-					afterEventTypeFilter[i] = "";					
+					afterEventTypeFilter[i] = "";
+					td = tr[i].getElementsByTagName("td")[7];
+					txtValue = Number(td.innerText);
+					if(withAvailableTickets && txtValue >= 1){
+						tr[i].style.display = "";
+					}else if(!withAvailableTickets){
+						tr[i].style.display = "";			
+					}		
 				}
 			}			
 		}
@@ -539,8 +588,14 @@ function filterEventTypes(){
 					if (td) {
 						txtValue = td.innerText;
 						if (beforeFilter[i] == "" && txtValue.toUpperCase().indexOf(filter) > -1) {
-							tr[i].style.display = "";
 							afterEventTypeFilter[i] = "";
+							td = tr[i].getElementsByTagName("td")[7];
+							txtValue = Number(td.innerText);
+							if(withAvailableTickets && txtValue >= 1){
+								tr[i].style.display = "";
+							}else if(!withAvailableTickets){
+								tr[i].style.display = "";
+							}
 						} else {
 							tr[i].style.display = "none";
 							afterEventTypeFilter[i] = "none";
@@ -553,8 +608,14 @@ function filterEventTypes(){
 					if (td) {
 						txtValue = td.innerText;
 						if (txtValue.toUpperCase().indexOf(filter) > -1) {
-							tr[i].style.display = "";
 							afterEventTypeFilter[i] = "";
+							td = tr[i].getElementsByTagName("td")[7];
+							txtValue = Number(td.innerText);
+							if(withAvailableTickets && txtValue >= 1){
+								tr[i].style.display = "";
+							}else if(!withAvailableTickets){
+								tr[i].style.display = "";
+							}
 						} else {
 							tr[i].style.display = "none";
 							afterEventTypeFilter[i] = "none";
@@ -572,6 +633,7 @@ function filterTicketsLeft(){
 	table = document.getElementById("eventTable");
 	tr = table.getElementsByTagName("tr");
 	if($('#availableTickets').prop('checked')) {
+		withAvailableTickets = true;
 		if(afterEventTypeFilter.length > 0){
 			for (i = 1; i < tr.length; i++) {
 				td = tr[i].getElementsByTagName("td")[7];
@@ -587,6 +649,7 @@ function filterTicketsLeft(){
 		}
 		
 	} else {
+		withAvailableTickets = false;
 		if(afterEventTypeFilter.length > 0){
 			for (i = 1; i < afterEventTypeFilter.length; i++) {
 				if(  afterEventTypeFilter[i] == ""){

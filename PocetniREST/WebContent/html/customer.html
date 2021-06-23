@@ -2,6 +2,8 @@
     <head>
     <meta charset="ISO-8859-1">
         
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+        <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
         <script type="text/javascript" src="../js/jquery.min.js"></script>
 		<link href="../js/toastr.min.css" rel="stylesheet"/>
 		<script type="text/javascript" src="../js/toastr.min.js"></script>
@@ -30,12 +32,12 @@
                     <div class="content" id="eventsearch" >
                         <form action id="send_search" class="advancedSearchForm">
                         	<input type="text" placeholder="Title.." name="title">
-                            <input placeholder="From.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="fromdate" />
-                            <input placeholder="To.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="todate" />
-                            <input placeholder="Min.." class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" id="minPrice" />
-                            <input placeholder="Max.." class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" id="maxPrice" />
+                            <input placeholder="From.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="fromdate" />
+                            <input placeholder="To.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="todate" />
+                            <input placeholder="Min price"  min="1" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="minPrice" />
+                            <input placeholder="Max price"  min="1" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="maxPrice" />
                             <button type="button" onclick="document.getElementById('id03').style.display='block'" class="locationBtn" id="locationBtn"> Location</button>
-                            <button type="submit" class="subbutton" id="searchBtn"><i class="fa fa-search"></i></button>
+                            <button type="button" class="subbutton" id="searchBtn"><i class="fa fa-search"></i></button>
                         </form> 
 
                     </div>
@@ -49,23 +51,22 @@
                         Filter events
                     </h4>
                     <div class="content" id="filterevents">
-                        <select selector="programTypes" placeholder="Event type">
-                            <option>All Event types</option>
-                            <option>Event type 1</option>
-                            <option>Event type 2</option>
-                            <option>Event type 3</option>
+                        <select selector="programTypes" placeholder="Event type" id="eventTypes" name="eventTypes" class="eventTypes">
                         </select>
                         <input type="checkbox" id="availableTickets" >
-                        <label for="availableTickets">Available tickets</label>
+                        <label for="availableTickets">Only with available tickets</label>
 
-                        <select class="right">
-                            <option>All criteria</option>
-                            <option>Event name</option>
-                            <option>Event date</option>
-                            <option>Event price</option>
-                            <option>Event location</option>
+                        <select class="right" id="mySelect">
+                            <option value='0'>Name ascending</option>
+                            <option value='1'>Name descending</option>
+                            <option value='2'>Date oldest</option>
+                            <option value='3'>Date recent</option>
+                            <option value='4'>Price lowest</option>
+                            <option value='5'>Price highest</option>
+                            <option value='6'>Location ascending</option>
+                            <option value='7'>Location descending</option>
                         </select>
-                        <label class="right">Select order:</label>
+                        <label class="right">Order by:</label>
                     </div>
                     <div class="right"></div>
                 </div>
@@ -77,7 +78,9 @@
                     <tbody>
                         <tr class="table-header">
                         	<td >Poster</td>
-                            <td class="title">Details</td>
+                          <td class="title">Name</td>
+                          <td class="title">Start date</td>
+                          <td class="title">Ticket price</td>                            
                             <td >Location</td>
                             <td class="eventType">Event type</td>
                             <td class="score">Score</td>
@@ -111,6 +114,45 @@
             </form>
           </div>
 
+          <div id="id03" class="modal">
+  
+            <form class="modal-content animate" action="/action_page.php" method="post">
+              
+                <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Window">&times;</span>
+                
+            <div id="map" class="map"></div>
+                        
+            <div>
+			      <input id="lat" type="number" step="0.000001">
+			      <input id="lon" type="number" step="0.000001">			      
+			      <button id="reversegeocoding" type=button name="button">Reverse geocode manually</button>
+                  <button id="resetLocation" type=button name="button">Reset</button>
+                  <br>
+			      <span id="address">
+			
+			      </span>
+			      
+			    </div>        
+			        
+              <div class="container" style="background-color:transparent">
+                
+              </div>
+            </form>
+          </div>
+			<script type="text/javascript">
+			      var map = new ol.Map({
+			        target: 'map',
+			        layers: [
+			          new ol.layer.Tile({
+			            source: new ol.source.OSM()
+			          })
+			        ],
+			        view: new ol.View({
+			          center: ol.proj.fromLonLat([37.41, 8.82]),
+			          zoom: 4
+			        })
+			      });
+			</script>
 
     </body>
 </html>
