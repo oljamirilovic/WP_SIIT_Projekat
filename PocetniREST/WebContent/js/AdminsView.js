@@ -31,3 +31,42 @@ function renderList(data){
 	});
 		
 }
+$(document).ready(function(){
+
+
+ var modal;
+
+	$('#logoutBtn').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/unregStartUp.html";
+	})
+		
+	$('#accountBtn').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/html/adminAccount.html";
+	})
+			
+	$('#signalLogout').click(function(e){
+		modal = document.getElementById('id01');
+	})
+
+	
+	window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+$('#admins').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/html/AllAdminsView.html";
+	})	
+	$('#customers').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/html/ViewCustomersByAdmin.html";
+	})	
+	$('#tickets').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/html/CartsViewAdmin.html";
+	})	
+	$('#salesmen').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/html/ViewSellersByAdmin.html";
+	})	
+
+
+})

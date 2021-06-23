@@ -22,19 +22,17 @@
 <!--load all styles -->
 </head>
 <body>
-	<div class="header">
-		<a class="active" href="#home">Home</a>
-		 <button type="button"  id="addSeller">Add seller</button>
-		<div class="search-container">
-			<form name="search" class="example" action="/action_page.php"
-				style="margin: auto; max-width: 300px">
-				<input type="text" placeholder="Search.." name="search">
-				<button type="submit">
-					<i class="fa fa-search"></i>
-				</button>
-			</form>
-		</div>
-	</div>
+	 <div class="header">
+            <a class="active" href="http://localhost:8081/PocetniREST/html/adminStartUp.html">Home</a>
+            <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogout" > Log Out</button>
+            <button type="button"  id="tickets" > All tickets</button>
+            <button type="button"  id="admins" >All admins</button>
+            <button type="button"  id="customers" > All customers</button>
+            <button type="button"  id="salesmen" > All salesmen</button>
+            <div class="search-container">
+                <button type="button"  id="accountBtn" >Account<i style="margin-left: 10px" class="fa fa-user" ></i></button>
+            </div>
+        </div>
 	<div class="row">
             <div class="navbar">
                 <div class="advancedSearch">
@@ -90,5 +88,28 @@
 			</table>
 		</div>
 	</div>
+	<div id="id01" class="modal">
+  
+            <form class="modal-content animate" action="/action_page.php" method="post">
+              <div class="imgcontainer">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Window">&times;</span>
+                <img src="../images/avatar.png" alt="Avatar" class="avatar">
+              </div>
+          
+              <div class="container" name="container">
+                <label for="question"><b>Continue log out?</b></label>
+                  
+                <div class="clearfix">
+                  <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtns" >Cancel</button>
+                  <button type="button" class="signupbtns" id="logoutBtn">Log out</button>
+                </div>
+                
+              </div>
+          
+              <div class="container" style="background-color:transparent">
+                
+              </div>
+            </form>
+          </div>
 </body>
 </html>

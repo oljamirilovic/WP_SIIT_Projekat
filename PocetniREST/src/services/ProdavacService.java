@@ -92,7 +92,6 @@ public class ProdavacService {
 	}
 	
 	@POST
-
 	@Path("/add")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces(MediaType.APPLICATION_JSON)
@@ -104,7 +103,7 @@ public class ProdavacService {
 	}
 
 
-	@GET
+	/*@GET
 	@Path("/search")
 	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces(MediaType.APPLICATION_JSON)
@@ -115,7 +114,7 @@ public class ProdavacService {
 		return dao.findAll().stream().filter(user -> user.getPrezime()
 				.equals(lastname)).findFirst().orElse(null);*/
 
-	}
+	//}
 
 
 
@@ -130,6 +129,7 @@ public class ProdavacService {
 	@GET
 	@Path("/manifestacije")
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Collection<Manifestacija> getManifestacijeOfProdavac(String username) {
 		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
 		return dao.find(username).getManifestacije();
@@ -174,6 +174,7 @@ public class ProdavacService {
 	@GET
 	@Path("/pregledRezervisanihKarata")
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Collection<Karta> getKarteiOfProdavac(String username) {
 		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
 		KartaDAO dao2=(KartaDAO) ctx.getAttribute("KartaDAO");
@@ -185,6 +186,7 @@ public class ProdavacService {
 	@PUT
 	@Path("/blokiraj")
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public void blokiraj(Prodavac prodavac) {
 		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
 		dao.blokiraj(prodavac);
@@ -192,6 +194,7 @@ public class ProdavacService {
 	@DELETE
 	@Path("/obrisi")
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public void obrisi(Prodavac prodavac) {
 		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
 		dao.obrisi(prodavac);
@@ -210,7 +213,7 @@ public class ProdavacService {
 		return u;
 	}
 	
-
+	@POST
 	@Path("/saveProfileChanges")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces(MediaType.APPLICATION_JSON)

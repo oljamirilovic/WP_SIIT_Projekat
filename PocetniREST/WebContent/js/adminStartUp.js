@@ -188,6 +188,18 @@ $(document).ready(function(){
         }
     }
 
+	$('#admins').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/html/AllAdminsView.html";
+	})	
+	$('#customers').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/html/ViewCustomersByAdmin.html";
+	})	
+	$('#tickets').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/html/CartsViewAdmin.html";
+	})	
+	$('#salesmen').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/html/ViewSellersByAdmin.html";
+	})	
     /////////////////////////////////////////////////////MAP////////////////////////////////////////////////////////////////////////////////
 	
 	var gsirina = 0;

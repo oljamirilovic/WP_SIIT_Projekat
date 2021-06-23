@@ -375,10 +375,10 @@ $(document).ready(function(){
 	$('#customers').click(function(e){
 		window.location.href = "http://localhost:8080/PocetniREST/html/ViewCustomersByAdmin.html";
 	})	
-	$('#cards').click(function(e){
+	$('#tickets').click(function(e){
 		window.location.href = "http://localhost:8080/PocetniREST/html/CartsViewAdmin.html";
 	})	
-	$('#sellers').click(function(e){
+	$('#salesmen').click(function(e){
 		window.location.href = "http://localhost:8080/PocetniREST/html/ViewSellersByAdmin.html";
 	})												
 	
