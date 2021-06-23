@@ -1,45 +1,26 @@
-<!-- <html>
-<body>
-ADMIN HOME PAGE
-
-<a href="http://localhost:8080/PocetniREST/html/MakeSeller.html">kreiranje prodavca</a><br>
-<a href="http://localhost:8080/PocetniREST/html/ConsumesView.html">pregled korisnika</a><br>
-<a href="http://localhost:8080/PocetniREST/html/CartView.html">pregled karata</a><br>
-<a href="http://localhost:8080/PocetniREST/html/AllAdminsView.html">pregled admina</a><br>
-<a href="http://localhost:8080/PocetniREST/html/AllSellersView.html">pregled kupaca</a><br>
-<a href="http://localhost:8080/PocetniREST/html/MakeManifestation.html">kreiranje manifestacije</a><br>
-<a href="http://localhost:8080/PocetniREST/html/ComentsView.html">odobravanje i pregled komentara</a><br>
-
-</body>
-</html>-->
 <html>
     <head>
     <meta charset="ISO-8859-1">
     
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
         <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
-        <script type="text/javascript" src="..//js/jquery.min.js"></script>
-		<link href="..//js/toastr.min.css" rel="stylesheet"/>
-		<script type="text/javascript" src="..//js/toastr.min.js"></script>
-        <script type="text/javascript" src="..//js/adminStart.js"> </script>
+        <script type="text/javascript" src="../js/jquery.min.js"></script>
+		<link href="../js/toastr.min.css" rel="stylesheet"/>
+		<script type="text/javascript" src="../js/toastr.min.js"></script>
+        <script type="text/javascript" src="../js/salesmanStartUp.js"> </script>
         
-        <link rel="stylesheet" type="text/css" href="..//styles/unregStartUp.css">
-        <link rel="stylesheet" type="text/css" href="..//styles/login.css">
-        <link rel="stylesheet" type="text/css" href="..//styles/signup.css">
-        <link href="..//css/all.css" rel="stylesheet"> <!--load all styles -->
+        <link rel="stylesheet" type="text/css" href="../styles/unregStartUp.css">
+        <link rel="stylesheet" type="text/css" href="../styles/login.css">
+        <link rel="stylesheet" type="text/css" href="../styles/signup.css">
+        <link href="../css/all.css" rel="stylesheet"> <!--load all styles -->
 
     </head>
     <body>
         <div class="header">
-            <a class="active" href="http://localhost:8081/PocetniREST/unregStartUp.html">Home</a>
-            <button type="button" onclick="document.getElementById('id02').style.display='block'" id="signalSignUp"> Make manifestation</button>
-            <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogin" > Sold cards</button>
-           <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogin" > Customers</button>
-           <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogin" > Comments</button>
-           
-           
+            <a class="active" href="http://localhost:8081/PocetniREST/html/salesmanStartUp.html">Home</a>
+            <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogout" > Log Out</button>
             <div class="search-container">
-                
+                <button type="button"  id="accountBtn" >Account<i style="margin-left: 10px" class="fa fa-user" ></i></button>
             </div>
         </div>
         <div class="row">
@@ -53,10 +34,10 @@ ADMIN HOME PAGE
                         	<input type="text" placeholder="Title.." name="title">
                             <input placeholder="From.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="fromdate" />
                             <input placeholder="To.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="todate" />
-                            <input placeholder="Min price" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="minPrice" />
-                            <input placeholder="Max price" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="maxPrice" />
+                            <input placeholder="Min price"  min="1" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="minPrice" />
+                            <input placeholder="Max price"  min="1" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="maxPrice" />
                             <button type="button" onclick="document.getElementById('id03').style.display='block'" class="locationBtn" id="locationBtn"> Location</button>
-                            <button type="submit" class="subbutton" id="searchBtn"><i class="fa fa-search"></i></button>
+                            <button type="button" class="subbutton" id="searchBtn"><i class="fa fa-search"></i></button>
                         </form> 
 
                     </div>
@@ -70,23 +51,22 @@ ADMIN HOME PAGE
                         Filter events
                     </h4>
                     <div class="content" id="filterevents">
-                        <select selector="programTypes" placeholder="Event type">
-                            <option>All Event types</option>
-                            <option>Event type 1</option>
-                            <option>Event type 2</option>
-                            <option>Event type 3</option>
+                        <select selector="programTypes" placeholder="Event type" id="eventTypes" name="eventTypes" class="eventTypes">
                         </select>
                         <input type="checkbox" id="availableTickets" >
-                        <label for="availableTickets">Available tickets</label>
+                        <label for="availableTickets">Only with available tickets</label>
 
-                        <select class="right">
-                            <option>All criteria</option>
-                            <option>Event name</option>
-                            <option>Event date</option>
-                            <option>Event price</option>
-                            <option>Event location</option>
+                        <select class="right" id="mySelect">
+                            <option value='0'>Name ascending</option>
+                            <option value='1'>Name descending</option>
+                            <option value='2'>Date oldest</option>
+                            <option value='3'>Date recent</option>
+                            <option value='4'>Price lowest</option>
+                            <option value='5'>Price highest</option>
+                            <option value='6'>Location ascending</option>
+                            <option value='7'>Location descending</option>
                         </select>
-                        <label class="right">Select order:</label>
+                        <label class="right">Order by:</label>
                     </div>
                     <div class="right"></div>
                 </div>
@@ -98,7 +78,9 @@ ADMIN HOME PAGE
                     <tbody>
                         <tr class="table-header">
                         	<td >Poster</td>
-                            <td class="title">Details</td>
+                          <td class="title">Name</td>
+                          <td class="title">Start date</td>
+                          <td class="title">Ticket price</td>                            
                             <td >Location</td>
                             <td class="eventType">Event type</td>
                             <td class="score">Score</td>
@@ -108,6 +90,69 @@ ADMIN HOME PAGE
                 </table>
             </div>
         </div>
-        
+        <div id="id01" class="modal">
+  
+            <form class="modal-content animate" action="/action_page.php" method="post">
+              <div class="imgcontainer">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Window">&times;</span>
+                <img src="../images/avatar.png" alt="Avatar" class="avatar">
+              </div>
+          
+              <div class="container" name="container">
+                <label for="question"><b>Continue log out?</b></label>
+                  
+                <div class="clearfix">
+                  <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtns" >Cancel</button>
+                  <button type="button" class="signupbtns" id="logoutBtn">Log out</button>
+                </div>
+                
+              </div>
+          
+              <div class="container" style="background-color:transparent">
+                
+              </div>
+            </form>
+          </div>
+
+          
+          <div id="id03" class="modal">
+  
+            <form class="modal-content animate" action="/action_page.php" method="post">
+              
+                <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Window">&times;</span>
+                
+            <div id="map" class="map"></div>
+                        
+            <div>
+			      <input id="lat" type="number" step="0.000001">
+			      <input id="lon" type="number" step="0.000001">			      
+			      <button id="reversegeocoding" type=button name="button">Reverse geocode manually</button>
+                  <button id="resetLocation" type=button name="button">Reset</button>
+                  <br>
+			      <span id="address">
+			
+			      </span>
+			      
+			    </div>        
+			        
+              <div class="container" style="background-color:transparent">
+                
+              </div>
+            </form>
+          </div>
+			<script type="text/javascript">
+			      var map = new ol.Map({
+			        target: 'map',
+			        layers: [
+			          new ol.layer.Tile({
+			            source: new ol.source.OSM()
+			          })
+			        ],
+			        view: new ol.View({
+			          center: ol.proj.fromLonLat([37.41, 8.82]),
+			          zoom: 4
+			        })
+			      });
+			</script>
     </body>
 </html>

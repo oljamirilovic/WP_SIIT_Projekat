@@ -1,5 +1,6 @@
 package services;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -16,11 +17,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+
 import beans.Karta;
 import beans.Kupac;
 import beans.Manifestacija;
 import beans.Prodavac;
 import dao.KartaDAO;
+
 import dao.KupacDAO;
 import dao.ProdavacDAO;
 
@@ -89,6 +92,7 @@ public class ProdavacService {
 	}
 	
 	@POST
+
 	@Path("/add")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces(MediaType.APPLICATION_JSON)
@@ -206,5 +210,28 @@ public class ProdavacService {
 		return u;
 	}
 	
-	
+
+	@Path("/saveProfileChanges")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Prodavac saveProfileChanges(Prodavac user) {
+		Prodavac k = (Prodavac)ctx.getAttribute("currentSalesmen");
+		k.setDatumRodjenja(user.getDatumRodjenja());
+		k.setIme(user.getIme());
+		k.setLozinka(user.getLozinka());
+		k.setPol(user.getPol());
+		k.setPrezime(user.getPrezime());
+		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
+		ctx.setAttribute("currentSalesmen", k); 
+		dao.updateOne(k);
+		ctx.setAttribute("salesmenDAO", dao);
+		try {
+			dao.generateJSON(ctx.getRealPath(""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return k;
+	}
+
 }

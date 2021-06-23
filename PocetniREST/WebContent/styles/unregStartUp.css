@@ -153,18 +153,6 @@ font-size: 0.8125rem;
   margin: 5px 0;
 }
 
-/*.locationRow{
-  background: #2e51a2;
-  border: none;
-  color: white;
-  cursor: pointer;
-  width: 10%;
-  float: right;
-  padding: 12.5px;
-  font-size: 17px;
-  vertical-align: bottom!important;
-  margin: 5px 0;
-}*/
 
 form.advancedSearchForm button:hover {
   opacity: 0.8;
