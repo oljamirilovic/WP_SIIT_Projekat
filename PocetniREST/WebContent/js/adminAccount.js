@@ -1,7 +1,6 @@
-
-var rootURL1 = "../../PocetniREST/rest/customers/getCurrentCustomer";
-var rootURL2 = "../../PocetniREST/rest/customers/saveProfileChanges";
-var rootURL3 = "../../PocetniREST/rest/customers/setCurrentCustomer";
+var rootURL1 = "../../PocetniREST/rest/admins/getCurrentAdmin";
+var rootURL2 = "../../PocetniREST/rest/admins/saveProfileChanges";
+var rootURL3 = "../../PocetniREST/rest/admins/setCurrentAdmin";
 
 findAll();
 
@@ -39,11 +38,6 @@ function renderResult(data){
 
     today = yyyy+'-'+mm+'-'+dd;
     document.getElementById("birthday").setAttribute("max", today);
-
-    $('input[name=cpoints]:text').val(data.sakupljeniBodovi);
-    $('input[name=ctype]:text').val(data.tip.tipKupca);
-    $('input[name=cdiscount]:text').val(data.tip.popust + "%");
-    $('input[name=rpoints]:text').val(data.tip.bodovi);
     
 }
 
@@ -56,7 +50,7 @@ $(document).ready(function(){
 	})
 		
 	$('#accountBtn').click(function(e){
-		window.location.href = "http://localhost:8081/PocetniREST/html/customerAccount.html";
+		window.location.href = "http://localhost:8081/PocetniREST/html/adminAccount.html";
 	})
 	
 	var modal;
@@ -101,7 +95,7 @@ $(document).ready(function(){
             
             $.ajax({
                 type: 'POST',
-                url: rootURL2, //"../PocetniREST/rest/customers/saveProfileChanges";
+                url: rootURL2, //"../PocetniREST/rest/admins/saveProfileChanges";
                 contentType: 'application/json',
                 dataType : "json",
                 data : JSON.stringify(data),
@@ -109,13 +103,13 @@ $(document).ready(function(){
                     
                     $.ajax({
                         type : 'POST',
-                        url : rootURL3, //"../PocetniREST/rest/customers/setCurrentCustomer";
+                        url : rootURL3, //"../PocetniREST/rest/admins/setCurrentCustomer";
                         contentType : 'application/json',
                         dataType : "json",
                         data :  JSON.stringify(result),
                         success :function(){
                             
-                            window.location.href = "http://localhost:8081/PocetniREST/html/customerAccount.html";
+                            window.location.href = "http://localhost:8081/PocetniREST/html/adminAccount.html";
                         },
                         error : function(XMLHttpRequest, textStatus, errorThrown){
                             alert("AJAX ERROR: "+errorThrown);

@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
 import beans.Administrator;
+import beans.Prodavac;
 
 
 public class AdministratorDao {
@@ -52,6 +53,9 @@ public class AdministratorDao {
 		}
 	}
 
+	public void updateOne(Administrator k) {
+		this.administratori.put(k.getKorisnickoIme(), k);
+	}
 
 	public Collection<Administrator> findAll(){
 		return administratori.values();

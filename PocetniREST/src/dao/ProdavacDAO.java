@@ -45,6 +45,11 @@ public class ProdavacDAO {
 		}
 		return null;
 	}
+	
+	public void updateOne(Prodavac k) {
+		this.prodavci.put(k.getKorisnickoIme(), k);
+	}
+	
 	public Collection<Prodavac> findAll(){
 		return prodavci.values();
 	}

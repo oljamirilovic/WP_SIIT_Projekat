@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import beans.Administrator;
 import beans.Prodavac;
 import dao.AdministratorDao;
+import dao.ProdavacDAO;
 
 @Path("/admins")
 public class AdministratorService {
@@ -87,6 +88,30 @@ public class AdministratorService {
 	public Administrator getCurrentAdmin(){
 		Administrator m = (Administrator)ctx.getAttribute("currentAdmin");
 		return m;
+	}
+	
+	@POST
+	@Path("/saveProfileChanges")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Administrator saveProfileChanges(Administrator user) {
+		Administrator k = (Administrator)ctx.getAttribute("currentAdmin");
+		k.setDatumRodjenja(user.getDatumRodjenja());
+		k.setIme(user.getIme());
+		k.setLozinka(user.getLozinka());
+		k.setPol(user.getPol());
+		k.setPrezime(user.getPrezime());
+		AdministratorDao dao = (AdministratorDao) ctx.getAttribute("adminsDAO");
+		ctx.setAttribute("currentAdmin", k); 
+		dao.updateOne(k);
+		ctx.setAttribute("adminsDAO", dao);
+		try {
+			dao.generateJSON(ctx.getRealPath(""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return k;
 	}
 	
 }

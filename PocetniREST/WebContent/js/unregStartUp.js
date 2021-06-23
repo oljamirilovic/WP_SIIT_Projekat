@@ -163,7 +163,7 @@ function renderList(data){
 
 					tr.append('<td class="score ac fs14" style="display:none;"><div><span class="text score-label score-na" ></span>' + preostalo + '</span></div></td>');
 					
-					tr.append('<td class="score ac fs14" style="display:none;"><div><span class="text score-label score-na" ></span>' + event.lokacija.geografskaSirina + ' ' + event.lokacija.geografskaDuzina +  '</span></div></td>');
+					tr.append('<td class="score ac fs14" style="display:none;"><div><span class="text score-label score-na" ></span>' + event.lokacija.ulica + ", " + event.lokacija.broj + ", " + event.lokacija.mesto + ", " + event.lokacija.postanskiBroj +  '</span></div></td>');
 				}
 			}
 
@@ -545,6 +545,17 @@ $(document).ready(function(){
           simpleReverseGeocoding(document.getElementById('lon').value, document.getElementById('lat').value);
         }
       });
+
+	$('#resetLocation').click(function(e){
+		gsirina = 0;//lat
+		gduzina = 0;//lon
+		document.getElementById('lon').value = 0;
+		document.getElementById('lat').value = 0;
+		document.getElementById('address').innerHTML = " ";
+		if(graphic != null){
+			map.removeLayer(graphic);			
+		}
+    })
 	
 	///////////////////////////////////////////////////////SEARCH//////////////////////////////////////////////////////////////////////////////
 	
