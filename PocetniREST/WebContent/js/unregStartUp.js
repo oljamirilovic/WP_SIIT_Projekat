@@ -16,6 +16,7 @@ var rootURL15 = "../PocetniREST/rest/events/getEventTypes";
 
 var beforeFilter = [];
 var afterEventTypeFilter = [];
+var withAvailableTickets = false;
 
 findAll();
 
@@ -585,7 +586,13 @@ $(document).ready(function(){
 					if (td) {
 						txtValue = td.innerText;
 						if (txtValue.toLowerCase().indexOf(title) > -1) {
-							tr[i].style.display = "";
+							td = tr[i].getElementsByTagName("td")[7];
+							txtValue = Number(td.innerText);
+							if(withAvailableTickets && txtValue >= 1){
+								tr[i].style.display = "";
+							}else if(!withAvailableTickets){
+								tr[i].style.display = "";		
+							}
 							addedNow = true;
 						} 
 					}
@@ -602,7 +609,13 @@ $(document).ready(function(){
 							tr[i].style.display = "none";
 						}
 						else if(!added && Date.parse(txtValue) >= Date.parse(fromDate)){
-							tr[i].style.display = "";
+							td = tr[i].getElementsByTagName("td")[7];
+							txtValue = Number(td.innerText);
+							if(withAvailableTickets && txtValue >= 1){
+								tr[i].style.display = "";
+							}else if(!withAvailableTickets){
+								tr[i].style.display = "";		
+							}
 							addedNow = true;
 						}
 					}
@@ -619,7 +632,13 @@ $(document).ready(function(){
 							tr[i].style.display = "none";
 						}
 						else if (!added && Date.parse(txtValue) <= Date.parse(toDate)) {
-							tr[i].style.display = "";
+							td = tr[i].getElementsByTagName("td")[7];
+							txtValue = Number(td.innerText);
+							if(withAvailableTickets && txtValue >= 1){
+								tr[i].style.display = "";
+							}else if(!withAvailableTickets){
+								tr[i].style.display = "";		
+							}
 							addedNow = true;
 						} 
 					}
@@ -636,7 +655,13 @@ $(document).ready(function(){
 							tr[i].style.display = "none";
 						}
 						else if (!added && txtValue >= minPrice) {
-							tr[i].style.display = "";
+							td = tr[i].getElementsByTagName("td")[7];
+							txtValue = Number(td.innerText);
+							if(withAvailableTickets && txtValue >= 1){
+								tr[i].style.display = "";
+							}else if(!withAvailableTickets){
+								tr[i].style.display = "";		
+							}
 							addedNow = true;
 						} 
 					}
@@ -653,7 +678,13 @@ $(document).ready(function(){
 							tr[i].style.display = "none";
 						}
 						else if (!added && txtValue <= maxPrice) {
-							tr[i].style.display = "";
+							td = tr[i].getElementsByTagName("td")[7];
+							txtValue = Number(td.innerText);
+							if(withAvailableTickets && txtValue >= 1){
+								tr[i].style.display = "";
+							}else if(!withAvailableTickets){
+								tr[i].style.display = "";		
+							}
 							addedNow = true;
 						} 
 					}
@@ -671,7 +702,13 @@ $(document).ready(function(){
 							tr[i].style.display = "none";
 						}
 						else if (!added && txtValue.toLowerCase().indexOf(adr.toLowerCase()) > -1) {
-							tr[i].style.display = "";
+							td = tr[i].getElementsByTagName("td")[7];
+							txtValue = Number(td.innerText);
+							if(withAvailableTickets && txtValue >= 1){
+								tr[i].style.display = "";
+							}else if(!withAvailableTickets){
+								tr[i].style.display = "";		
+							}
 							addedNow = true;
 						} 
 					}
@@ -825,8 +862,6 @@ function sortBy(index){
 	filterEventTypes();
 }
 
-
-
 function filterEventTypes(){
 	var e = document.getElementById("eventTypes");
 	var input, filter, table, tr, td, i, txtValue;
@@ -839,16 +874,28 @@ function filterEventTypes(){
 		if(input == "All types"){
 			if(beforeFilter.length > 0){
 				for (i = 1; i < beforeFilter.length; i++) {
-					if(  beforeFilter[i] == ""){
-						tr[i].style.display = "";
+					td = tr[i].getElementsByTagName("td")[7];
+					txtValue = Number(td.innerText);
+					if(  beforeFilter[i] == "" ){
 						afterEventTypeFilter[i] = "";
+						if(withAvailableTickets && txtValue >= 1){
+							tr[i].style.display = "";
+						}else if(!withAvailableTickets){
+							tr[i].style.display = "";
+						}
 					}
 				}
 			}
 			else{
 				for (i = 1; i < tr.length; i++) {
-					tr[i].style.display = "";
-					afterEventTypeFilter[i] = "";					
+					afterEventTypeFilter[i] = "";
+					td = tr[i].getElementsByTagName("td")[7];
+					txtValue = Number(td.innerText);
+					if(withAvailableTickets && txtValue >= 1){
+						tr[i].style.display = "";
+					}else if(!withAvailableTickets){
+						tr[i].style.display = "";			
+					}		
 				}
 			}			
 		}
@@ -861,8 +908,14 @@ function filterEventTypes(){
 					if (td) {
 						txtValue = td.innerText;
 						if (beforeFilter[i] == "" && txtValue.toUpperCase().indexOf(filter) > -1) {
-							tr[i].style.display = "";
 							afterEventTypeFilter[i] = "";
+							td = tr[i].getElementsByTagName("td")[7];
+							txtValue = Number(td.innerText);
+							if(withAvailableTickets && txtValue >= 1){
+								tr[i].style.display = "";
+							}else if(!withAvailableTickets){
+								tr[i].style.display = "";
+							}
 						} else {
 							tr[i].style.display = "none";
 							afterEventTypeFilter[i] = "none";
@@ -875,8 +928,14 @@ function filterEventTypes(){
 					if (td) {
 						txtValue = td.innerText;
 						if (txtValue.toUpperCase().indexOf(filter) > -1) {
-							tr[i].style.display = "";
 							afterEventTypeFilter[i] = "";
+							td = tr[i].getElementsByTagName("td")[7];
+							txtValue = Number(td.innerText);
+							if(withAvailableTickets && txtValue >= 1){
+								tr[i].style.display = "";
+							}else if(!withAvailableTickets){
+								tr[i].style.display = "";
+							}
 						} else {
 							tr[i].style.display = "none";
 							afterEventTypeFilter[i] = "none";
@@ -894,6 +953,7 @@ function filterTicketsLeft(){
 	table = document.getElementById("eventTable");
 	tr = table.getElementsByTagName("tr");
 	if($('#availableTickets').prop('checked')) {
+		withAvailableTickets = true;
 		if(afterEventTypeFilter.length > 0){
 			for (i = 1; i < tr.length; i++) {
 				td = tr[i].getElementsByTagName("td")[7];
@@ -909,6 +969,7 @@ function filterTicketsLeft(){
 		}
 		
 	} else {
+		withAvailableTickets = false;
 		if(afterEventTypeFilter.length > 0){
 			for (i = 1; i < afterEventTypeFilter.length; i++) {
 				if(  afterEventTypeFilter[i] == ""){

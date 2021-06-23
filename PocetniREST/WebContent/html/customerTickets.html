@@ -36,11 +36,10 @@
                     <div class="content" id="eventsearch" >
                         <form action id="send_search" class="advancedSearchForm">
                         	<input type="text" placeholder="Title.." name="title">
-                            <input placeholder="From.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="fromdate" />
-                            <input placeholder="To.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="todate" />
-                            <input placeholder="Min.." class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" id="minPrice" />
-                            <input placeholder="Max.." class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" id="maxPrice" />
-                            <button type="submit" class="subbutton" id="searchBtn"><i class="fa fa-search"></i></button>
+                            <input placeholder="From.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="fromdate" />
+                            <input placeholder="To.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="todate" />
+                            <input placeholder="Min price"  min="1" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="minPrice" />
+                            <input placeholder="Max price"  min="1" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="maxPrice" /><button type="button" class="subbutton" id="searchBtn"><i class="fa fa-search"></i></button>
                         </form> 
 
                     </div>
@@ -54,26 +53,24 @@
                         Filter tickets
                     </h4>
                     <div class="content" id="filterevents">
-                        <select selector="programTypes" placeholder="Event type">
-                            <option>All</option>
-                            <option>VIP</option>
-                            <option>REGULAR</option>
-                            <option>FAN PIT</option>
-                            <option>Reserved</option>
-                            <option>Cancelled</option>
+                        <select selector="programTypes" placeholder="Ticket types" class="ticketTypes" id="ticketTypes" name="ticketTypes">
+                            <option value='0'>All types</option>
+                            <option value='1'>VIP</option>
+                            <option value='2'>REGULAR</option>
+                            <option value='3'>FAN PIT</option>
                         </select>
                         <input type="checkbox" id="reservedTickets" >
-                        <label for="reservedTickets">Reserved tickets</label>
+                        <label for="reservedTickets">Only reserved tickets</label>
 
-                        <select class="right">
-                            <option>Title ascending</option>
-                            <option>Title descending</option>
-                            <option>Price highest</option>
-                            <option>Price lowest</option>
-                            <option>Date oldest</option>
-                            <option>Date recent</option>
+                        <select class="right" id="mySelect">
+                            <option value='0'>Title ascending</option>
+                            <option value='1'>Title descending</option>
+                            <option value='2'>Date oldest</option>
+                            <option value='3'>Date recent</option>
+                            <option value='4'>Price lowest</option>
+                            <option value='5'>Price highest</option>
                         </select>
-                        <label class="right">Select order:</label>
+                        <label class="right">Order by:</label>
                     </div>
                     <div class="right"></div>
                 </div>
