@@ -135,8 +135,10 @@ public class ManifestacijaServices {
 	@Path("/getCurrentEvent")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Manifestacija getCurrentEvent(){
-		Manifestacija m = (Manifestacija)ctx.getAttribute("currentEvent");
-		return m;
+		Manifestacija m = (Manifestacija)ctx.getAttribute("currentEvent"); //TODO vrati na staroooo
+		if(m!=null) {
+		return m;}
+		return ((ManifestacijaDAO)ctx.getAttribute("eventsDAO")).getManifestacije().get("Virtual Big Art Show");
 	}
 	
 	@POST

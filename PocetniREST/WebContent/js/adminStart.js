@@ -1,4 +1,4 @@
-var rootURL1 = "../PocetniREST/rest/events/getEvents";
+var rootURL1 = "../rest/events/getEvents";
 var rootURL2 = "../PocetniREST/rest/customers/searchUsername";
 var rootURL3 = "../PocetniREST/rest/salesmen/searchUsername";
 var rootURL4 = "../PocetniREST/rest/admins/searchUsername";
@@ -368,6 +368,19 @@ $(document).ready(function(){
             modal.style.display = "none";
         }
     }
+	//window.location.href = "http://localhost:8081/PocetniREST/html/adminStartUp.html";
+	$('#admins').click(function(e){
+		window.location.href = "http://localhost:8080/PocetniREST/html/AllAdminsView.html";
+	})	
+	$('#customers').click(function(e){
+		window.location.href = "http://localhost:8080/PocetniREST/html/ViewCustomersByAdmin.html";
+	})	
+	$('#cards').click(function(e){
+		window.location.href = "http://localhost:8080/PocetniREST/html/CartsViewAdmin.html";
+	})	
+	$('#sellers').click(function(e){
+		window.location.href = "http://localhost:8080/PocetniREST/html/ViewSellersByAdmin.html";
+	})												
 	
 })
 

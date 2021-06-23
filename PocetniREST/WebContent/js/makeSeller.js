@@ -51,7 +51,7 @@ $(document).ready(function(){
 							success : function(result){
 								console.log(result);
 								//TODO DODATI DA ISKOCI PROZORCE SA nekim podacima
-								window.location.href = "http://localhost:8080/PocetniREST/AllSellersView.html";
+								window.location.href = "http://localhost:8080/PocetniREST/html/ViewSellersByAdmin.html";
 								},
 							error : function(XMLHttpRequest, textStatus, errorThrown){
 								alert("AJAX ERROR: "+errorThrown);

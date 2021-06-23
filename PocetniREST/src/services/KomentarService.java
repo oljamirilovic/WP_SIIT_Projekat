@@ -77,6 +77,18 @@ public class KomentarService {
 		
 		return us;
 	}
+	@POST
+	@Path("/getCommentsForEventAll")
+	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Komentar> getCommentsForEventAll(String eventName){
+		KomentarDAO dao = (KomentarDAO) ctx.getAttribute("commentsDAO");
+		String s = eventName.substring(7, eventName.length()-2);
+		
+		Collection<Komentar> us = dao.findAllByEvent(s);
+		
+		return us;
+	}
 	
 	@POST
 	@Path("/add")
