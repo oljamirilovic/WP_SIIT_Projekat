@@ -110,14 +110,14 @@ public class KartaService {
 		String id = customerId.substring(7, customerId.length()-2);
 		KartaDAO dao = (KartaDAO) ctx.getAttribute("ticketsDAO");	
 		ArrayList<Karta> karte = (ArrayList<Karta>) dao.searchCancelledByCustomer(id);
-		karte.sort((o1,o2) -> o1.getCancellationDateAsDate().compareTo(o2.getCancellationDateAsDate()));
+		karte.sort((o1,o2) -> LocalDate.parse(o1.getCancellationDate()).compareTo(LocalDate.parse(o2.getCancellationDate())));
 		boolean isSuspicious = false;
 		if(karte.size() > 5) {			
 			for(int i = 0; i < karte.size(); i++) {
 				if((i+5) < karte.size()) {
-					LocalDate dateBefore = karte.get(i).getCancellationDateAsDate();
-					LocalDate dateAfter = karte.get(i+5).getCancellationDateAsDate();
-					if(LocalDate.now().minusDays(30).isBefore(karte.get(i).getCancellationDateAsDate())) {					
+					LocalDate dateBefore = LocalDate.parse(karte.get(i).getCancellationDate());
+					LocalDate dateAfter = LocalDate.parse(karte.get(i+5).getCancellationDate());
+					if(LocalDate.now().minusDays(30).isBefore(dateBefore)) {					
 						long daysBetween = ChronoUnit.DAYS.between(dateBefore, dateAfter);
 						if(daysBetween <= 30) {
 							isSuspicious = true;
@@ -232,6 +232,7 @@ public class KartaService {
 			cena = cena - cena * (kupac.getTip().getPopust()/100);
 			
 			Karta novaKarta = new Karta(ten_lenght, manif.getDatumPocetka(), cena, true, type, false, kupac.getKorisnickoIme(), manif.getNaziv());
+			novaKarta.setCancellationDate("-");
 			dao.addKarta(novaKarta);
 			ctx.setAttribute("ticketsDAO", dao);
 			try {

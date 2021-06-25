@@ -82,7 +82,7 @@ public class Karta {
 		this.cancellationDate = cancellationDate;
 	}
 	
-	public LocalDate getCancellationDateAsDate() {
+	/*public LocalDate getCancellationDateAsDate() {
 		if(cancellationDate != "-") {
 			try {
 				return LocalDate.parse(cancellationDate);
@@ -92,5 +92,5 @@ public class Karta {
 			
 		}
 		return null;
-	}
+	}*/
 }

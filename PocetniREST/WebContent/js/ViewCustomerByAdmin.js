@@ -21,6 +21,7 @@ function findAll() {
 
 function renderResult(data){
     var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	var count = 0;
 
     $.each(list, function(index, customer) {
         var tr = $('<tr class="customer-list" ></tr>');
@@ -34,6 +35,7 @@ function renderResult(data){
 				"id" : customer.korisnickoIme,
 			}),
 			success : function(result){
+				count++;
 				if(result == true){
 					suspicious = true;
 				}
@@ -65,7 +67,12 @@ function renderResult(data){
 
 					$('#customersTable').append(tr);
 				}
-				
+				console.log(count);
+				if(count == list.length){
+					$('div.content select.right option[value="0"]').attr("selected",true);
+					var sel = document.getElementById("mySelect");
+					sortBy(sel.selectedIndex);
+				}
             }				
 		});
 		
@@ -77,7 +84,7 @@ function renderResult(data){
 			beforeFilter[i] = temp[i].style.display;	
 			afterTypeFilter[i] = temp[i].style.display;		
 	}
-
+	
 }
 
 $(document).ready(function(){
