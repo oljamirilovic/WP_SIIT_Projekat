@@ -1,7 +1,9 @@
 <html>
     <head>
     <meta charset="ISO-8859-1">
-    
+    		  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+        <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+        
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
         <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
 <script type="text/javascript" src="../js/jquery.min.js"></script>
@@ -24,6 +26,14 @@
                 
             </div>
         </div>
+         <div class="upperrow">
+            <div class="navbar">
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/salesmanAccount.html">My Profile</a>
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/SellersManifestation.html">My Events</a>
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/CustomersOfSeller.html">My Customers</a>
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/CartView.html">Sold tickets</a>
+            </div>
+        </div> 
         <div class="row">
             <div class="navbar">
                 <div class="advancedSearch">
@@ -38,7 +48,7 @@
                             <input placeholder="Min price" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="minPrice" />
                             <input placeholder="Max price" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="maxPrice" />
                             <button type="button" onclick="document.getElementById('id03').style.display='block'" class="locationBtn" id="locationBtn"> Location</button>
-                            <button type="submit" class="subbutton" id="searchBtn"><i class="fa fa-search"></i></button>
+                            <button type="button" class="subbutton" id="searchBtn"><i class="fa fa-search"></i></button>
                         </form> 
 
                     </div>
@@ -80,7 +90,9 @@
                     <tbody>
                         <tr class="table-header">
                         	<td >Poster</td>
-                            <td class="title">Details</td>
+                          <td class="title">Name</td>
+                          <td class="title">Start date</td>
+                          <td class="title">Ticket price</td>                            
                             <td >Location</td>
                             <td class="eventType">Event type</td>
                             <td class="score">Score</td>
@@ -103,11 +115,13 @@
 			      <input id="lat" type="number" step="0.000001">
 			      <input id="lon" type="number" step="0.000001">			      
 			      <button id="reversegeocoding" type=button name="button">Reverse geocode manually</button>
+            <button id="resetLocation" type=button name="button">Reset</button>
+            <br>
 			      <span id="address">
 			
 			      </span>
 			      
-			    </div>        
+			    </div>  
 			        
               <div class="container" style="background-color:transparent">
                 
