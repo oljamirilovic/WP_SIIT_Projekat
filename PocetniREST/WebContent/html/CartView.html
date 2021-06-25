@@ -2,18 +2,16 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<script type="text/javascript" src="../js/jquery.min.js"></script>
-<link href="../js/toastr.min.css" rel="stylesheet"/>
+        
+        <script type="text/javascript" src="../js/jquery.min.js"></script>
+		<link href="../js/toastr.min.css" rel="stylesheet"/>
 		<script type="text/javascript" src="../js/toastr.min.js"></script>
-        <script type="text/javascript" src="../js/cartView.js"> </script>
-
-<link rel="stylesheet" type="text/css" href="..\\styles\\unregStartUp.css">
-<link rel="stylesheet" type="text/css" href="..\\styles\\login.css">
-<link rel="stylesheet" type="text/css" href="..\\styles\\signup.css">
-<link rel="stylesheet" type="text/css" href="..\\js\\ticketsView.js">
-<link rel="stylesheet" type="text/css" href="..\\styles\\tablestort.css">
-<link rel="stylesheet" type="text/css" href="..\\js\\tablesort.js">
-<link href="../css/all.css" rel="stylesheet"> 
+        <script type="text/javascript" src="../js/SelleerCartView.js"> </script>
+        
+        <link rel="stylesheet" type="text/css" href="../styles/unregStartUp.css">
+        <link rel="stylesheet" type="text/css" href="../styles/login.css">
+        <link rel="stylesheet" type="text/css" href="../styles/signup.css">
+        <link href="../css/all.css" rel="stylesheet"> 
 
 <title>view of cart</title>
 </head>
@@ -31,70 +29,72 @@
 			</form>
 		</div>
 	</div>
-	<div class="row">
-		<div class="navbar">
-			<div class="advancedSearch">
-				<h3 class="title">Search tickets</h3>
-				<div class="content" id="eventsearch">
-					<form action id="send_search" class="advancedSearchForm">
-						<label>From:</label> <input type="date" name="fromDate"
-							id="fromDate"> <label>To:</label> <input type="date"
-							name="toDate" id="toDate"> <input type="number"
-							name="minPrice" id="minPrice" placeholder="Min"> <input
-							type="number" name="maxPrice" id="maxPrice" placeholder="Max">
-						<label>Name of manifestation</label> <input type="text"
-							name="name" id="name">
-						<button type="submit">
-							<i class="fa fa-search"></i>
-						</button>
-					</form>
+	 <div class="upperrow">
+            <div class="navbar">
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/salesmanAccount.html">My Profile</a>
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/SellersManifestation.html">My Events</a>
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/CustomersOfSeller.html">My Customers</a>
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/CartView.html">Sold tickets</a>
+            </div>
+        </div> 
+     <div class="row">
+            <div class="navbar">
+                <div class="advancedSearch">
+                    <h3 class="title">
+                        Search tickets
+                    </h3>
+                    <div class="content" id="eventsearch" >
+                       <form action id="send_search" class="advancedSearchForm">
+                        	<input type="text" placeholder="Title.." name="title">
+                            <input placeholder="From.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="fromdate" />
+                            <input placeholder="To.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="todate" />
+                            <input placeholder="Min price"  min="1" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="minPrice" />
+                            <input placeholder="Max price"  min="1" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="maxPrice" /><button type="button" class="subbutton" id="searchBtn"><i class="fa fa-search"></i></button>
+                        </form> 
 
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="lowerrow">
-		<div class="filterbar">
-			<div class="filter">
-				<h4>Filter tickets</h4>
-				<div class="content" id="filterevents">
-					<select selector="programTypes" placeholder="Event type" name="typeF">
-						<option>All ticket types</option>
-						<option>vip</option>
-						<option>regular</option>
-						<option>fan pit</option>
-					</select> 
-					<label>Status of ticket</label>
-					<select selector="programTypes" placeholder="Event type" name="statusF">
-						<option>All ticket types</option>
-						<option>reserved</option>
-						<option>quit</option>
-						
-					</select> 
-					<input type="checkbox" id="availableTickets"> <label
-						for="availableTickets">Available tickets</label> <select
-						class="right">
-						<option>All criteria</option>
-						<option>Name manifestation</option>
-						<option>Price</option>
-						<option>Date</option>
-						
-					</select> <label class="right">Select order:</label>
-				</div>
-				<div class="right"></div>
-			</div>
-		</div>
-	</div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="lowerrow">
+            <div class="filterbar">
+                <div class="filter">
+                    <h4>
+                        Filter tickets
+                    </h4>
+                    <div class="content" id="filterevents">
+                        <select selector="programTypes" placeholder="Ticket types" class="ticketTypes" id="ticketTypes" name="ticketTypes">
+                            <option value='0'>All types</option>
+                            <option value='1'>VIP</option>
+                            <option value='2'>REGULAR</option>
+                            <option value='3'>FAN PIT</option>
+                        </select>
+                        <input type="checkbox" id="reservedTickets" >
+                        <label for="reservedTickets">Only reserved tickets</label>
+
+                        <select class="right" id="mySelect">
+                            <option value='0'>Title ascending</option>
+                            <option value='1'>Title descending</option>
+                            <option value='2'>Date oldest</option>
+                            <option value='3'>Date recent</option>
+                            <option value='4'>Price lowest</option>
+                            <option value='5'>Price highest</option>
+                        </select>
+                        <label class="right">Order by:</label>
+                    </div>
+                    <div class="right"></div>
+                </div>
+            </div>
+        </div>
 	<div class="lowerrow">
 		<div class="pb12">
-			<table class="table table-sortable" id="allTickets" border-color="grey" cellpaddiong="0"
-				cellspacing="0" width="100%" class="display-table">
+			<table table id="allTickets" border="1" cellpaddiong="0" cellspacing="0" width="100%" class="display-table">
 				<tbody>
 					<tr class="table-header">
 						<td class="title">Title</td>
-						<td class="price">Price</td>
-						<td class="date">Date</td>
-						<td class="typeCart">Type card</td>
+						<td class="title">Price</td>
+						<td class="title">Date</td>
+						<td class="ticketType">Type card</td>
 						<td>Customer</td>
 						<td>Id</td>
 						<td>Status</td><!-- dode jos red da li je izbrisana -->

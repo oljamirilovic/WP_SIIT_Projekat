@@ -5,8 +5,10 @@ var rootURL5 = "../rest/comments/getScore";
 var rootURL7 = "../rest/events/searchEvent";
 var rootURL8 = "../rest/events/setCurrentEvent";
 
-
-
+var beforeFilter = [];
+var afterTicketTypeFilter = [];
+var onlyReservedTickets = false;
+var graphic=null;
 
 
 findAll();
@@ -57,6 +59,15 @@ function showEvent(id){
 		});
 }
 
+function simpleReverseGeocoding(lon, lat) {
+    fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
+      return response.json();
+    }).then(function(json) {
+      //document.getElementById('address').innerHTML = json.display_name;
+      document.getElementById('address').innerHTML = json.address.road +", "+json.address.house_number+", "+json.address.city+", "+json.address.postcode;
+     
+    })
+  }
 
 function renderList(data){
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
@@ -69,15 +80,18 @@ function renderList(data){
 	        var tr = $('<tr class="event-list"></tr>');
 	        var d = new Date();
 	        
-	        tr.append('<td class="ac"><img width="100" height="120" class="lazyloaded" border="0" src="images/' + event.poster + '" alt="' + event.poster + '"></td>');
+	        tr.append('<td class="ac"><img width="100" height="120" class="lazyloaded" border="0" src="../images/' + event.poster + '" alt="' + event.poster + '"></td>');
 	        
-	        tr.append('<td class="title ac va-c word-break"><a style="font-size: 18px" onclick= "showEvent(\''+event.naziv+'\')"  href=\"#\">' + event.naziv + '</a><br>Date: ' + event.datumPocetka + ' ' + event.vremePocetka + '<br>Ticket price: ' + event.cenaKarte +' dollars</td>');
-	        	        
+	        tr.append('<td class="title ac va-c word-break"><a style="font-size: 18px" onclick= "showEvent(\''+event.naziv+'\')"  href=\"#\">' + event.naziv + '</a></td>');
+	        
+			tr.append('<td class="title ac va-c word-break"><a style="font-size:18px">' + event.datumPocetka + ' ' + event.vremePocetka + '</a></td>');
+
+			tr.append('<td class="title ac va-c word-break"><a style="font-size:18px">' + event.cenaKarte + '</a></td>');
+
 	        tr.append('<td class="title ac va-c word-break"><a style="font-size:18px">' + event.lokacija.ulica + " " + event.lokacija.broj + '</a><br>' + event.lokacija.mesto + " " + event.lokacija.postanskiBroj +'</td>');
 	        
 	        tr.append('<td class="score ac fs14"><div><span class="text score-label score-na" ></span>' + event.tipManifestacije + '</span></div></td>');
 	        
-	        //TODO check endTime
 	        if(d > Date.parse(event.datumKraja)){
 	        	var id = event.naziv;
 	        	
@@ -115,3 +129,423 @@ function removeTableContent(){
 		    paras[0].parentNode.removeChild(paras[0]);
 		}
 	}
+
+
+
+
+
+	$(document).ready(function(){
+		var gsirina = 0;
+		var gduzina = 0;
+		
+		map.on('click', function (evt) { 
+			var lonlat  = ol.proj.toLonLat(evt.coordinate).map(function(val) {
+			  return val.toFixed(6);
+			});
+			gsirina = lonlat[1];//lat
+			gduzina = lonlat[0];//lon
+			var lon = document.getElementById('lon').value = lonlat[0];
+			var lat = document.getElementById('lat').value = lonlat[1];
+			
+			simpleReverseGeocoding(document.getElementById('lon').value, document.getElementById('lat').value);
+			
+			var layer = new ol.layer.Vector({
+				source: new ol.source.Vector({
+					features: [
+						new ol.Feature({
+							geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat]))
+						})
+					]
+				})
+			});
+			if(graphic != null){
+				map.removeLayer(graphic);			
+			}
+			graphic = layer;
+			map.addLayer(layer);
+	
+		})
+	
+		
+		document.getElementById('reversegeocoding').addEventListener('click', function(e) {
+			if (document.getElementById('lon').value && document.getElementById('lat').value) {
+			  simpleReverseGeocoding(document.getElementById('lon').value, document.getElementById('lat').value);
+			}
+		  });
+	
+		$('#resetLocation').click(function(e){
+			gsirina = 0;//lat
+			gduzina = 0;//lon
+			document.getElementById('lon').value = 0;
+			document.getElementById('lat').value = 0;
+			document.getElementById('address').innerHTML = " ";
+			if(graphic != null){
+				map.removeLayer(graphic);			
+			}
+		})
+
+	  ///////////////////////////////////////////////////////SEARCH//////////////////////////////////////////////////////////////////////////////
+	
+	  var added = false;
+
+	  $('#searchBtn').click(function(e){
+		  console.log("search")
+		  var title = $('input[name=title]').val().toLowerCase();
+		  var fromDate = $('input[name="fromdate"]').val().toLowerCase();
+		  var toDate = $('input[name=todate]').val().toLowerCase();
+		  var minPrice = Number($('input[name=minPrice]').val().toLowerCase());
+		  var maxPrice = Number($('input[name=maxPrice]').val().toLowerCase());
+  
+		  var table, tr, td, i, txtValue;
+		  table = document.getElementById("eventTable");
+		  tr = table.getElementsByTagName("tr");
+  
+		  if(title!="" || fromDate!="" || toDate!="" || minPrice!=0 || maxPrice!=0 || gsirina!=0 || gduzina!=0 ){
+			  added = false;
+			  for (i = 1; i < tr.length; i++) {
+				  tr[i].style.display = "none";
+			  }		
+  
+			  if(title!="") {
+				  var addedNow = false;
+				  for (i = 1; i < tr.length; i++) {
+					  td = tr[i].getElementsByTagName("td")[1];
+					  if (td) {
+						  txtValue = td.innerText;
+						  if (txtValue.toLowerCase().indexOf(title) > -1) {
+							  tr[i].style.display = "";
+							  addedNow = true;
+						  } 
+					  }
+				  }
+				  added = addedNow;
+			  }
+			  if(fromDate != "" && !(title!="" && !added)){ 
+				  var addedNow = false;
+				  for (i = 1; i < tr.length; i++) {
+					  td = tr[i].getElementsByTagName("td")[2];
+					  if (td) {
+						  txtValue = td.innerText;						 
+						  if(tr[i].style.display == "" && Date.parse(txtValue) < Date.parse(fromDate)){
+							  tr[i].style.display = "none";
+						  }
+						  else if(!added && Date.parse(txtValue) >= Date.parse(fromDate)){
+							  tr[i].style.display = "";
+							  addedNow = true;
+						  }
+					  }
+				  }
+				  added = addedNow;
+			  }
+			  if(toDate != "" && !((title!="" || fromDate!="") && !added)){
+				  var addedNow = false;
+				  for (i = 1; i < tr.length; i++) {
+					  td = tr[i].getElementsByTagName("td")[2];
+					  if (td) {
+						  txtValue = td.innerText;
+						  if(tr[i].style.display == "" && Date.parse(txtValue) > Date.parse(toDate)){
+							  tr[i].style.display = "none";
+						  }
+						  else if (!added && Date.parse(txtValue) <= Date.parse(toDate)) {
+							  tr[i].style.display = "";
+							  addedNow = true;
+						  } 
+					  }
+				  }
+				  added = addedNow;
+			  }
+			  if(minPrice != 0 && !((title!="" || fromDate!="" || toDate!="") && !added)){
+				  var addedNow = false;
+				  for (i = 1; i < tr.length; i++) {
+					  td = tr[i].getElementsByTagName("td")[3];
+					  if (td) {
+						  txtValue = Number(td.innerText.toLowerCase()) ;
+						  if(tr[i].style.display == "" && txtValue < minPrice){
+							  tr[i].style.display = "none";
+						  }
+						  else if (!added && txtValue >= minPrice) {
+							  tr[i].style.display = "";
+							  addedNow = true;
+						  } 
+					  }
+				  }
+				  added = addedNow;
+			  }
+			  if(maxPrice != 0 && !((title!="" || fromDate!="" || toDate!="" || minPrice!=0) && !added)){
+				  var addedNow = false;
+				  for (i = 1; i < tr.length; i++) {
+					  td = tr[i].getElementsByTagName("td")[3];
+					  if (td) {
+						  txtValue = Number(td.innerText.toLowerCase()) ;
+						  if(tr[i].style.display == "" && txtValue > maxPrice){
+							  tr[i].style.display = "none";
+						  }
+						  else if (!added && txtValue <= maxPrice) {
+							  tr[i].style.display = "";
+							  addedNow = true;
+						  } 
+					  }
+				  }
+				  added = addedNow;
+			  }
+			  if(gsirina!=0 && gduzina!=0 && !((title!="" || fromDate!="" || toDate!="" || minPrice!=0 || maxPrice!=0) && !added)){
+				  var addedNow = false;
+				  for (i = 1; i < tr.length; i++) {
+					  td = tr[i].getElementsByTagName("td")[9];
+					  if (td) {
+						  txtValue = td.innerText;
+						  var adr = document.getElementById('address').innerHTML;
+						  if(tr[i].style.display == "" && txtValue.toLowerCase().indexOf(adr.toLowerCase()) <= -1){
+							  tr[i].style.display = "none";
+						  }
+						  else if (!added && txtValue.toLowerCase().indexOf(adr.toLowerCase()) > -1) {
+							  tr[i].style.display = "";
+							  addedNow = true;
+						  } 
+					  }
+				  }
+				  added = addedNow;
+			  }
+		  }
+		  else if(title=="" && fromDate=="" && toDate=="" && minPrice=="" && maxPrice=="" && gsirina=="" && gduzina=="" ){
+			  added = false;
+			  for (i = 1; i < tr.length; i++) {
+				  tr[i].style.display = "";
+			  }
+		  }
+		  var temp = document.getElementById("eventTable").getElementsByTagName("tr");
+		  for (i = 1; i < temp.length; i++) {
+				  beforeFilter[i] = temp[i].style.display;
+				  afterEventTypeFilter[i] = temp[i].style.display;
+		  }
+  
+		  filterEventTypes();
+		  var sel = document.getElementById("mySelect");
+		  sortBy(sel.selectedIndex);
+		  
+	  });
+	  
+	  
+	  ////////////////////////////////////////////////SORT////////////////////////////////////////
+	  $('#mySelect').on('change', function() {
+		  var e = document.getElementById("mySelect");
+		  sortBy(e.selectedIndex);		  
+	  });
+  
+	  ///////////////////////////////////////FILTER EVENT TYPES////////////////////////////////////////////////////////
+	  $('#eventTypes').on('change', function() {
+		  filterEventTypes();
+	  });
+  
+	  ////////////////////////////////////FILTER ONLY TICKETS LEFT///////////////////////////////////////////////////////////
+	  $('#availableTickets').click(function() {
+		  filterTicketsLeft();
+	  });
+	  
+  })
+  
+  function invalidInput(mesg,cont){
+	  var reds = document.getElementsByClassName("red");
+	  
+	  if(reds.length != 0){
+		  for(var k = 0; k < reds.length; k++){
+			  reds[k].parentNode.removeChild(reds[k]);
+		  }								 
+	  }
+		  
+	  var elements = document.getElementsByClassName(cont);
+	  var div = document.createElement('div');
+	  div.className = 'red';
+	  div.textContent = mesg;
+	  div.id = "error";
+	  elements[0].append(div);
+  }
+  
+  function removeTableContent(){
+	  var paras = document.getElementsByClassName("event-list");
+	  
+		  while(paras[0]) {
+			  paras[0].parentNode.removeChild(paras[0]);
+		  }
+  }
+  
+  function simpleReverseGeocoding(lon, lat) {
+	  fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
+		  return response.json();
+	  }).then(function(json) {
+		  //document.getElementById('address').innerHTML = json.display_name;
+		  document.getElementById('address').innerHTML = json.address.road +", "+json.address.house_number+", "+json.address.city+", "+json.address.postcode;
+		  
+	  })
+  }
+  
+  function sortBy(index){
+	  /*var e = document.getElementById("mySelect");*/
+	  var indexSelected = index;
+	  var table, rows, switching, i, x, y, tr, shouldSwitch, dir, n = 0;
+	  if(indexSelected%2 == 0){
+		  dir = "asc";
+	  }	
+	  else{
+		  dir = "desc";
+	  }	
+	  if(indexSelected == 0 || indexSelected == 1){//name
+		  n = 1;
+	  }else if(indexSelected == 2 || indexSelected == 3){//date
+		  n = 2;
+	  }else if(indexSelected == 4 || indexSelected == 5){//price
+		  n = 3;
+	  }else if(indexSelected == 6 || indexSelected == 7){//location
+		  n = 4;
+	  }
+  
+	  table = document.getElementById("eventTable");
+	  tr = table.getElementsByTagName("tr");
+	  var backup = [];
+	  for(var i = 1; i < (tr.length-1); i++){
+		  backup[i] = [tr[i].getElementsByTagName("td")[1], tr[i].style.display];
+	  }
+		  
+	  switching = true;
+	  while (switching) {
+		  switching = false;
+		  //rows = table.rows;
+		  rows = table.getElementsByTagName("tr");
+		  for (i = 1; i < (rows.length-1); i++) {
+		  shouldSwitch = false;		
+		  x = rows[i].getElementsByTagName("TD")[n];
+		  y = rows[i + 1].getElementsByTagName("TD")[n];
+		  var xval = (n==3) ? Number(x.innerText.toLowerCase()) : x.innerText.toLowerCase();
+		  var yval = (n==3) ? Number(y.innerText.toLowerCase()) : y.innerText.toLowerCase();
+		  if (dir == "asc") {				
+			  if (xval > yval) {
+				  shouldSwitch = true;
+				  break;
+			  }				
+		  } else if (dir == "desc") {
+			  if (xval < yval) {
+			  shouldSwitch = true;
+			  break;
+			  }
+		  }
+		  }
+		  if (shouldSwitch) {
+		  rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		  switching = true;
+		  } 
+	  }
+	  for(var i = 1; i < (tr.length); i++){
+		  for (var j = 1; j < backup.length; j++) {
+			  if (backup[j][0] == tr[i].getElementsByTagName("td")[1]) {
+				  tr[i].style.display = backup[j][1];
+				  break;
+			  }
+		  }
+	  }
+  
+	  var temp = document.getElementById("eventTable").getElementsByTagName("tr");
+	  for (i = 1; i < temp.length; i++) {
+			  beforeFilter[i] = temp[i].style.display;
+			  afterEventTypeFilter[i] = temp[i].style.display;
+	  }
+  
+	  filterEventTypes();
+  }
+  
+  function filterEventTypes(){
+	  var e = document.getElementById("eventTypes");
+	  var input, filter, table, tr, td, i, txtValue;
+	  if(e.options.length > 0){
+		  input = e.options[e.selectedIndex].text;
+		  filter = input.toUpperCase();
+		  table = document.getElementById("eventTable");
+		  tr = table.getElementsByTagName("tr");
+  
+		  if(input == "All types"){
+			  if(beforeFilter.length > 0){
+				  for (i = 1; i < beforeFilter.length; i++) {
+					  if(  beforeFilter[i] == ""){
+						  tr[i].style.display = "";
+						  afterEventTypeFilter[i] = "";
+					  }
+				  }
+			  }
+			  else{
+				  for (i = 1; i < tr.length; i++) {
+					  tr[i].style.display = "";
+					  afterEventTypeFilter[i] = "";					
+				  }
+			  }			
+		  }
+  
+		  // Loop through all table rows, and hide those who don't match the search query
+		  else{
+			  if(beforeFilter.length > 0){
+				  for (i = 1; i < (beforeFilter.length); i++) {
+					  td = tr[i].getElementsByTagName("td")[5];
+					  if (td) {
+						  txtValue = td.innerText;
+						  if (beforeFilter[i] == "" && txtValue.toUpperCase().indexOf(filter) > -1) {
+							  tr[i].style.display = "";
+							  afterEventTypeFilter[i] = "";
+						  } else {
+							  tr[i].style.display = "none";
+							  afterEventTypeFilter[i] = "none";
+						  }
+					  }
+				  }
+			  }else{
+				  for (i = 1; i < (tr.length); i++) {
+					  td = tr[i].getElementsByTagName("td")[5];
+					  if (td) {
+						  txtValue = td.innerText;
+						  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+							  tr[i].style.display = "";
+							  afterEventTypeFilter[i] = "";
+						  } else {
+							  tr[i].style.display = "none";
+							  afterEventTypeFilter[i] = "none";
+						  }
+					  }
+				  }
+			  }
+			  
+		  }
+	  }
+  }
+  
+  function filterTicketsLeft(){
+	  var table, tr, td, i, txtValue;
+	  table = document.getElementById("eventTable");
+	  tr = table.getElementsByTagName("tr");
+	  if($('#availableTickets').prop('checked')) {
+		  if(afterEventTypeFilter.length > 0){
+			  for (i = 1; i < tr.length; i++) {
+				  td = tr[i].getElementsByTagName("td")[8];
+				  console.log(td)
+				  if (td) {
+					  txtValue = Number(td.innerText);
+					  if (afterEventTypeFilter[i] == "" && txtValue >= 1) {
+						  tr[i].style.display = "";
+					  } else if(afterEventTypeFilter[i] == "" && txtValue < 1){
+						  tr[i].style.display = "none";
+					  }
+				  }
+			  }
+		  }
+		  
+	  } else {
+		  if(afterEventTypeFilter.length > 0){
+			  for (i = 1; i < afterEventTypeFilter.length; i++) {
+				  if(  afterEventTypeFilter[i] == ""){
+					  tr[i].style.display = "";
+				  }
+			  }
+		  }else{
+			  for (i = 1; i < tr.length; i++) {
+					  tr[i].style.display = "";
+				  
+			  }
+		  }
+	  }
+  }
