@@ -244,6 +244,29 @@ $(document).ready(function(){
 				}
 				added = addedNow;
 			}
+
+			if(firstname!="" && surname!="" && username != ""){
+				var addedNow = false;
+				var td0, td1, txtVal0, txtVal1;
+				for (i = 1; i < tr.length; i++) {
+					td0 = tr[i].getElementsByTagName("td")[0];
+					td1 = tr[i].getElementsByTagName("td")[1];
+					td = tr[i].getElementsByTagName("td")[2];
+					if (td) {
+						txtVal0 = td0.innerText;
+						txtVal1 = td1.innerText;
+						txtValue = td.innerText;
+						if(txtVal0.toLowerCase().indexOf(firstname) <= -1 || txtVal1.toLowerCase().indexOf(surname) <= -1 || txtValue.toLowerCase().indexOf(username) <= -1){
+							tr[i].style.display = "none";
+						}
+						else if (txtVal0.toLowerCase().indexOf(firstname) > -1 && txtVal1.toLowerCase().indexOf(surname) > -1 && txtValue.toLowerCase().indexOf(username) > -1) {
+							tr[i].style.display = "";
+							addedNow = true;
+						} 
+					}
+				}
+				added = addedNow;
+			}
 			
 			
 		}
@@ -253,7 +276,7 @@ $(document).ready(function(){
 				tr[i].style.display = "";
 			}
 		}
-		var temp = document.getElementById("ticketsTable").getElementsByTagName("tr");
+		var temp = document.getElementById("customersTable").getElementsByTagName("tr");
 		for (i = 1; i < temp.length; i++) {
 				beforeFilter[i] = temp[i].style.display;
 				afterTypeFilter[i] = temp[i].style.display;
@@ -279,7 +302,7 @@ $(document).ready(function(){
 })
 
 function sortBy(index){
-	/*var indexSelected = index;
+	var indexSelected = index;
 	var table, rows, switching, i, x, y, tr, shouldSwitch, dir, n = 0;
 	if(indexSelected%2 == 0){
 		dir = "asc";
@@ -288,14 +311,16 @@ function sortBy(index){
 		dir = "desc";
 	}	
 	if(indexSelected == 0 || indexSelected == 1){//name
+		n = 0;
+	}else if(indexSelected == 2 || indexSelected == 3){//surname
 		n = 1;
-	}else if(indexSelected == 2 || indexSelected == 3){//date
+	}else if(indexSelected == 4 || indexSelected == 5){//username
 		n = 2;
-	}else if(indexSelected == 4 || indexSelected == 5){//price
-		n = 3;
+	}else if(indexSelected == 6 || indexSelected == 7){//points
+		n = 4;
 	}
 
-	table = document.getElementById("ticketsTable");
+	table = document.getElementById("customersTable");
 	tr = table.getElementsByTagName("tr");
 	var backup = [];
 	for(var i = 1; i < (tr.length-1); i++){
@@ -311,8 +336,8 @@ function sortBy(index){
 		shouldSwitch = false;		
 		x = rows[i].getElementsByTagName("TD")[n];
 		y = rows[i + 1].getElementsByTagName("TD")[n];
-		var xval = (n==3) ? Number(x.innerText.toLowerCase()) : x.innerText.toLowerCase();
-		var yval = (n==3) ? Number(y.innerText.toLowerCase()) : y.innerText.toLowerCase();
+		var xval = (n==4) ? Number(x.innerText.toLowerCase()) : x.innerText.toLowerCase();
+		var yval = (n==4) ? Number(y.innerText.toLowerCase()) : y.innerText.toLowerCase();
 		if (dir == "asc") {				
 			if (xval > yval) {
 				shouldSwitch = true;
@@ -339,49 +364,37 @@ function sortBy(index){
 		}
 	}
 
-	var temp = document.getElementById("ticketsTable").getElementsByTagName("tr");
+	var temp = document.getElementById("customersTable").getElementsByTagName("tr");
 	for (i = 1; i < temp.length; i++) {
 			beforeFilter[i] = temp[i].style.display;
-			afterTicketTypeFilter[i] = temp[i].style.display;
+			afterTypeFilter[i] = temp[i].style.display;
 	}
 
-	filterTicketTypes();*/
+	filterTypes();
 }
 
 function filterTypes(){
-	/*var e = document.getElementById("ticketTypes");
+	var e = document.getElementById("customerTypes");
 	var input, filter, table, tr, td, i, txtValue;
 	if(e.options.length > 0){
 		input = e.options[e.selectedIndex].text;
 		filter = input.toUpperCase();
-		table = document.getElementById("ticketsTable");
+		table = document.getElementById("customersTable");
 		tr = table.getElementsByTagName("tr");
 
 		if(input == "All types"){
 			if(beforeFilter.length > 0){
 				for (i = 1; i < beforeFilter.length; i++) {
 					if(  beforeFilter[i] == "" ){
-						afterTicketTypeFilter[i] = "";
-						td = tr[i].getElementsByTagName("td")[5];
-						txtValue = td.innerText;							
-						if(onlyReservedTickets && txtValue.toLowerCase().indexOf("reserved") > -1){
-							tr[i].style.display = "";
-						}else if(!onlyReservedTickets){
-							tr[i].style.display = "";
-						}
+						afterTypeFilter[i] = "";
+						tr[i].style.display = "";						
 					}
 				}
 			}
 			else{
 				for (i = 1; i < tr.length; i++) {
-					afterTicketTypeFilter[i] = "";
-					td = tr[i].getElementsByTagName("td")[5];
-					txtValue = td.innerText;							
-					if(onlyReservedTickets && txtValue.toLowerCase().indexOf("reserved") > -1){
-						tr[i].style.display = "";
-					}else if(!onlyReservedTickets){
-						tr[i].style.display = "";
-					}		
+					afterTypeFilter[i] = "";					
+					tr[i].style.display = "";						
 				}
 			}			
 		}
@@ -390,38 +403,28 @@ function filterTypes(){
 		else{
 			if(beforeFilter.length > 0){
 				for (i = 1; i < (beforeFilter.length); i++) {
-					td = tr[i].getElementsByTagName("td")[4];
+					td = tr[i].getElementsByTagName("td")[3];
 					if (td) {
 						txtValue = td.innerText;
 						if (beforeFilter[i] == "" && txtValue.toUpperCase().indexOf(filter) > -1) {
-							afterTicketTypeFilter[i] = "";
-							td = tr[i].getElementsByTagName("td")[5];
-							txtValue = td.innerText;							
-							if(onlyReservedTickets && txtValue.toLowerCase().indexOf("reserved") > -1){
-								tr[i].style.display = "";
-							}else if(!onlyReservedTickets){
-								tr[i].style.display = "";
-							}	
+							afterTypeFilter[i] = "";		
+							tr[i].style.display = "";
+							
 						} else {
 							tr[i].style.display = "none";
-							afterTicketTypeFilter[i] = "none";
+							afterTypeFilter[i] = "none";
 						}
 					}
 				}
 			}else{
 				for (i = 1; i < (tr.length); i++) {
-					td = tr[i].getElementsByTagName("td")[4];
+					td = tr[i].getElementsByTagName("td")[3];
 					if (td) {
 						txtValue = td.innerText;
 						if (txtValue.toUpperCase().indexOf(filter) > -1) {
-							afterTicketTypeFilter[i] = "";
-							td = tr[i].getElementsByTagName("td")[5];
-							txtValue = td.innerText;							
-							if(onlyReservedTickets && txtValue.toLowerCase().indexOf("reserved") > -1){
-								tr[i].style.display = "";
-							}else if(!onlyReservedTickets){
-								tr[i].style.display = "";
-							}
+							afterTypeFilter[i] = "";						
+							tr[i].style.display = "";
+							
 						} else {
 							tr[i].style.display = "none";
 							afterTicketTypeFilter[i] = "none";
@@ -431,5 +434,5 @@ function filterTypes(){
 			}
 			
 		}
-	}*/
+	}
 }
