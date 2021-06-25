@@ -40,8 +40,6 @@ public class ManifestacijaServices {
 			String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("eventsDAO", new ManifestacijaDAO(contextPath)); 
 		}
-		
-		
 	}
 
 	@GET
@@ -49,16 +47,14 @@ public class ManifestacijaServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Manifestacija> getEvents(){
 		ManifestacijaDAO dao = null;
-		Collection<Manifestacija> us = new ArrayList<Manifestacija>();
-		
-			dao= (ManifestacijaDAO) ctx.getAttribute("eventsDAO");
-			us = dao.findAll();
-			if(us == null) {
-				dao = new ManifestacijaDAO(ctx.getRealPath("")); 
-				ctx.setAttribute("eventsDAO", dao);
-			}
-		
-		
+		Collection<Manifestacija> us = new ArrayList<Manifestacija>();		
+		dao= (ManifestacijaDAO) ctx.getAttribute("eventsDAO");
+		us = dao.findAll();
+		if(us == null) {
+			dao = new ManifestacijaDAO(ctx.getRealPath("")); 
+			ctx.setAttribute("eventsDAO", dao);
+		}
+				
 		return us;
 	}
 	

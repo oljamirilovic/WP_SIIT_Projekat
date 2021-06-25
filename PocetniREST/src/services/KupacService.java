@@ -148,43 +148,7 @@ public class KupacService {
 		}
 		return k;
 	}
-	
-	/*@POST
-	@Path("/setCustomerPoints")
-	@Consumes({ MediaType.TEXT_PLAIN,MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public void setCustomerPoints(String p) {
-		String s = p.substring(7, p.length()-2);
-		int points = Integer.parseInt(s);
-		KupacDAO dao = (KupacDAO) ctx.getAttribute("customersDAO");
-		Kupac m = (Kupac)ctx.getAttribute("currentCustomer");
-		int current = m.getSakupljeniBodovi() + points;
-		m.setSakupljeniBodovi(current);
-		if(m.getTip().getBodovi()<=current) {
-			TipKupca tipk = new TipKupca();
-			if(m.getTip().getTipKupca().equals("Bronze")) {
-				tipk.setIme("Silver");
-				tipk.setBodovi(4000);
-				tipk.setPopust(3);
-			}else if(m.getTip().getTipKupca().equals("Silver")) {
-				tipk.setIme("Gold");
-				tipk.setBodovi(4000);
-				tipk.setPopust(5);
-			}
-			m.setTip(tipk);
-		}
-		ctx.setAttribute("currentCustomer", m); 
 		
-		dao.updateOne(m);
-		ctx.setAttribute("customersDAO", dao);
-		
-		try {
-			dao.generateJSON(ctx.getRealPath(""));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
-	
 	@POST
 	@Path("/addTempReservedTicketTypes")
 	@Consumes({ MediaType.TEXT_PLAIN,MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -225,5 +189,59 @@ public class KupacService {
 		m.setTempReservedTypes(new ArrayList<String>());
 		ctx.setAttribute("currentCustomer", m); 
 		
+	}
+	
+	@POST
+	@Path("/undoBlocking")
+	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public void undoBlocking(String username) {
+		String s = username.substring(7, username.length()-2);
+		KupacDAO dao = (KupacDAO) ctx.getAttribute("customersDAO");
+		Kupac k = dao.find(s);
+		k.setBlokiran(false);
+		dao.updateOne(k);
+		ctx.setAttribute("customersDAO", dao);
+		try {
+			dao.generateJSON(ctx.getRealPath(""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+	
+	@POST
+	@Path("/block")
+	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public void block(String username) {
+		String s = username.substring(7, username.length()-2);
+		KupacDAO dao = (KupacDAO) ctx.getAttribute("customersDAO");
+		Kupac k = dao.find(s);
+		k.setBlokiran(true);
+		dao.updateOne(k);
+		ctx.setAttribute("customersDAO", dao);
+		try {
+			dao.generateJSON(ctx.getRealPath(""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+	
+	@POST
+	@Path("/delete")
+	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public void delete(String username) {
+		String s = username.substring(7, username.length()-2);
+		KupacDAO dao = (KupacDAO) ctx.getAttribute("customersDAO");
+		Kupac k = dao.find(s);
+		k.setIzbrisan(true);
+		dao.updateOne(k);
+		ctx.setAttribute("customersDAO", dao);
+		try {
+			dao.generateJSON(ctx.getRealPath(""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 	}
 }

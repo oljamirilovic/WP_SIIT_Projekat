@@ -1,7 +1,6 @@
 package beans;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Karta {
 	private String id;
@@ -11,6 +10,7 @@ public class Karta {
 	private String tipKarte;
 	private boolean izbrisana;
 	private String korisnickoIme, nazivmanifestacije;
+	private String cancellationDate;
 	
 	
 	public Karta( String id, String datum, double cena, boolean status,
@@ -75,6 +75,22 @@ public class Karta {
 	public Karta() {
 		super();
 	}
+	public String getCancellationDate() {
+		return cancellationDate;
+	}
+	public void setCancellationDate(String cancellationDate) {
+		this.cancellationDate = cancellationDate;
+	}
 	
-
+	public LocalDate getCancellationDateAsDate() {
+		if(cancellationDate != "-") {
+			try {
+				return LocalDate.parse(cancellationDate);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+		}
+		return null;
+	}
 }

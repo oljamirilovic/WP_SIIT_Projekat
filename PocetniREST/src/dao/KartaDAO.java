@@ -72,6 +72,16 @@ public class KartaDAO {
 		return ret;
 	}
 	
+	public Collection<Karta> searchCancelledByCustomer(String name){
+		Collection<Karta> ret = new ArrayList<Karta>();
+		for (Karta k : karte.values()) {
+			if(k.getKorisnickoIme().equals(name) && !k.isStatus()) {
+				ret.add(k);
+			}
+		}
+		return ret;
+	}
+	
 	public Collection<Karta> findAll(){
 		return karte.values();
 	}
@@ -109,6 +119,8 @@ public class KartaDAO {
 			jsonGenerator.writeStringField("status", k.isStatus()+"");
 			jsonGenerator.writeStringField("kupac", k.getKorisnickoIme());
 			jsonGenerator.writeStringField("tipKarte", k.getTipKarte());
+			jsonGenerator.writeStringField("datumOtkazana", k.getCancellationDate());
+			
 			jsonGenerator.writeEndObject(); 
 			jsonGenerator.writeEndObject();
 		}
@@ -171,6 +183,8 @@ public class KartaDAO {
 								else if ("tipKarte".equals(nameField)) {
 									karta.setTipKarte(jsonParser.getText());
 
+								}else if("datumOtkazana".equals(nameField)) {
+									karta.setCancellationDate(jsonParser.getText());
 								}
 
 								

@@ -17,11 +17,13 @@ function findAll() {
         dataType : "json",
         success : function(result){                            
             $.ajax({
-                type : 'POST',
-                url : rootURL2,
-                contentType : 'application/json',
-                dataType : "json",
-                data :  JSON.stringify({ "id" : result.korisnickoIme,}),
+				type: 'POST',
+				url: rootURL2, 
+				contentType: 'application/json',
+				dataType : "json",
+				data : JSON.stringify({
+					"id" : result.korisnickoIme,
+				}),
                 success : renderResult
             });
         },
@@ -56,6 +58,8 @@ function renderResult(data){
             date.setDate(date.getDate() + 7);
             if(ticket.status && (Date.parse(ticket.datum) >= date))
                 tr.append('<td class="score ac fs14"><div><span class="text score-label score-na" ><button class="deleteTableRowBtn" onclick="document.getElementById(\'id02\').style.display=\'block\'" id="'+ ticket.id +'" ><i class="far fa-window-close"></i></button></span></div></td>');
+			else
+			tr.append('<td class="score ac fs14"><div><span class="text score-label score-na" ></span></div></td>');
             
             $('#ticketsTable').append(tr);
         }

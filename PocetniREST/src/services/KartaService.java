@@ -1,7 +1,10 @@
 package services;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.time.temporal.ChronoUnit;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -87,6 +90,7 @@ public class KartaService {
 		ten_lenght += id_str;
 		
 		karta.setId(ten_lenght);
+		karta.setCancellationDate("-");
 		
 		dao.addKarta(karta);		
 		ctx.setAttribute("ticketsDAO", dao);
@@ -99,9 +103,37 @@ public class KartaService {
 	}
 	
 	@POST
-	@Path("/cancelReservedTicket")
+	@Path("/checkSuspiciousCustomer")
 	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces(MediaType.APPLICATION_JSON)
+	public boolean checkSuspiciousCustomer(String customerId) {
+		String id = customerId.substring(7, customerId.length()-2);
+		KartaDAO dao = (KartaDAO) ctx.getAttribute("ticketsDAO");	
+		ArrayList<Karta> karte = (ArrayList<Karta>) dao.searchCancelledByCustomer(id);
+		karte.sort((o1,o2) -> o1.getCancellationDateAsDate().compareTo(o2.getCancellationDateAsDate()));
+		boolean isSuspicious = false;
+		if(karte.size() > 5) {			
+			for(int i = 0; i < karte.size(); i++) {
+				if((i+5) < karte.size()) {
+					LocalDate dateBefore = karte.get(i).getCancellationDateAsDate();
+					LocalDate dateAfter = karte.get(i+5).getCancellationDateAsDate();
+					if(LocalDate.now().minusDays(30).isBefore(karte.get(i).getCancellationDateAsDate())) {					
+						long daysBetween = ChronoUnit.DAYS.between(dateBefore, dateAfter);
+						if(daysBetween <= 30) {
+							isSuspicious = true;
+						}
+					}
+				}
+				
+			}
+		}
+		
+		return isSuspicious;
+	}
+	
+	@POST
+	@Path("/cancelReservedTicket")
+	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public void cancelReservedTicket(String ticketId) {
 		KartaDAO dao = (KartaDAO) ctx.getAttribute("ticketsDAO");		
 		String s = ticketId.substring(7, ticketId.length()-2);
@@ -149,6 +181,7 @@ public class KartaService {
 		ctx.setAttribute("eventsDAO", manifdao);
 		
 		k.setStatus(false);
+		k.setCancellationDate(LocalDate.now().toString());
 		dao.updateOne(k);
 		ctx.setAttribute("ticketsDAO", dao);
 		

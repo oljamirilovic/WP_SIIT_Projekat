@@ -276,6 +276,18 @@ tr {
     border-left: #ebebeb 1px solid;
 }
 
+.display-table tr.customer-list td.sus {
+  background-color: lightgrey;
+  vertical-align: middle;
+  border-left: #ebebeb 1px solid;
+}
+
+.display-table tr.customer-list td.notsus {
+  background-color: white;
+  vertical-align: middle;
+  border-left: #ebebeb 1px solid;
+}
+
 .word-break {
     word-break: break-word;
     word-wrap: break-word;
