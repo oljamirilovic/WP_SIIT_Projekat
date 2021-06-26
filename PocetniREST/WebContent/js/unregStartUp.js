@@ -586,20 +586,14 @@ $(document).ready(function(){
 					if (td) {
 						txtValue = td.innerText;
 						if (txtValue.toLowerCase().indexOf(title) > -1) {
-							td = tr[i].getElementsByTagName("td")[7];
-							txtValue = Number(td.innerText);
-							if(withAvailableTickets && txtValue >= 1){
-								tr[i].style.display = "";
-							}else if(!withAvailableTickets){
-								tr[i].style.display = "";		
-							}
+							tr[i].style.display = "";	
 							addedNow = true;
 						} 
 					}
 				}
 				added = addedNow;
 			}
-			if(fromDate != "" && !(title!="" && !added)){
+			if(fromDate != "" ){
 				var addedNow = false;
 				for (i = 1; i < tr.length; i++) {
 					td = tr[i].getElementsByTagName("td")[2];
@@ -608,21 +602,15 @@ $(document).ready(function(){
 						if(tr[i].style.display == "" && Date.parse(txtValue) < Date.parse(fromDate)){
 							tr[i].style.display = "none";
 						}
-						else if(!added && Date.parse(txtValue) >= Date.parse(fromDate)){
-							td = tr[i].getElementsByTagName("td")[7];
-							txtValue = Number(td.innerText);
-							if(withAvailableTickets && txtValue >= 1){
-								tr[i].style.display = "";
-							}else if(!withAvailableTickets){
-								tr[i].style.display = "";		
-							}
+						else if(title=="" && !added && Date.parse(txtValue) >= Date.parse(fromDate)){
+							tr[i].style.display = "";	
 							addedNow = true;
 						}
 					}
 				}
 				added = addedNow;
 			}
-			if(toDate != "" && !((title!="" || fromDate!="") && !added)){
+			if(toDate != "" ){
 				var addedNow = false;
 				for (i = 1; i < tr.length; i++) {
 					td = tr[i].getElementsByTagName("td")[2];
@@ -631,21 +619,15 @@ $(document).ready(function(){
 						if(tr[i].style.display == "" && Date.parse(txtValue) > Date.parse(toDate)){
 							tr[i].style.display = "none";
 						}
-						else if (!added && Date.parse(txtValue) <= Date.parse(toDate)) {
-							td = tr[i].getElementsByTagName("td")[7];
-							txtValue = Number(td.innerText);
-							if(withAvailableTickets && txtValue >= 1){
-								tr[i].style.display = "";
-							}else if(!withAvailableTickets){
-								tr[i].style.display = "";		
-							}
+						else if (title=="" && fromDate == "" && !added && Date.parse(txtValue) <= Date.parse(toDate)) {
+							tr[i].style.display = "";
 							addedNow = true;
 						} 
 					}
 				}
 				added = addedNow;
 			}
-			if(minPrice != 0 && !((title!="" || fromDate!="" || toDate!="") && !added)){
+			if(minPrice != 0){
 				var addedNow = false;
 				for (i = 1; i < tr.length; i++) {
 					td = tr[i].getElementsByTagName("td")[3];
@@ -654,21 +636,15 @@ $(document).ready(function(){
 						if(tr[i].style.display == "" && txtValue < minPrice){
 							tr[i].style.display = "none";
 						}
-						else if (!added && txtValue >= minPrice) {
-							td = tr[i].getElementsByTagName("td")[7];
-							txtValue = Number(td.innerText);
-							if(withAvailableTickets && txtValue >= 1){
-								tr[i].style.display = "";
-							}else if(!withAvailableTickets){
-								tr[i].style.display = "";		
-							}
+						else if ((title=="" && fromDate=="" && toDate=="" && !added) && txtValue >= minPrice) {
+							tr[i].style.display = "";	
 							addedNow = true;
 						} 
 					}
 				}
 				added = addedNow;
 			}
-			if(maxPrice != 0 && !((title!="" || fromDate!="" || toDate!="" || minPrice!=0) && !added)){
+			if(maxPrice != 0 ){
 				var addedNow = false;
 				for (i = 1; i < tr.length; i++) {
 					td = tr[i].getElementsByTagName("td")[3];
@@ -677,21 +653,15 @@ $(document).ready(function(){
 						if(tr[i].style.display == "" && txtValue > maxPrice){
 							tr[i].style.display = "none";
 						}
-						else if (!added && txtValue <= maxPrice) {
-							td = tr[i].getElementsByTagName("td")[7];
-							txtValue = Number(td.innerText);
-							if(withAvailableTickets && txtValue >= 1){
-								tr[i].style.display = "";
-							}else if(!withAvailableTickets){
-								tr[i].style.display = "";		
-							}
+						else if (((title=="" && fromDate=="" && toDate=="" && minPrice==0) && !added) && txtValue <= maxPrice) {
+							tr[i].style.display = "";	
 							addedNow = true;
 						} 
 					}
 				}
 				added = addedNow;
 			}
-			if(gsirina!=0 && gduzina!=0 && !((title!="" || fromDate!="" || toDate!="" || minPrice!=0 || maxPrice!=0) && !added)){
+			if(gsirina!=0 && gduzina!=0){
 				var addedNow = false;
 				for (i = 1; i < tr.length; i++) {
 					td = tr[i].getElementsByTagName("td")[8];
@@ -701,14 +671,8 @@ $(document).ready(function(){
 						if(tr[i].style.display == "" && txtValue.toLowerCase().indexOf(adr.toLowerCase()) <= -1){
 							tr[i].style.display = "none";
 						}
-						else if (!added && txtValue.toLowerCase().indexOf(adr.toLowerCase()) > -1) {
-							td = tr[i].getElementsByTagName("td")[7];
-							txtValue = Number(td.innerText);
-							if(withAvailableTickets && txtValue >= 1){
-								tr[i].style.display = "";
-							}else if(!withAvailableTickets){
-								tr[i].style.display = "";		
-							}
+						else if (((title=="" && fromDate=="" && toDate=="" && minPrice==0 && maxPrice==0) && !added) && txtValue.toLowerCase().indexOf(adr.toLowerCase()) > -1) {
+							tr[i].style.display = "";	
 							addedNow = true;
 						} 
 					}
@@ -716,16 +680,10 @@ $(document).ready(function(){
 				added = addedNow;
 			}
 		}
-		else if(title=="" && fromDate=="" && toDate=="" && minPrice=="" && maxPrice=="" && gsirina=="" && gduzina=="" ){
+		else if(title=="" && fromDate=="" && toDate=="" && minPrice==0 && maxPrice==0 && gsirina==0 && gduzina==0 ){
 			added = false;
 			for (i = 1; i < tr.length; i++) {
-				td = tr[i].getElementsByTagName("td")[7];
-				txtValue = Number(td.innerText);
-				if(withAvailableTickets && txtValue >= 1){
-					tr[i].style.display = "";
-				}else if(!withAvailableTickets){
-					tr[i].style.display = "";		
-				}
+				tr[i].style.display = "";			
 			}
 		}
 		var temp = document.getElementById("eventTable").getElementsByTagName("tr");
@@ -735,6 +693,7 @@ $(document).ready(function(){
 		}
 
 		filterEventTypes();
+		filterTicketsLeft();
 		var sel = document.getElementById("mySelect");
 		sortBy(sel.selectedIndex);
 		
@@ -824,8 +783,8 @@ function sortBy(index){
 		var h = tr[i].getElementsByTagName("TD")[1].innerText.toLowerCase();
 		backup[i] = {name : h, disp: tr[i].style.display};
 		if(afterEventTypeFilter.length > 0){
-		backupAfter[i] = (afterEventTypeFilter[i] == "") ? "" : "none";
-		backupBefore[i] = (beforeFilter[i] == "") ? "" : "none";
+			backupAfter[i] = (afterEventTypeFilter[i] == "") ? "" : "none";
+			backupBefore[i] = (beforeFilter[i] == "") ? "" : "none";
 		}
 	}
 		
@@ -862,21 +821,14 @@ function sortBy(index){
 			if (backup[j].name == tr[i].getElementsByTagName("td")[1].innerText.toLowerCase()) {
 				tr[i].style.display = backup[j].disp;
 				if(afterEventTypeFilter.length > 0){
-				afterEventTypeFilter[i] = backupAfter[j];
-				beforeFilter[i] = backupBefore[j];
+					afterEventTypeFilter[i] = backupAfter[j];
+					beforeFilter[i] = backupBefore[j];
 				}
 				break;
 			}
 		}
 	}
 
-	/*var temp = document.getElementById("eventTable").getElementsByTagName("tr");
-	for (i = 1; i < temp.length; i++) {
-			beforeFilter[i] = temp[i].style.display;
-			afterEventTypeFilter[i] = temp[i].style.display;
-	}*/
-
-	//filterEventTypes();
 }
 
 function filterEventTypes(){
@@ -891,28 +843,19 @@ function filterEventTypes(){
 		if(input == "All types"){
 			if(beforeFilter.length > 0){
 				for (i = 1; i < beforeFilter.length; i++) {
-					td = tr[i].getElementsByTagName("td")[7];
-					txtValue = Number(td.innerText);
 					if(  beforeFilter[i] == "" ){
-						afterEventTypeFilter[i] = "";
-						if(withAvailableTickets && txtValue >= 1){
-							tr[i].style.display = "";
-						}else if(!withAvailableTickets){
-							tr[i].style.display = "";
-						}
+						tr[i].style.display = "";	
+						afterEventTypeFilter[i] = "";					
+					}else if(beforeFilter[i] == "none"){
+						tr[i].style.display = "none";	
+						afterEventTypeFilter[i] = "none";
 					}
 				}
 			}
 			else{
 				for (i = 1; i < tr.length; i++) {
 					afterEventTypeFilter[i] = "";
-					td = tr[i].getElementsByTagName("td")[7];
-					txtValue = Number(td.innerText);
-					if(withAvailableTickets && txtValue >= 1){
-						tr[i].style.display = "";
-					}else if(!withAvailableTickets){
-						tr[i].style.display = "";			
-					}		
+					tr[i].style.display = "";	
 				}
 			}			
 		}
@@ -926,13 +869,8 @@ function filterEventTypes(){
 						txtValue = td.innerText;
 						if (beforeFilter[i] == "" && txtValue.toUpperCase().indexOf(filter) > -1) {
 							afterEventTypeFilter[i] = "";
-							td = tr[i].getElementsByTagName("td")[7];
-							txtValue = Number(td.innerText);
-							if(withAvailableTickets && txtValue >= 1){
-								tr[i].style.display = "";
-							}else if(!withAvailableTickets){
-								tr[i].style.display = "";
-							}
+							tr[i].style.display = "";
+							
 						} else {
 							tr[i].style.display = "none";
 							afterEventTypeFilter[i] = "none";
@@ -946,13 +884,8 @@ function filterEventTypes(){
 						txtValue = td.innerText;
 						if (txtValue.toUpperCase().indexOf(filter) > -1) {
 							afterEventTypeFilter[i] = "";
-							td = tr[i].getElementsByTagName("td")[7];
-							txtValue = Number(td.innerText);
-							if(withAvailableTickets && txtValue >= 1){
-								tr[i].style.display = "";
-							}else if(!withAvailableTickets){
-								tr[i].style.display = "";
-							}
+							tr[i].style.display = "";
+							
 						} else {
 							tr[i].style.display = "none";
 							afterEventTypeFilter[i] = "none";
@@ -963,6 +896,7 @@ function filterEventTypes(){
 			
 		}
 	}
+	filterTicketsLeft();
 }
 
 function filterTicketsLeft(){
@@ -991,6 +925,8 @@ function filterTicketsLeft(){
 			for (i = 1; i < afterEventTypeFilter.length; i++) {
 				if(  afterEventTypeFilter[i] == ""){
 					tr[i].style.display = "";
+				}else if(afterEventTypeFilter[i] == "none"){
+					tr[i].style.display = "none";
 				}
 			}
 		}else{
