@@ -55,11 +55,32 @@ public class ProdavacDAO {
 		return prodavci.values();
 	}
 	public Prodavac addUser(Prodavac user) {
+		//{date=1999-01-01, lastName=zumra, password=, gender=male, name=zumra, username=zumra}
 		if(find(user.getKorisnickoIme()) != null) {
 			return null;
 		}
 		prodavci.put(user.getKorisnickoIme(), user);
 		return user;
+	}
+	public Prodavac addProdavac( HashMap<String,String> user) {
+		//{date=1999-01-01, lastName=zumra, password=, gender=male, name=zumra, username=zumra}
+		
+		if(find(user.get("username")) != null) {
+			return null;
+		}
+		Prodavac p=new Prodavac();
+		p.setDatumRodjenja(user.get("date"));
+		p.setPrezime(user.get("lastName"));
+		p.setLozinka(user.get("password"));
+		if(user.get("gender").equals("male")) {
+		p.setPol("musko");}else {
+			p.setPol("zensko");
+		}
+		p.setIme(user.get("name"));
+		p.setKorisnickoIme("username");
+		prodavci.put(p.getKorisnickoIme(), p);
+		//generateJSON(ContextPath);
+		return p;
 	}
 	public Prodavac find(String korisnickoIme) {
 		if(prodavci.containsKey(korisnickoIme)) {
@@ -148,6 +169,7 @@ public class ProdavacDAO {
 	public Collection<String> nadjiKupce(String username, Collection<Karta> karte) {
 		Prodavac p=this.prodavci.get(username);
 		if(p!=null) {
+			System.out.println(p.getManifestacije()+"jj");
 		Collection<Manifestacija> m=p.getManifestacije();
 		//na sesiji bi trebalo da imamo kolekciju karata
 		//Collection<Karta> karte=new ArrayList<Karta>();
@@ -164,29 +186,55 @@ public class ProdavacDAO {
 		return null;
 	
 	}
-	public Collection<Kupac> nadjiCeleKupce(String username, Collection<Karta>karte, Collection<Kupac> sviKupci){
-		Collection<String> pronadjeniKupci=nadjiKupce(username, karte);
+	private Collection<String> nadjiKupce(Prodavac p, Collection<Karta> karte) {
+		System.out.println(p.getManifestacije()+"jj");
+		Collection<Manifestacija> m=p.getManifestacije();
+		//na sesiji bi trebalo da imamo kolekciju karata
+		//Collection<Karta> karte=new ArrayList<Karta>();
+		
+		ArrayList<String> kupci=new ArrayList<>();
+		for(Manifestacija ma:m) {
+			for(Karta k : karte) {
+				if(k.getNazivmanifestacije().equals(ma.getNaziv())) {
+					kupci.add(k.getKorisnickoIme());
+					
+				}
+			}
+		}
+		return kupci;	
+	}
+
+	public Collection<Kupac> nadjiCeleKupce(Prodavac p, Collection<Karta>karte, Collection<Kupac> sviKupci){
+		Collection<String> pronadjeniKupci=nadjiKupce(p, karte);
 		Collection<Kupac> filtrirano=new ArrayList<Kupac>();
+		HashMap<String,Kupac> svi=new HashMap<String, Kupac>();
 		for(Kupac k: sviKupci) {
 			for(String ime : pronadjeniKupci) {
 				if(ime.equals(k.getKorisnickoIme())) {
-					filtrirano.add(k);
+					//filtrirano.add(k);
+					svi.put(k.getKorisnickoIme(), k);
+					
 				}
 			}
 			
 		}
+		filtrirano=svi.values();
+		System.out.println(filtrirano.size());
+		/*
 		if(filtrirano.size()==0) { //TODO ovo izb posle
 			Kupac k=new Kupac("g","G","g","g","g","g");
 			k.setKarte(new ArrayList<Karta>());
 			k.setTip(new TipKupca());
 			k.getTip().setTipKupca("gl");
 			filtrirano.add(k);
-		}
+		}*/
 		return filtrirano;
 		
 		
 		
 	}
+	
+
 	public Collection<Karta> nadjiKarte(String username,Collection<Karta> karte ) {
 		Prodavac p=this.prodavci.get(username);
 		if(p!=null) {
@@ -216,8 +264,8 @@ public class ProdavacDAO {
 	}
 
 
-	public void obrisi(Prodavac user) {
-		if(this.prodavci.containsKey(user.getKorisnickoIme())){
+	public void obrisi(String user) {
+		if(this.prodavci.containsKey(user)){
 			 this.prodavci.get(user).setIzbrisan(true);
 		 }
 		

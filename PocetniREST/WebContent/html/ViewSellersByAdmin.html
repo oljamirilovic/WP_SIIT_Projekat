@@ -29,49 +29,51 @@
             <button type="button"  id="admins" >All admins</button>
             <button type="button"  id="customers" > All customers</button>
             <button type="button"  id="salesmen" > All salesmen</button>
+            <button type="button"  id="newSalesmen" >Make new salesman</button>
             <div class="search-container">
                 <button type="button"  id="accountBtn" >Account<i style="margin-left: 10px" class="fa fa-user" ></i></button>
             </div>
         </div>
 	<div class="row">
             <div class="navbar">
-                <div class="advancedSearch">
+              <div class="advancedSearch">
                     <h3 class="title">
                         Search people
                     </h3>
                    <div class="content" id="eventsearch" >
                        <form action id="send_search" class="advancedSearchForm">
-                        	<input type="text" placeholder="Name.." name="name">
-                        	<input type="text" placeholder="Last name.." name="lastName">
+                        	<input type="text" placeholder="Name.." name="firstname">
+                        	<input type="text" placeholder="Last name.." name="surname">
                         	<input type="text" placeholder="Username.." name="username">
                         	<button type="button" class="button" id="searchBtn"><i class="fa fa-search"></i></button>
                             </form> 
 
                     </div>
                 </div>
+            </div>
         </div> 
-	<div class="lowerrow">
-		<div class="filterbar">
-			<div class="filter">
-				<h4>Filter events</h4>
-				<div class="content" id="filterevents">
-					</select> <input type="checkbox" id="availablePeople"> <label
-						for="availableTickets">Available people</label> <select
-						class="right">
-						<option>All criteria</option>
-						<option>Name</option>
-						<option>Last name</option>
-						<option>User name</option>
-						
-					</select> <label class="right">Select order:</label>
-				</div>
-				<div class="right"></div>
-			</div>
-		</div>
-	</div>
+	 <div class="lowerrow">
+              <div class="filterbar">
+                  <div class="filter">
+                      
+
+                    <select class="right" id="mySelect">
+                        <option value='0'>Name ascending</option>
+                        <option value='1'>Name descending</option>
+                        <option value='2'>Surname ascending</option>
+                        <option value='3'>Surname descending</option>
+                        <option value='4'>Username ascending</option>
+                        <option value='5'>Username descending</option>
+                       
+                    </select>
+                    <label class="right">Order by:</label>
+                      <div class="right"></div>
+                  </div>
+              </div>
+          </div>
 	<div class="lowerrow">
 		<div class="pb12">
-			<table id="ConsumesTable" border-color="grey" cellpaddiong="0"
+			<table id="customersTable" border-color="grey" cellpaddiong="0"
 				cellspacing="0" width="100%" class="display-table">
 				<tbody>
 					<tr class="table-header">
@@ -79,7 +81,8 @@
 						<td name="LastName">Last name</td>
 						<td name="Username">Username</td>
 						<td name="Birthday">Birthday</td>
-						<td name="NumberOfPoints">Number of manifestation</td>
+						
+						 <td >Delete</td>
 					</tr>
 				</tbody>
 			</table>
@@ -108,5 +111,28 @@
               </div>
             </form>
           </div>
+           <div id="id04" class="modal">
+  
+      <form class="modal-content animate" action="/action_page.php" method="post">
+        <div class="imgcontainer">
+          <span onclick="document.getElementById('id04').style.display='none'" class="close" title="Close Window">&times;</span>
+          <img src="../images/qmark.png" alt="Question" class="avatar">
+        </div>
+    
+        <div class="container" name="container">
+          <label for="question"><b>Are you sure you want to delete customer?</b></label>
+            
+          <div class="clearfix">
+            <button type="button" onclick="document.getElementById('id04').style.display='none'" class="cancelbtns" >No</button>
+            <button type="button" class="signupbtns" id="deleteBtn">Yes</button>
+          </div>
+          
+        </div>
+    
+        <div class="container" style="background-color:transparent">
+          
+        </div>
+      </form>
+    </div>
 </body>
 </html>

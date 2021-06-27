@@ -370,16 +370,16 @@ $(document).ready(function(){
     }
 	//window.location.href = "http://localhost:8081/PocetniREST/html/adminStartUp.html";
 	$('#admins').click(function(e){
-		window.location.href = "http://localhost:8080/PocetniREST/html/AllAdminsView.html";
+		window.location.href = "http://localhost:8081/PocetniREST/html/AllAdminsView.html";
 	})	
 	$('#customers').click(function(e){
-		window.location.href = "http://localhost:8080/PocetniREST/html/ViewCustomersByAdmin.html";
+		window.location.href = "http://localhost:8081/PocetniREST/html/ViewCustomersByAdmin.html";
 	})	
 	$('#tickets').click(function(e){
-		window.location.href = "http://localhost:8080/PocetniREST/html/CartsViewAdmin.html";
+		window.location.href = "http://localhost:8081/PocetniREST/html/CartsViewAdmin.html";
 	})	
 	$('#salesmen').click(function(e){
-		window.location.href = "http://localhost:8080/PocetniREST/html/ViewSellersByAdmin.html";
+		window.location.href = "http://localhost:8081/PocetniREST/html/ViewSellersByAdmin.html";
 	})												
 	
 })

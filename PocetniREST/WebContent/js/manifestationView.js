@@ -43,7 +43,7 @@ $(document).ready(function () {
 				success: function (result) { //proveri da li ovde success znaci !=null
 					console.log(result);
 					if (result != null) {
-						window.location.href = "http://localhost:8080/PocetniREST/pregled.html"; //TODO: Oljin!!!
+						window.location.href = "http://localhost:8081/PocetniREST/pregled.html"; //TODO: Oljin!!!
 					} else {
 						$.ajax({
 							type: 'POST',
@@ -101,7 +101,7 @@ $(document).ready(function () {
 			}),
 			success: function (result) {
 				console.log(result);
-				window.location.href = "http://localhost:8080/PocetniREST/pregled.html"; //TODO: predji na oljinu str??
+				window.location.href = "http://localhost:8081/PocetniREST/pregled.html"; //TODO: predji na oljinu str??
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
 				alert("AJAX ERROR: " + errorThrown);
@@ -161,7 +161,7 @@ $(document).ready(function () {
 					}),
 					success: function (result) { //vrv dodaj i proveru za lokacije i ime!! tj
 						console.log(result);
-						window.location.href = "http://localhost:8080/PocetniREST/pregled.html"; //TODO: predji na oljinu str??
+						window.location.href = "http://localhost:8081/PocetniREST/pregled.html"; //TODO: predji na oljinu str??
 					},
 					error: function (XMLHttpRequest, textStatus, errorThrown) {
 						alert("AJAX ERROR: " + errorThrown);

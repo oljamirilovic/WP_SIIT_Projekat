@@ -81,6 +81,9 @@ $('#admins').click(function(e){
 	$('#salesmen').click(function(e){
 		window.location.href = "http://localhost:8081/PocetniREST/html/ViewSellersByAdmin.html";
 	})	
+	$('#newSalesmen').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/html/MakeSeller.html";
+	})
 
 
 
