@@ -1,7 +1,6 @@
 package services;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -24,7 +23,7 @@ import beans.Kupac;
 import beans.Manifestacija;
 import beans.Prodavac;
 import dao.KartaDAO;
-import dao.ManifestacijaDAO;
+
 import dao.KupacDAO;
 import dao.ProdavacDAO;
 
@@ -47,7 +46,6 @@ public class ProdavacService {
 			ctx.setAttribute("salesmenDAO", new ProdavacDAO(contextPath)); 
 			ctx.setAttribute("KartaDAO", new KartaDAO(contextPath)); 
 			ctx.setAttribute("KupacDAO", new KupacDAO(contextPath)); 
-			ctx.setAttribute("ManifestacijeDAO", new ManifestacijaDAO(contextPath)); 
 		}
 	}
 	
@@ -99,16 +97,7 @@ public class ProdavacService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Prodavac add(HashMap<String,String> user) {
 		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
-		System.out.println("da ovde je");
-		System.out.println(user);
-		Prodavac retVal = dao.addProdavac(user);
-		String contextPath = ctx.getRealPath("");
-		try {
-			dao.generateJSON(contextPath);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Prodavac retVal = dao.addUser(user);
 		ctx.setAttribute("salesmenDAO", dao);
 		return retVal;
 	}
@@ -139,29 +128,11 @@ public class ProdavacService {
 
 	@GET
 	@Path("/manifestacije")
-	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Manifestacija> getManifestacijeOfProdavac() {
-		System.out.println("nnnnn");
-		Prodavac p=(Prodavac)(Prodavac)ctx.getAttribute("currentSalesmen");
-		System.out.println("nnnnn");
-		System.out.println(p);
-		//ManifestacijaDAO mDao=(ManifestacijaDAO)ctx.getAttribute("ManifestacijeDAO");
-		
-		return null;//mDao.findByUsername(m.getUsername());
-	}
-	@GET
-	@Path("/myEvents1")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Manifestacija> getEventsOfProdavac(){//String username) {
-		System.out.println("n");
-		Prodavac p=(Prodavac)(Prodavac)ctx.getAttribute("currentSalesmen");
-		if(p!=null) {
-		ManifestacijaDAO manDAO=(ManifestacijaDAO)ctx.getAttribute("ManifestacijeDAO");
-		ArrayList<Manifestacija> sveMan=(ArrayList<Manifestacija>) manDAO.findByUsername(p.getKorisnickoIme());
-		p.setManifestacije(sveMan);
-		System.out.println("n");
-		return p.getManifestacije();}return null;
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public Collection<Manifestacija> getManifestacijeOfProdavac(String username) {
+		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
+		return dao.find(username).getManifestacije();
 	}
 
 	@GET
@@ -169,7 +140,6 @@ public class ProdavacService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<String> getKupciOfProdavac(){//String username) {
 		System.out.println("n");
-		Prodavac p=(Prodavac)(Prodavac)ctx.getAttribute("currentSalesmen");
 		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
 		KartaDAO dao2=(KartaDAO) ctx.getAttribute("KartaDAO");
 		if(dao2!=null) {
@@ -187,19 +157,13 @@ public class ProdavacService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Kupac> getKupciOdProdavca(){//String username) {
 		System.out.println("n");
-		Prodavac p=(Prodavac)(Prodavac)ctx.getAttribute("currentSalesmen");
 		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
 		KartaDAO dao2=(KartaDAO) ctx.getAttribute("KartaDAO");
 		KupacDAO dao3=(KupacDAO) ctx.getAttribute("KupacDAO");
-		ManifestacijaDAO manDAO=(ManifestacijaDAO)ctx.getAttribute("ManifestacijeDAO");
-		if(p!=null) {
-		ArrayList<Manifestacija> sveMan=(ArrayList<Manifestacija>) manDAO.findByUsername(p.getKorisnickoIme());
-		p.setManifestacije(sveMan);
-		System.out.print("natasa");
-		if(dao2!=null && dao3!=null && p!=null) {
+		if(dao2!=null && dao3!=null) {
 			System.out.print("d");
-			return dao.nadjiCeleKupce(p, dao2.getKarte().values(), dao3.findAll());
-		}System.out.print("f");}//TODO ne ostavljaj ovako
+			return dao.nadjiCeleKupce("pedja", dao2.getKarte().values(), dao3.findAll());
+		}System.out.print("f");//TODO ne ostavljaj ovako
 		return null;
 	}
 	
@@ -233,7 +197,7 @@ public class ProdavacService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public void obrisi(Prodavac prodavac) {
 		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
-		//dao.obrisi(prodavac);
+		dao.obrisi(prodavac);
 	}
 
 	@POST
@@ -247,17 +211,6 @@ public class ProdavacService {
 		System.out.print(dao);
 		Prodavac u = dao.find(username.get("id"));//ovde izadje greska null
 		return u;
-	}
-	
-	@POST
-	@Path("/delete")
-	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	@Produces(MediaType.APPLICATION_JSON)
-	public void delete(HashMap<String, String> username) {
-		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
-		dao.obrisi(username.get("id"));
-		//Prodavac u = dao.find();//ovde izadje greska null
-		
 	}
 	
 	@POST

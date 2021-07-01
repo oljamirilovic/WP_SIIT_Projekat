@@ -52,18 +52,6 @@ public class Lokacija {
 		super();
 	}
 	
-	public Lokacija(double gduzina, double gsirina) {
-		this.geografskaDuzina=gduzina;
-		this.geografskaSirina=gsirina;
-	}
-	public Lokacija(double gduzina, double gsirina, String put, String grad, String code, String br) {
-		this.geografskaDuzina=gduzina;
-		this.geografskaSirina=gsirina;
-		this.ulica=put;
-		this.mesto=grad;
-		this.postanskiBroj=code;
-		this.broj=br;
-	}
 	public String toString() {
 		return ulica + ", " + broj + ", " + mesto + ", " + postanskiBroj;
 	}

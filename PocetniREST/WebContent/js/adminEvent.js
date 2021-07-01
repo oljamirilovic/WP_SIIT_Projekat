@@ -25,12 +25,8 @@ function renderResult(data){
 	var id = event.naziv;
 	
 	$('#title').append('<h3 class="title" style="font-size: 20px; text-align: center;">'+ event.naziv +'</h3>')
-	var checkPoster=event.poster.substr(id.length - 2)
-	if(checkPoster==".jpg"){
-		$('#poster').append('<img width="225" height="319" class="lazyloaded" data-src="../images/' + event.poster + '" src="../images/' + event.poster + '" alt="' + event.poster + '"itemprop="image">');
-	
-	}else{
-	$('#poster').append('<img width="225" height="319"  src="data:image/png;base64,'+event.poster+'" alt="Red dot" >');}
+		
+	$('#poster').append('<img width="225" height="319" class="lazyloaded" data-src="../images/' + event.poster + '" src="../images/' + event.poster + '" alt="' + event.poster + '"itemprop="image">');
 		
 	var d = new Date();//TODO check endTime
 	if(d > Date.parse(event.datumKraja)){
@@ -170,21 +166,6 @@ $(document).ready(function(){
             modal.style.display = "none";
         }
     }
-	$('#admins').click(function(e){
-		window.location.href = "http://localhost:8081/PocetniREST/html/AllAdminsView.html";
-	})	
-	$('#customers').click(function(e){
-		window.location.href = "http://localhost:8081/PocetniREST/html/ViewCustomersByAdmin.html";
-	})	
-	$('#tickets').click(function(e){
-		window.location.href = "http://localhost:8081/PocetniREST/html/CartsViewAdmin.html";
-	})	
-	$('#salesmen').click(function(e){
-		window.location.href = "http://localhost:8081/PocetniREST/html/ViewSellersByAdmin.html";
-	})	
-	$('#newSalesmen').click(function(e){
-		window.location.href = "http://localhost:8081/PocetniREST/html/MakeSeller.html";
-	})
 
     //////////////////////////////////////////////MAP//////////////////////////////////////////////////////////////////
 

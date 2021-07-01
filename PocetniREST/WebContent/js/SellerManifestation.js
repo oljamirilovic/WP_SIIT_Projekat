@@ -1,5 +1,5 @@
-var rootURL1 = "../rest/salesmen/myEvents1";
-var rootURL2 = "../rest/salesmen/getCurrentSalesmen";
+var rootURL1 = "../rest/events/getEvents";
+
 var rootURL5 = "../rest/comments/getScore";
 
 var rootURL7 = "../rest/events/searchEvent";
@@ -9,33 +9,18 @@ var beforeFilter = [];
 var afterTicketTypeFilter = [];
 var onlyReservedTickets = false;
 var graphic=null;
-var seller;
+
 
 findAll();
 
 function findAll() {
-
-	/*$.ajax({
-        type : 'GET',
-        url : rootURL2,
-        dataType : "json",
-        success :  function(result){
-			seller=result;*/
-			$.ajax({
-				type : 'GET',
-				url : rootURL1,
-				contentType : 'application/json',
-                dataType : "json",
-                //data :  JSON.stringify({ "id" : seller.korisnickoIme,}),
-				success :renderList});
-
-
-		//} 
-				//renderList(result.manifestacije);
-   // });
-
-
-	
+	console.log('findAll');
+	$.ajax({
+		type : 'GET',
+		url : rootURL1,
+		dataType : "json",
+		success : renderList
+	});
 }
 
 function showEvent(id){
@@ -58,7 +43,7 @@ function showEvent(id){
 					dataType : "json",
 					data :  JSON.stringify(result),
 					success :function(){
-						window.location.href = "http://localhost:8081/PocetniREST/html/SallesmanEditEvent.html";
+						window.location.href = "http://localhost:8081/PocetniREST/html/unregEvent.html";
 					},
 					error : function(XMLHttpRequest, textStatus, errorThrown){
 						alert("AJAX ERROR: "+errorThrown);

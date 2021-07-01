@@ -1,9 +1,6 @@
 
 var rootURL2 = "../rest/salesmen/getSalesman";
-var rootURL5 = "../../PocetniREST/rest/salesmen/delete";
 
-var beforeFilter = [];
-var afterTypeFilter = [];
 
 findAll();
 
@@ -20,7 +17,7 @@ function findAll() {
 $(document).ready(function(){
 
 $('#addSeller').click(function(e){
-	window.location.href = "http://localhost:8081/PocetniREST/html/MakeSeller.html";
+	window.location.href = "http://localhost:8080/PocetniREST/html/MakeSeller.html";
 })	
 
 });
@@ -38,14 +35,8 @@ function renderList(data){
                              '<td>' + event.datumRodjenja+ '</td>'+
                         
                         +'<td>' + event.manifestacije.length + '</td>' );
-				if(event.izbrisan){
-					tr.append('<td>deleted</td>');
-				}else{
-					tr.append('<td class="score ac fs14" ><div><span class="text score-label score-na" ><button class="deleteTableRowBtn" onclick="document.getElementById(\'id04\').style.display=\'block\'" id="'+ event.korisnickoIme  +'" >Delete</button></span></div></td>');
-
-				}
                         
-                    $('#customersTable').append(tr);
+                    $('#ConsumesTable').append(tr);
         
 	});
 		
@@ -72,15 +63,6 @@ $(document).ready(function(){
 			   modal.style.display = "none";
 		   }
 	   }
-
-	   var deleteId = null;
-
-
-	   $("#customersTable").on('click', '.deleteTableRowBtn', function (){
-        deleteId = $(this).attr('id');
-		modal = document.getElementById('id04');
-	})
-
    
    $('#admins').click(function(e){
 		   window.location.href = "http://localhost:8081/PocetniREST/html/AllAdminsView.html";
@@ -94,288 +76,309 @@ $(document).ready(function(){
 	   $('#salesmen').click(function(e){
 		   window.location.href = "http://localhost:8081/PocetniREST/html/ViewSellersByAdmin.html";
 	   })	
-	   $('#newSalesmen').click(function(e){
-		window.location.href = "http://localhost:8081/PocetniREST/html/MakeSeller.html";
-	})
    
-
-	$('#deleteBtn').click(function(e){
-		$.ajax({
-			type: 'POST',
-			url: rootURL5, 
-			contentType: 'application/json',
-			dataType : "json",
-			data : JSON.stringify({
-				"id" : deleteId,
-			}),
-			success : function(){
-                window.location.href = "http://localhost:8081/PocetniREST/html/ViewSellersByAdmin.html";
-            }				
-		});
-	})
-
    
-///////////////////////////////////////////////////////SEARCH//////////////////////////////////////////////////////////////////////////////
-	
-var added = false;
-
-$('#searchBtn').click(function(e){
-	var firstname = $('input[name=firstname]').val().toLowerCase();
-	var surname = $('input[name="surname"]').val().toLowerCase();
-	var username = $('input[name=username]').val().toLowerCase();
-
-	var table, tr, td, i, txtValue;
-	table = document.getElementById("customersTable");
-	tr = table.getElementsByTagName("tr");
-
-	if(firstname!="" || surname!="" || username!=""){
-		added = false;
-		for (i = 1; i < tr.length; i++) {
-			tr[i].style.display = "none";
-		}		
-
-		if(firstname!="") {
-			var addedNow = false;
-			for (i = 1; i < tr.length; i++) {
-				td = tr[i].getElementsByTagName("td")[0];
-				if (td) {
-					txtValue = td.innerText;
-					if (txtValue.toLowerCase().indexOf(firstname) > -1) {
-						tr[i].style.display = "";
-						addedNow = true;
-					} 
-				}
-			}
-			added = addedNow;
-		}
-		if(surname != "" && !(firstname!="" && !added)){
-			var addedNow = false;
-			for (i = 1; i < tr.length; i++) {
-				td = tr[i].getElementsByTagName("td")[1];
-				if (td) {
-					txtValue = td.innerText;						 
-					if(txtValue.toLowerCase().indexOf(surname) <= -1){
-						tr[i].style.display = "none";
-					}
-					else if(!added && txtValue.toLowerCase().indexOf(surname) > -1){
-						tr[i].style.display = "";
-						addedNow = true;
-					}
-				}
-			}
-			added = addedNow;
-		}
-		if(username != "" && !((firstname!="" || surname!="") && !added)){
-			var addedNow = false;
-			for (i = 1; i < tr.length; i++) {
-				td = tr[i].getElementsByTagName("td")[2];
-				if (td) {
-					txtValue = td.innerText;
-					if(txtValue.toLowerCase().indexOf(username) <= -1){
-						tr[i].style.display = "none";
-					}
-					else if (!added && txtValue.toLowerCase().indexOf(username) > -1) {
-						tr[i].style.display = "";
-						addedNow = true;
-					} 
-				}
-			}
-			added = addedNow;
-		}
-
-		if(firstname!="" && surname!="" && username != ""){
-			var addedNow = false;
-			var td0, td1, txtVal0, txtVal1;
-			for (i = 1; i < tr.length; i++) {
-				td0 = tr[i].getElementsByTagName("td")[0];
-				td1 = tr[i].getElementsByTagName("td")[1];
-				td = tr[i].getElementsByTagName("td")[2];
-				if (td) {
-					txtVal0 = td0.innerText;
-					txtVal1 = td1.innerText;
-					txtValue = td.innerText;
-					if(txtVal0.toLowerCase().indexOf(firstname) <= -1 || txtVal1.toLowerCase().indexOf(surname) <= -1 || txtValue.toLowerCase().indexOf(username) <= -1){
-						tr[i].style.display = "none";
-					}
-					else if (txtVal0.toLowerCase().indexOf(firstname) > -1 && txtVal1.toLowerCase().indexOf(surname) > -1 && txtValue.toLowerCase().indexOf(username) > -1) {
-						tr[i].style.display = "";
-						addedNow = true;
-					} 
-				}
-			}
-			added = addedNow;
-		}
-		
-		
-	}
-	else if(username=="" && firstname=="" && surname==""){
-		added = false;
-		for (i = 1; i < tr.length; i++) {
-			tr[i].style.display = "";
-		}
-	}
-	var temp = document.getElementById("customersTable").getElementsByTagName("tr");
-	for (i = 1; i < temp.length; i++) {
-			beforeFilter[i] = temp[i].style.display;
-			afterTypeFilter[i] = temp[i].style.display;
-	}
-
-	filterTypes();
-	var sel = document.getElementById("mySelect");
-	sortBy(sel.selectedIndex);
-	
-});
-
-
-////////////////////////////////////////////////SORT////////////////////////////////////////
-$('#mySelect').on('change', function() {
-	var e = document.getElementById("mySelect");
-	sortBy(e.selectedIndex);		  
-});
-
-///////////////////////////////////////FILTER TYPES////////////////////////////////////////////////////////
-$('#customerTypes').on('change', function() {
-	filterTypes();
-});
-})
-
-function sortBy(index){
-var indexSelected = index;
-var table, rows, switching, i, x, y, tr, shouldSwitch, dir, n = 0;
-if(indexSelected%2 == 0){
-	dir = "asc";
-}	
-else{
-	dir = "desc";
-}	
-if(indexSelected == 0 || indexSelected == 1){//name
-	n = 0;
-}else if(indexSelected == 2 || indexSelected == 3){//surname
-	n = 1;
-}else if(indexSelected == 4 || indexSelected == 5){//username
-	n = 2;
-}else if(indexSelected == 6 || indexSelected == 7){//points
-	n = 4;
-}
-
-table = document.getElementById("customersTable");
-tr = table.getElementsByTagName("tr");
-var backup = [];
-for(var i = 1; i < (tr.length-1); i++){
-	backup[i] = [tr[i].getElementsByTagName("td")[1], tr[i].style.display];
-}
-	
-switching = true;
-while (switching) {
-	switching = false;
-	//rows = table.rows;
-	rows = table.getElementsByTagName("tr");
-	for (i = 1; i < (rows.length-1); i++) {
-	shouldSwitch = false;		
-	x = rows[i].getElementsByTagName("TD")[n];
-	y = rows[i + 1].getElementsByTagName("TD")[n];
-	var xval = (n==4) ? Number(x.innerText.toLowerCase()) : x.innerText.toLowerCase();
-	var yval = (n==4) ? Number(y.innerText.toLowerCase()) : y.innerText.toLowerCase();
-	if (dir == "asc") {				
-		if (xval > yval) {
-			shouldSwitch = true;
-			break;
-		}				
-	} else if (dir == "desc") {
-		if (xval < yval) {
-		shouldSwitch = true;
-		break;
-		}
-	}
-	}
-	if (shouldSwitch) {
-	rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-	switching = true;
-	} 
-}
-for(var i = 1; i < (tr.length); i++){
-	for (var j = 1; j < backup.length; j++) {
-		if (backup[j][0] == tr[i].getElementsByTagName("td")[1]) {
-			tr[i].style.display = backup[j][1];
-			break;
-		}
-	}
-}
-
-var temp = document.getElementById("customersTable").getElementsByTagName("tr");
-for (i = 1; i < temp.length; i++) {
-		beforeFilter[i] = temp[i].style.display;
-		afterTypeFilter[i] = temp[i].style.display;
-}
-
-filterTypes();
-}
-
-function filterTypes(){
-	/*
-var e = document.getElementById("customerTypes");
-var input, filter, table, tr, td, i, txtValue;
-if(e.options.length > 0){
-	input = e.options[e.selectedIndex].text;
-	filter = input.toUpperCase();
-	table = document.getElementById("customersTable");
-	tr = table.getElementsByTagName("tr");
-
-	if(input == "All types"){
-		if(beforeFilter.length > 0){
-			for (i = 1; i < beforeFilter.length; i++) {
-				if(  beforeFilter[i] == "" ){
-					afterTypeFilter[i] = "";
-					tr[i].style.display = "";						
-				}
-			}
-		}
-		else{
-			for (i = 1; i < tr.length; i++) {
-				afterTypeFilter[i] = "";					
-				tr[i].style.display = "";						
-			}
-		}			
-	}
-
-	// Loop through all table rows, and hide those who don't match the search query
-	else{
-		if(beforeFilter.length > 0){
-			for (i = 1; i < (beforeFilter.length); i++) {
-				td = tr[i].getElementsByTagName("td")[3];
-				if (td) {
-					txtValue = td.innerText;
-					if (beforeFilter[i] == "" && txtValue.toUpperCase().indexOf(filter) > -1) {
-						afterTypeFilter[i] = "";		
-						tr[i].style.display = "";
-						
-					} else {
-						tr[i].style.display = "none";
-						afterTypeFilter[i] = "none";
-					}
-				}
-			}
-		}else{
-			for (i = 1; i < (tr.length); i++) {
-				td = tr[i].getElementsByTagName("td")[3];
-				if (td) {
-					txtValue = td.innerText;
-					if (txtValue.toUpperCase().indexOf(filter) > -1) {
-						afterTypeFilter[i] = "";						
-						tr[i].style.display = "";
-						
-					} else {
-						tr[i].style.display = "none";
-						afterTicketTypeFilter[i] = "none";
-					}
-				}
-			}
-		}
-		
-	}
-}*/
-}
-
+	   var added = false;
+   
+	   $('#searchBtn').click(function(e){
+		   var name = $('input[name=name]').val().toLowerCase();
+		   var lastname = $('input[name=lastName]').val().toLowerCase();
+		   var username = $('input[name=username]').val().toLowerCase();
+		   
+	   
+		   var table, tr, td, i, txtValue;
+		   table = document.getElementById("ConsumesTable");
+		   tr = table.getElementsByTagName("tr");
+	   
+		   if(name!="" || lastname!="" || username!=""  ){
+			   added = false;
+			   for (i = 1; i < tr.length; i++) {
+				   tr[i].style.display = "none";
+			   }		
+	   
+			   if(name!="") {
+				   var addedNow = false;
+				   for (i = 1; i < tr.length; i++) {
+					   td = tr[i].getElementsByTagName("td")[0];
+					   console.log(td)
+					   if (td) {
+						   txtValue = td.innerText;
+						   if (txtValue.toLowerCase().indexOf(name) > -1) {
+							   td = tr[i].getElementsByTagName("td")[2];
+							   txtValue = td.innerText;
+							   
+								   tr[i].style.display = "";		
+							   
+							   addedNow = true;
+						   } 
+					   }
+				   }
+				   added = addedNow;
+			   }
+			   if(lastname!="") {
+				   var addedNow = false;
+				   for (i = 1; i < tr.length; i++) {
+					   td = tr[i].getElementsByTagName("td")[1];
+					   console.log(td)
+					   if (td) {
+						   txtValue = td.innerText;
+						   if (txtValue.toLowerCase().indexOf(lastname) > -1) {
+							   td = tr[i].getElementsByTagName("td")[2];
+							   txtValue = td.innerText;
+							   
+								   tr[i].style.display = "";		
+							   
+							   addedNow = true;
+						   } 
+					   }
+				   }
+				   added = addedNow;
+			   }
+			   if(username!="") {
+				   var addedNow = false;
+				   for (i = 1; i < tr.length; i++) {
+					   td = tr[i].getElementsByTagName("td")[2];
+					   console.log(td)
+					   if (td) {
+						   txtValue = td.innerText;
+						   if (txtValue.toLowerCase().indexOf(username) > -1) {
+							   td = tr[i].getElementsByTagName("td")[2];
+							   txtValue = td.innerText;
+							   
+								   tr[i].style.display = "";		
+							   
+							   addedNow = true;
+						   } 
+					   }
+				   }
+				   added = addedNow;
+			   }
+			   
+			   
+		   }
+		   else if(name=="" && lastname=="" && username=="" ){
+			   added = false;
+			   for (i = 1; i < tr.length; i++) {
+				   tr[i].style.display = "";
+			   }
+		   }
+		   var temp = document.getElementById("ConsumesTable").getElementsByTagName("tr");
+		   for (i = 1; i < temp.length; i++) {
+				   beforeFilter[i] = temp[i].style.display;
+				   afterTicketTypeFilter[i] = temp[i].style.display;
+		   }
+	   
+		   filterTicketTypes();
+		   var sel = document.getElementById("mySelect");
+		   sortBy(sel.selectedIndex);
+		   
+	   });
+	   
+	   
+	   ////////////////////////////////////////////////SORT////////////////////////////////////////
+	   $('#mySelect').on('change', function() {
+		   var e = document.getElementById("mySelect");
+		   sortBy(e.selectedIndex);		  
+	   });
+	   
+	   ///////////////////////////////////////FILTER EVENT TYPES////////////////////////////////////////////////////////
+	   $('#ticketTypes').on('change', function() {
+		   filterTicketTypes();
+	   });
+	   
+	   ////////////////////////////////////FILTER ONLY TICKETS LEFT///////////////////////////////////////////////////////////
+	   $('#reservedTickets').click(function() {
+		   filterTicketsReserved();
+	   });
+	   })
+	   
+	   function sortBy(index){
+	   var indexSelected = index;
+	   var table, rows, switching, i, x, y, tr, shouldSwitch, dir, n = 0;
+	   if(indexSelected%2 == 0){
+		   dir = "asc";
+	   }	
+	   else{
+		   dir = "desc";
+	   }	
+	   if(indexSelected == 0 || indexSelected == 1){//name
+		   n = 1;
+	   }else if(indexSelected == 2 || indexSelected == 3){//date
+		   n = 2;
+	   }else if(indexSelected == 4 || indexSelected == 5){//price
+		   n = 3;
+	   }
+	   
+	   table = document.getElementById("ConsumesTable");
+	   tr = table.getElementsByTagName("tr");
+	   var backup = [];
+	   for(var i = 1; i < (tr.length-1); i++){
+		   backup[i] = [tr[i].getElementsByTagName("td")[1], tr[i].style.display];
+	   }
+		   
+	   switching = true;
+	   while (switching) {
+		   switching = false;
+		   //rows = table.rows;
+		   rows = table.getElementsByTagName("tr");
+		   for (i = 1; i < (rows.length-1); i++) {
+		   shouldSwitch = false;		
+		   x = rows[i].getElementsByTagName("TD")[n];
+		   y = rows[i + 1].getElementsByTagName("TD")[n];
+		   var xval = (n==3) ? Number(x.innerText.toLowerCase()) : x.innerText.toLowerCase();
+		   var yval = (n==3) ? Number(y.innerText.toLowerCase()) : y.innerText.toLowerCase();
+		   if (dir == "asc") {				
+			   if (xval > yval) {
+				   shouldSwitch = true;
+				   break;
+			   }				
+		   } else if (dir == "desc") {
+			   if (xval < yval) {
+			   shouldSwitch = true;
+			   break;
+			   }
+		   }
+		   }
+		   if (shouldSwitch) {
+		   rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		   switching = true;
+		   } 
+	   }
+	   for(var i = 1; i < (tr.length); i++){
+		   for (var j = 1; j < backup.length; j++) {
+			   if (backup[j][0] == tr[i].getElementsByTagName("td")[1]) {
+				   tr[i].style.display = backup[j][1];
+				   break;
+			   }
+		   }
+	   }
+	   
+	   var temp = document.getElementById("ConsumesTable").getElementsByTagName("tr");
+	   for (i = 1; i < temp.length; i++) {
+			   beforeFilter[i] = temp[i].style.display;
+			   afterTicketTypeFilter[i] = temp[i].style.display;
+	   }
+	   
+	   filterTicketTypes();
+	   }
+	   
+	   function filterTicketTypes(){
+	   var e = document.getElementById("ticketTypes");
+	   var input, filter, table, tr, td, i, txtValue;
+	   if(e.options.length > 0){
+		   input = e.options[e.selectedIndex].text;
+		   filter = input.toUpperCase();
+		   table = document.getElementById("ConsumesTable");
+		   tr = table.getElementsByTagName("tr");
+	   
+		   if(input == "All types"){
+			   if(beforeFilter.length > 0){
+				   for (i = 1; i < beforeFilter.length; i++) {
+					   if(  beforeFilter[i] == "" ){
+						   afterTicketTypeFilter[i] = "";
+						   td = tr[i].getElementsByTagName("td")[3];
+						   txtValue = td.innerText;							
+						   
+							   tr[i].style.display = "";
+						   
+					   }
+				   }
+			   }
+			   else{
+				   for (i = 1; i < tr.length; i++) {
+					   afterTicketTypeFilter[i] = "";
+					   td = tr[i].getElementsByTagName("td")[3];
+					   txtValue = td.innerText;							
+					   
+						   tr[i].style.display = "";
+						   
+				   }
+			   }			
+		   }
+	   
+		   // Loop through all table rows, and hide those who don't match the search query
+		   else{
+			   if(beforeFilter.length > 0){
+				   for (i = 1; i < (beforeFilter.length); i++) {
+					   td = tr[i].getElementsByTagName("td")[4];
+					   console.log(td)
+					   console.log("ovo iznad brise")
+					   if (td) {
+						   txtValue = td.innerText;
+						   if (beforeFilter[i] == "" && txtValue.toUpperCase().indexOf(filter) > -1) {
+							   afterTicketTypeFilter[i] = "";
+							   td = tr[i].getElementsByTagName("td")[5];
+							   txtValue = td.innerText;							
+							   
+								   tr[i].style.display = "";
+							   
+						   } else {
+							   tr[i].style.display = "none";
+							   afterTicketTypeFilter[i] = "none";
+						   }
+					   }
+				   }
+			   }else{
+				   for (i = 1; i < (tr.length); i++) {
+					   td = tr[i].getElementsByTagName("td")[4];
+					   if (td) {
+						   txtValue = td.innerText;
+						   if (txtValue.toUpperCase().indexOf(filter) > -1) {
+							   afterTicketTypeFilter[i] = "";
+							   td = tr[i].getElementsByTagName("td")[5];
+							   txtValue = td.innerText;							
+							   
+								   tr[i].style.display = "";
+							   
+						   } else {
+							   tr[i].style.display = "none";
+							   afterTicketTypeFilter[i] = "none";
+						   }
+					   }
+				   }
+			   }
+			   
+		   }
+	   }
+	   }
+	   /*
+	   function filterTicketsReserved(){
+	   var table, tr, td, i, txtValue;
+	   table = document.getElementById("ConsumesTable");
+	   tr = table.getElementsByTagName("tr");
+	   if($('#reservedTickets').prop('checked')) {
+		   onlyReservedTickets = true;
+		   if(afterTicketTypeFilter.length > 0){
+			   for (i = 1; i < tr.length; i++) {
+				   td = tr[i].getElementsByTagName("td")[5];
+				   if (td) {
+					   txtValue = td.innerText;
+					   if (afterTicketTypeFilter[i] == "" && txtValue.toLowerCase().indexOf("reserved") > -1) {
+						   tr[i].style.display = "";
+					   } else if(afterTicketTypeFilter[i] == "" && txtValue.toLowerCase().indexOf("reserved") <= -1){
+						   tr[i].style.display = "none";
+					   }
+				   }
+			   }
+		   }
+		   
+	   } else {
+		   onlyReservedTickets = false;
+		   if(afterTicketTypeFilter.length > 0){
+			   for (i = 1; i < afterTicketTypeFilter.length; i++) {
+				   if(  afterTicketTypeFilter[i] == ""){
+					   tr[i].style.display = "";
+				   }
+			   }
+		   }else{
+			   for (i = 1; i < tr.length; i++) {
+					   tr[i].style.display = "";
+				   
+			   }
+		   }
+	   }
+	   
+	   }*/
 	   
 	   
 	   

@@ -51,7 +51,7 @@ $(document).ready(function(){
 							success : function(result){
 								console.log(result);
 								//TODO DODATI DA ISKOCI PROZORCE SA nekim podacima
-								window.location.href = "http://localhost:8081/PocetniREST/html/ViewSellersByAdmin.html";
+								window.location.href = "http://localhost:8080/PocetniREST/html/ViewSellersByAdmin.html";
 								},
 							error : function(XMLHttpRequest, textStatus, errorThrown){
 								alert("AJAX ERROR: "+errorThrown);
@@ -72,7 +72,7 @@ $(document).ready(function(){
 			})
 		}
 		else if($("input[name=date").val() == null || (Date.parse(strDate) < Date.parse($("input[name=date]").val()))
-		&& d!=null && $("input[name=name]").val() != null
+		&& t!=null && $("input[name=name]").val() != null
 		&& $("input[name=lastName]").val() != null && $("input[name=Username]").val() != null && $("input[name=Password]").val() != null
 		){
 			var d = $('<div></div>');

@@ -6,15 +6,6 @@
 <link href="../js/toastr.min.css" rel="stylesheet"/>
 		<script type="text/javascript" src="../js/toastr.min.js"></script>
         <script type="text/javascript" src="../js/makeManifestation.js"> </script>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
-        <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
-        
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
-        <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
-<script type="text/javascript" src="../js/jquery.min.js"></script>
-        
-        
-        
 
 <link rel="stylesheet" type="text/css" href="..\\styles\\unregStartUp.css">
 <link rel="stylesheet" type="text/css" href="..\\styles\\login.css">
@@ -26,132 +17,46 @@
 <body>
 <!-- TODO proveri heder i izbaci nepotrebno -->
 	<div class="header">
-		<a class="active" href="http://localhost:8081/PocetniREST/html/salesmanStartUp.html">Home</a></div>
+		<a class="active" href="#home">Home</a>
 		
-<div class="lowerrow">
-        <div class="pb12">
-        <div id="content">
-            <table border="0" cellpadding="0" cellspacing="0" width="100%" >
-                <tbody>
-                    <tr>
-                        <td class="borderClass" width="225" style="border-width: 0 1px 0 0;" valign="top">
-                            <div style="width: 225px;" id="leftbar">
-                            <input id="inputFileToLoad" type="file"  />
-						<div id="imgTest"></div>
-                               
-                                
-                            </div>
-                        </td>
-                        <td valign="top" style="padding-left: 5px;">
-                            <div class="js-scrollfix-bottom-rel">
-                                <div style="width: 728px; margin: 0 auto;"></div>
-                                <a name="lower"></a>
-                                <table border="0" cellspacing="0" cellpadding="0" width="100%">
-                                    <tbody>
-                                        <tr>
-                                            <td valign="top">
-                                                <div class="pb16">
-                                                    <div class="di-t w100 mt12">
-                                                        <div class="anime-detail-header-stats di-tc va-t ">
-                                                        
-                                                        	<form class="box profileContent" >
-                                                              <h1>Make manifestation</h1>
-                                                              <hr>
-                                                              <label for="username"><b>Name of manifestation</b></label>
-                                                              <input type="text" name="name" id="name" required>
-                                                        
-                                                        		 <label for="username"><b>Type of manifestation</b></label>
-                                                              <input type="text" name="type" id="type" required>
-                                                              <label for="psw"><b>Number of regular seets</b></label>
-                                                              <input class="textbox-n" type="text" name="SeetsNumber" onfocus="(this.type='number')" onblur="(this.type='text')" id="SeetsNumber" required>
-                                                        
-                                                              <label for="name"><b>Number of fan pit seets</b></label>
-                                                              <input class="textbox-n" type="text" name="FanSeetsNumber" id="FanSeetsNumber" onfocus="(this.type='number')" onblur="(this.type='text')" required>
-                                                              
-                                                              <label for="surname"><b>Number of vip seets</b></label>
-                                                              <input class="textbox-n" type="text" name="VipSeetsNumber" id="VipSeetsNumber" onfocus="(this.type='number')" onblur="(this.type='text')" required>
-                                                              
-                                                              <label for="surname"><b>Price of regular cart</b></label>
-                                                              <input class="textbox-n" type="text" name="price" id="price" onfocus="(this.type='number')" onblur="(this.type='text')" required>
-                                                              
-                                                              <label for="birthday"><b>Date of begining</b></label>
-                                                              <input class="textbox-n"  name="date" id="date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"  required/>
-                                                              
-                                                              <label for="birthday"><b>Date of ending</b></label>
-                                                              <input class="textbox-n"  name="EndDate" id="EndDate" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"  required/>
-                                                             
-                                                             <label for="birthday"><b>Time of beginning</b></label>
-                                                              <input class="textbox-n"  type="time" id="appt" name="appt"  required/>
-                                                            
-                                                            <label for="birthday"><b>Time of ending</b></label>
-                                                              <input   type="time" id="appt1" name="appt1" required/>
-                                                            
-                                                            
-                                                             <br>  <label for="nesto" ><b>Input location by clicking on this button</b></b></label>
-                                                              <br>  <button type="button" onclick="document.getElementById('id03').style.display='block'" class="locationBtn" id="locationBtn"> Location</button>  
-                                                              <br>
-                                                              <br>
-                                                              <br><br>
-                                                              <div >
-                                                                <button type="submit" id="addM" >Save
-															<i class="submit"></i>
-														</button> </div>
-                                                          </form>
+	</div>
+	<div class="row">
+		<div class="navbar">
+			<div class="advancedSearch">
+				<h3 class="title">Add events</h3>
+				<div class="content" id="eventsearch">
+					<form action id="send_info" class="advancedSearchForm">
+						<label style="display: block;">Manifestation name</label> <input type="text" name="name"
+							id="name">
+							 <label style="display: block;">Number of regular seets</label>
+							 <input
+							type="number" name="SeetsNumber" id="SeetsNumber">
+							 <label style="display: block;">Number of fan pit seets</label>
+							 <input
+							type="number" name="FanSeetsNumber" id="FanSeetsNumber">
+							 <label style="display: block;">Number of vip seets</label>
+							 <input
+							type="number" name="VipSeetsNumber" id="VipSeetsNumber">
+							<label style="display: block;">Type</label>
+							<input
+						   type="text" name="type" id="type">
+							<label style="display: block;">Date of begining</label> 
+							<input
+							type="date" name="date" id="date" placeholder="yyyy-MM-dd">
+							<label style="display: block;">Date of ending</label> 
+							<input
+							type="date" name="EndDate" id="EndDate" placeholder="yyyy-MM-dd">
+							<label style="display: block;">Price</label>
+							 <input
+							type="text" name="price" id="price" placeholder="Price">
+						<button type="submit" id="addM">
+							<i class="submit"></i>
+						</button>
+					</form>
 
-                                                      </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
-                	
-                </tbody>
-            </table>
-        </div>
-        </div>
-        </div>
-         <div id="id03" class="modal">
-  
-            <form class="modal-content animate" action="/action_page.php" method="post">
-              
-                <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Window">&times;</span>
-                
-			  <div id="map" class="map"></div>
-			              
-			  <div>
-			      <input id="lat" type="number" step="0.000001">
-			      <input id="lon" type="number" step="0.000001">			      
-			      <button id="reversegeocoding" type=button name="button">Reverse geocode manually</button>
-            <button id="resetLocation" type=button name="button">Reset</button>
-            <br>
-			      <span id="address">
-			
-			      </span>
-			      
-			    </div>  
-			        
-              <div class="container" style="background-color:transparent">
-                
-              </div>
-            </form>
-          </div>
-			<script type="text/javascript">
-			      var map = new ol.Map({
-			        target: 'map',
-			        layers: [
-			          new ol.layer.Tile({
-			            source: new ol.source.OSM()
-			          })
-			        ],
-			        view: new ol.View({
-			          center: ol.proj.fromLonLat([37.41, 8.82]),
-			          zoom: 4
-			        })
-			      });
-			</script>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
