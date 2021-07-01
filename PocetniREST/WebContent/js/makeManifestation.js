@@ -6,13 +6,57 @@ var rootURL1 = "../rest/salesmen/getCurrentSalesmen";
 
 var graphic=null;
 var slikaString='';
-var road=""
-var city=""
-var postcode=""
-var numberHause=""
+var road="";
+var city="";
+var postcode="";
+var numberHause="";
+	
+var dateLimitSet = false;
 
+function setDateLimit(){
+	var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    if(dd<10){
+            dd='0'+dd
+        } 
+        if(mm<10){
+            mm='0'+mm
+        } 
+
+    today = yyyy+'-'+mm+'-'+dd;
+    document.getElementById("startDate").setAttribute("min", today);
+    document.getElementById("EndDate").setAttribute("min", today); 
+    
+    
+}
 
 $(document).ready(function(){
+	
+	if(!dateLimitSet){
+		setDateLimit();
+	}
+	
+	$('#accountBtn').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/html/salesmanAccount.html";
+	})
+	
+	$('#logoutBtn').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/unregStartUp.html";
+	})
+	
+	var modal;
+	
+	$('#signalLogout').click(function(e){
+		modal = document.getElementById('id01');
+	})
+	
+	 window.onclick = function(event) {
+		if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 	
 		var gsirina = 0;
 		var gduzina = 0;
@@ -74,10 +118,10 @@ $(document).ready(function(){
 		var strDate = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
 	
 		//TODOOproveri ovu proveru sa date
-		if($("input[name=date]").val() != null  && $("input[name=EndDate]").val() != null && $("input[name=VipSeetsNumber]").val() != null
+		if($("input[name=startDate]").val() != null  && $("input[name=EndDate]").val() != null && $("input[name=VipSeetsNumber]").val() != null
 				&& d!=null && $("input[name=name]").val() != null && $("input[name=FanSeetsNumber]").val() != null
 				&& $("input[name=price]").val() != null && $("input[name=SeetsNumber]").val() != null  && $("input[name=type]").val() != null){
-					if( (Date.parse(strDate) < Date.parse($("input[name=date]").val())) && Date.parse($("input[name=date]").val())<= Date.parse($("input[name=EndDate]").val()) ){
+					if( (Date.parse(strDate) < Date.parse($("input[name=startDate]").val())) && Date.parse($("input[name=startDate]").val())<= Date.parse($("input[name=EndDate]").val()) ){
 			
 			var id = $("input[name=name]").val();
 			 var username;
@@ -105,7 +149,7 @@ $(document).ready(function(){
 								"naziv": $("input[name=name]").val(),
 								"brojMesta": $("input[name=SeetsNumber]").val(),
 								"cenaKarte": $("input[name=price").val(),
-								"datumVreme": $("input[name=date]").val(),
+								"datumVreme": $("input[name=startDate]").val(),
 								"krajProslave":$("input[name=EndDate]").val(),
 								"tip":$("input[name=type]").val(),
 								"vip":$("input[name=VipSeetsNumber]").val(),
@@ -153,7 +197,7 @@ $(document).ready(function(){
 			
 			})
 		}}
-		else if($("input[name=date]").val() == null || (Date.parse(strDate) < Date.parse($("input[name=date]").val()))
+		else if($("input[name=startDate]").val() == null || (Date.parse(strDate) < Date.parse($("input[name=startDate]").val()))
 		&& d==null && $("input[name=name]").val() == null
 		&& $("input[name=price]").val() == null && $("input[name=SeetsNumber]").val() == null 
 		){

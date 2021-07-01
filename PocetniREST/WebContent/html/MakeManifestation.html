@@ -11,24 +11,38 @@
         
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
         <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
-<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
         
         
         
 
-<link rel="stylesheet" type="text/css" href="..\\styles\\unregStartUp.css">
-<link rel="stylesheet" type="text/css" href="..\\styles\\login.css">
-<link rel="stylesheet" type="text/css" href="..\\styles\\signup.css">
-<link rel="stylesheet" type="text/js" href="..\\js\\makeManifestation.js">
-<link href="../css/all.css" rel="stylesheet"> 
-<title>Make manifestation</title>
-</head>
-<body>
-<!-- TODO proveri heder i izbaci nepotrebno -->
-	<div class="header">
-		<a class="active" href="http://localhost:8081/PocetniREST/html/salesmanStartUp.html">Home</a></div>
+		<link rel="stylesheet" type="text/css" href="../styles/unregStartUp.css">
+        <link rel="stylesheet" type="text/css" href="../styles/login.css">
+        <link rel="stylesheet" type="text/css" href="../styles/signup.css">
+        <link rel="stylesheet" type="text/css" href="../styles/event.css">
+		<link rel="stylesheet" type="text/js" href="../js/makeManifestation.js">
+		<link href="../css/all.css" rel="stylesheet"> 
+		<title>Make manifestation</title>
+	</head>
+	<body>
+		<div class="header">
+            <a class="active" href="http://localhost:8081/PocetniREST/html/salesmanStartUp.html">Home</a>
+            <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogout" > Log Out</button>
+            <div class="search-container">
+                <button type="button"  id="accountBtn" >Account<i style="margin-left: 10px" class="fa fa-user" ></i></button>
+            </div>
+        </div>
+        <div class="upperrow">
+            <div class="navbar">
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/salesmanAccount.html">My Profile</a>
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/SellersManifestation.html">My Events</a>
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/CustomersOfSeller.html">My Customers</a>
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/CartView.html">Sold tickets</a>
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/MakeManifestation.html">Make manifestation</a>
+            </div>
+        </div> 
 		
-<div class="lowerrow">
+		<div class="lowerrow">
         <div class="pb12">
         <div id="content">
             <table border="0" cellpadding="0" cellspacing="0" width="100%" >
@@ -54,48 +68,52 @@
                                                     <div class="di-t w100 mt12">
                                                         <div class="anime-detail-header-stats di-tc va-t ">
                                                         
-                                                        	<form class="box profileContent" >
-                                                              <h1>Make manifestation</h1>
+                                                        	<form class="makemanif" >
+                                                        	  <h1>Make manifestation</h1>
                                                               <hr>
-                                                              <label for="username"><b>Name of manifestation</b></label>
-                                                              <input type="text" name="name" id="name" required>
+                                                              <label for="name"><b>Name</b></label>
+                                                              <input type="text" placeholder="Enter event name..." name="name" id="name" required>
                                                         
-                                                        		 <label for="username"><b>Type of manifestation</b></label>
-                                                              <input type="text" name="type" id="type" required>
-                                                              <label for="psw"><b>Number of regular seets</b></label>
-                                                              <input class="textbox-n" type="text" name="SeetsNumber" onfocus="(this.type='number')" onblur="(this.type='text')" id="SeetsNumber" required>
+                                                        	  <label for="type"><b>Type</b></label>
+                                                              <input type="text" placeholder="Enter event type..." name="type" id="type" required>
+                                                              
+                                                              <label for="SeetsNumber"><b>Regular tickets</b></label>
+                                                              <input class="textbox-n" min="1" type="text" name="SeetsNumber" placeholder="Enter number of regular tickets..." onfocus="(this.type='number')" onblur="(this.type='text')"id="SeetsNumber" required>
                                                         
-                                                              <label for="name"><b>Number of fan pit seets</b></label>
-                                                              <input class="textbox-n" type="text" name="FanSeetsNumber" id="FanSeetsNumber" onfocus="(this.type='number')" onblur="(this.type='text')" required>
+                                                              <label for="FanSeetsNumber"><b>Fan pit tickets</b></label>
+                                                              <input class="textbox-n" min="1" type="text" name="FanSeetsNumber" placeholder="Enter number of fan pit tickets..." id="FanSeetsNumber" onfocus="(this.type='number')" onblur="(this.type='text')" required>
                                                               
-                                                              <label for="surname"><b>Number of vip seets</b></label>
-                                                              <input class="textbox-n" type="text" name="VipSeetsNumber" id="VipSeetsNumber" onfocus="(this.type='number')" onblur="(this.type='text')" required>
+                                                              <label for="VipSeetsNumber"><b>Vip tickets</b></label>
+                                                              <input class="textbox-n" min="1" type="text" name="VipSeetsNumber" placeholder="Enter number of vip tickets..." id="VipSeetsNumber" onfocus="(this.type='number')" onblur="(this.type='text')" required>
                                                               
-                                                              <label for="surname"><b>Price of regular cart</b></label>
-                                                              <input class="textbox-n" type="text" name="price" id="price" onfocus="(this.type='number')" onblur="(this.type='text')" required>
+                                                              <label for="price"><b>Regular ticket price</b></label>
+                                                              <input class="textbox-n" min="1" type="text" name="price" id="price" placeholder="Enter price of a regular ticket..." onfocus="(this.type='number')" onblur="(this.type='text')" required>
                                                               
-                                                              <label for="birthday"><b>Date of begining</b></label>
-                                                              <input class="textbox-n"  name="date" id="date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"  required/>
+                                                              <label for="startDate"><b>Date of beginning</b></label>
+                                                              <input id="startDate" name="startDate" class="startDate textbox-n" min='2021-7-3' placeholder="Enter start date..." type="text" onfocus="(this.type='date')" onblur="(this.type='text', this.min='2021-7-3')"  required/>
                                                               
-                                                              <label for="birthday"><b>Date of ending</b></label>
-                                                              <input class="textbox-n"  name="EndDate" id="EndDate" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"  required/>
+                                                              <label for="EndDate"><b>Date of ending</b></label>
+                                                              <input id="EndDate" name="EndDate" class="textbox-n" min='2021-7-1' placeholder="Enter end date..." type="text" onfocus="(this.type='date')" onblur="(this.type='text', this.min='2021-7-1')"  required/>
                                                              
-                                                             <label for="birthday"><b>Time of beginning</b></label>
+                                                             <label for="appt"><b>Time of beginning</b></label>
                                                               <input class="textbox-n"  type="time" id="appt" name="appt"  required/>
                                                             
-                                                            <label for="birthday"><b>Time of ending</b></label>
+                                                            <label for="appt1"><b>Time of ending</b></label>
                                                               <input   type="time" id="appt1" name="appt1" required/>
                                                             
                                                             
-                                                             <br>  <label for="nesto" ><b>Input location by clicking on this button</b></b></label>
-                                                              <br>  <button type="button" onclick="document.getElementById('id03').style.display='block'" class="locationBtn" id="locationBtn"> Location</button>  
+                                                               <label ><b>Choose location</b></label>
+                                                               <br>
+                                                                <button type="button" onclick="document.getElementById('id03').style.display='block'" class="locationBtn" id="locationBtn"> Location</button>  
+                                                             
+                                                             
+                                                                     
                                                               <br>
                                                               <br>
-                                                              <br><br>
+                                                              <br>
                                                               <div >
-                                                                <button type="submit" id="addM" >Save
-															<i class="submit"></i>
-														</button> </div>
+                                                                <button type="button" class="saveProfile" id="addM">Save</button>
+                                                              </div>
                                                           </form>
 
                                                       </div>
@@ -107,6 +125,7 @@
                                 </table>
                             </div>
                         </td>
+                        
                     </tr>
                 	
                 </tbody>
@@ -114,6 +133,31 @@
         </div>
         </div>
         </div>
+        
+         <div id="id01" class="modal">
+  
+            <form class="modal-content animate" action="/action_page.php" method="post">
+              <div class="imgcontainer">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Window">&times;</span>
+                <img src="../images/avatar.png" alt="Avatar" class="avatar">
+              </div>
+          
+              <div class="container" name="container">
+                <label for="question"><b>Continue log out?</b></label>
+                  
+                <div class="clearfix">
+                  <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtns" >Cancel</button>
+                  <button type="button" class="signupbtns" id="logoutBtn">Log out</button>
+                </div>
+                
+              </div>
+          
+              <div class="container" style="background-color:transparent">
+                
+              </div>
+            </form>
+        </div>
+        
          <div id="id03" class="modal">
   
             <form class="modal-content animate" action="/action_page.php" method="post">

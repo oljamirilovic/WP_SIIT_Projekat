@@ -56,6 +56,15 @@ form.comment input[type=text],form.comment input[type=number] {
     box-sizing: border-box;
   }
   
+form.makemanif input[type=text],form.makemanif input[type=number], form.makemanif input[type=time], form.makemanif input[type=date]  {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
 form.example input[type=text]{
   padding: 10px;
   font-size: 17px;
