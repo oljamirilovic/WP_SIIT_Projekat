@@ -105,6 +105,8 @@
           
                 <label for="psw"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+                <input type="checkbox" onclick="myFunction()">Show Password
+                <br>
                   
                 <button type="button" class="submitLogin" id="loginBtn">Login</button>
                 
@@ -127,7 +129,7 @@
                 <input type="text" placeholder="Enter Username" name="username" required>
           
                 <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="pswrd" required>
+                <input type="password" placeholder="Enter Password" name="pswrd"  id="pswrd" required>
           
                 <label for="name"><b>Name</b></label>
                 <input type="text" placeholder="Enter Name" name="name" required>
@@ -143,6 +145,9 @@
                   <option>Male</option>
                   <option>Female</option>
                 </select>
+                
+                <input type="checkbox" onclick="myFunction2()">Show Password
+                <br>
                                               
                 <div class="clearfix">
                   <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtns" >Cancel</button>

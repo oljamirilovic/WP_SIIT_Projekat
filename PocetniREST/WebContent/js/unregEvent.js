@@ -90,6 +90,24 @@ function renderResult(data){
 	
 }
 
+function myFunction() {
+	var x = document.getElementById("psw");
+	if (x.type === "password") {
+	  x.type = "text";
+	} else {
+	  x.type = "password";
+	}
+}
+
+function myFunction2() {
+	var x = document.getElementById("pswrd");
+	if (x.type === "password") {
+	  x.type = "text";
+	} else {
+	  x.type = "password";
+	}
+}
+
 var graphic = null;
 
 $(document).ready(function(){

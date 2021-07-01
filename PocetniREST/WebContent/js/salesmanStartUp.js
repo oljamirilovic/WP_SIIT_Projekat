@@ -445,8 +445,8 @@ function sortBy(index){
 		var h = tr[i].getElementsByTagName("TD")[1].innerText.toLowerCase();
 		backup[i] = {name : h, disp: tr[i].style.display};
 		if(afterEventTypeFilter.length > 0){
-		backupAfter[i] = (afterEventTypeFilter[i] == "") ? "" : "none";
-		backupBefore[i] = (beforeFilter[i] == "") ? "" : "none";
+			backupAfter[i] = (afterEventTypeFilter[i] == "") ? "" : "none";
+			backupBefore[i] = (beforeFilter[i] == "") ? "" : "none";
 		}
 	}
 		

@@ -46,6 +46,15 @@ padding-bottom: 10px;
 .header a.active:hover {
   background-color: rgb(27, 113, 199);
 }
+
+form.comment input[type=text],form.comment input[type=number] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
   
 form.example input[type=text]{
   padding: 10px;
