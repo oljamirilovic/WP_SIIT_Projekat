@@ -5,6 +5,11 @@ var rootURL1 = "../rest/salesmen/getCurrentSalesmen";
 //TODO datumi,zatim ono da iskoci kada se doda, i popraviti dugmice
 
 var graphic=null;
+var slikaString='';
+var road=""
+var city=""
+var postcode=""
+var numberHause=""
 
 
 $(document).ready(function(){
@@ -93,6 +98,8 @@ $(document).ready(function(){
 						success : function(result1){username=result1.korisnickoIme;console.log(username);
 					console.log(username);
 					if(result==null){
+						console.log(city)
+						console.log(road);
 						let data = { //namesti nov //TODO dodati i oljine atrribute??
 							
 								"naziv": $("input[name=name]").val(),
@@ -107,7 +114,12 @@ $(document).ready(function(){
 								"gduzina":gduzina,
 								"pocetakV":$("input[name=appt]").val(),
 								"pocetakK":$("input[name=appt1]").val(),
-								"user":username
+								"user":username,
+								"slika":slikaString,
+								"road":road,
+ 								"city":city,
+ 								"postcode":postcode,
+								"nu":numberHause
 							};
 						
 						
@@ -150,13 +162,42 @@ $(document).ready(function(){
 			$("body").append(d);
 		}
 	})
+
+
+	$('#inputFileToLoad').on('change', function() {
+		var filesSelected = document.getElementById("inputFileToLoad").files;
+    if (filesSelected.length > 0) {
+      var fileToLoad = filesSelected[0];
+
+      var fileReader = new FileReader();
+
+      fileReader.onload = function(fileLoadedEvent) {
+        var srcData = fileLoadedEvent.target.result; // <--- data: base64
+
+        var newImage = document.createElement('img');
+        newImage.src = srcData;
+
+        document.getElementById("imgTest").innerHTML = newImage.outerHTML;
+        //alert("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);
+        console.log("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);
+		slikaString=document.getElementById("imgTest").innerHTML;
+      }
+      fileReader.readAsDataURL(fileToLoad);
+    }
+			  
+	});
 })
+
 
 function simpleReverseGeocoding(lon, lat) {
     fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
       return response.json();
     }).then(function(json) {
       //document.getElementById('address').innerHTML = json.display_name;
+	  road=json.address.road
+	  numberHause=json.address.house_number
+	  city=json.address.city
+	  post=json.address.postcode
       document.getElementById('address').innerHTML = json.address.road +", "+json.address.house_number+", "+json.address.city+", "+json.address.postcode;
      
     })

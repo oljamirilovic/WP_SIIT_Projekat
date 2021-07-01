@@ -183,7 +183,12 @@ public class Manifestacija {
 		this.prodavac=event1.get("user");
 		this.status=false;
 		this.izbrisana=false;
-		this.setLokacija(new Lokacija(gduzina, gsirina));
+		if(event1.containsKey("slika")) {
+			if(!event1.get("slika").equals("")) {
+		this.poster=event1.get("slika").split("base64,")[1];
+		this.poster=this.poster.substring(0, this.poster.length()-2);
+		System.out.println(this.poster);}}
+		this.setLokacija(new Lokacija(gduzina, gsirina, event1.get("road"),event1.get("city"),event1.get("postcode"),event1.get("nu")));
 	}
 
 

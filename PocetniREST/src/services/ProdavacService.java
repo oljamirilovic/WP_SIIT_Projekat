@@ -102,6 +102,13 @@ public class ProdavacService {
 		System.out.println("da ovde je");
 		System.out.println(user);
 		Prodavac retVal = dao.addProdavac(user);
+		String contextPath = ctx.getRealPath("");
+		try {
+			dao.generateJSON(contextPath);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ctx.setAttribute("salesmenDAO", dao);
 		return retVal;
 	}

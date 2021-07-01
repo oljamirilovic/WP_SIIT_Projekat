@@ -88,7 +88,13 @@ public class KomentarService {
 	public void approveComment(HashMap<String,String> id){
 		KomentarDAO dao = (KomentarDAO) ctx.getAttribute("commentsDAO");
 		dao.odobri(id.get("id"));
-		
+		String contextPath = ctx.getRealPath("");
+		try {
+			dao.generateJSON(contextPath);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	@POST
@@ -98,6 +104,13 @@ public class KomentarService {
 	public void deleteComment(HashMap<String, String> id){
 		KomentarDAO dao = (KomentarDAO) ctx.getAttribute("commentsDAO");
 		dao.obrisi(id.get("id"));
+		String contextPath = ctx.getRealPath("");
+		try {
+			dao.generateJSON(contextPath);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 	}
