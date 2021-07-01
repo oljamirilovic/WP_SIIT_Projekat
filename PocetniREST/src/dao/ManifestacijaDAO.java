@@ -56,6 +56,7 @@ public class ManifestacijaDAO  {
 			jsonGenerator.writeFieldName("Manifestacija");
 			jsonGenerator.writeStartObject();
 			jsonGenerator.writeStringField("naziv", k.getNaziv()+"");
+			jsonGenerator.writeStringField("prodavac", k.getProdavac()+"");
 			jsonGenerator.writeStringField("brojMesta", k.getBrojMesta()+"");
 			jsonGenerator.writeStringField("cena", k.getCenaKarte()+"");
 			jsonGenerator.writeStringField("tip", k.getTipManifestacije()+"");
@@ -118,6 +119,9 @@ public class ManifestacijaDAO  {
 									man.setBrojMesta(Integer.parseInt(jsonParser.getText()));
 								}else if("poster".equals(nameField)) {
 									man.setPoster(jsonParser.getText());
+								}
+								else if("prodavac".equals(nameField)) {
+									man.setProdavac(jsonParser.getText());
 								}
 								else if ("datumPocetka".equals(nameField)) {
 									man.setDatumPocetka(jsonParser.getText());
@@ -213,9 +217,58 @@ public class ManifestacijaDAO  {
 	public Collection<Manifestacija> findAll() {
 		return manifestacije.values();
 	}
+	public Collection<Manifestacija> findByUsername(String username){
+		Collection<Manifestacija> sve=findAll();
+		Collection<Manifestacija> trazene= new ArrayList<Manifestacija>();
+		for(Manifestacija m : sve) {
+			if(m.getProdavac().equals(username)) {
+				trazene.add(m);
+			}
+		}return trazene;
+	}
 	
 	public Manifestacija addEvent(Manifestacija m) {
 		if(!this.manifestacije.containsKey(m.getNaziv())) {
+			for(Manifestacija manifestacija : this.manifestacije.values()) {
+				if(manifestacija.getLokacija().getGeografskaDuzina()==m.getLokacija().getGeografskaDuzina() 
+						&& manifestacija.getLokacija().getGeografskaSirina()==m.getLokacija().getGeografskaSirina()) {
+					//ako su na istom mestu
+					DateTimeFormatter df=DateTimeFormatter.ofPattern("yyyy-MM-dd"); //datumVreme=2021-06-29
+					//ovde cemo da probamo da setujemo  vreme
+					System.out.println(manifestacija.getDatumPocetka());
+					System.out.println(m.getDatumKraja());
+					LocalDateTime postojecaPoocetak=(LocalDateTime) df.parse(manifestacija.getDatumPocetka());
+					LocalDateTime postojecaKraj=(LocalDateTime) df.parse(manifestacija.getDatumKraja());
+					LocalDateTime novaPoocetak=(LocalDateTime) df.parse(m.getDatumPocetka());
+					LocalDateTime novaKraj=(LocalDateTime) df.parse(m.getDatumKraja());
+					
+					String[] vremePP=manifestacija.getVremePocetka().split(":");
+					postojecaPoocetak.withHour(Integer.parseInt(vremePP[0]));
+					postojecaPoocetak.withMinute(Integer.parseInt(vremePP[1]));
+					
+					String[] vremeKP=manifestacija.getVremeKraja().split(":");
+					postojecaKraj.withHour(Integer.parseInt(vremeKP[0]));
+					postojecaKraj.withMinute(Integer.parseInt(vremeKP[1]));
+					
+					String[] vremePN=m.getVremePocetka().split(":");
+					novaPoocetak.withHour(Integer.parseInt(vremePN[0]));
+					novaPoocetak.withMinute(Integer.parseInt(vremePN[1]));
+					
+					String[] vremeKN=m.getVremeKraja().split(":");
+					novaKraj.withHour(Integer.parseInt(vremeKN[0]));
+					novaKraj.withMinute(Integer.parseInt(vremeKN[1]));
+					
+					if((postojecaPoocetak.isBefore(novaPoocetak) && postojecaKraj.isBefore(novaKraj)) ||
+							(postojecaPoocetak.isAfter(novaPoocetak) && postojecaKraj.isAfter(novaKraj))) {
+						//ovde je onda ok, ali mi treba else
+					}else {
+						
+						return null;
+					}
+					
+				}
+
+			}
 			this.manifestacije.put(m.getNaziv(), m);
 			return m;
 		}return null;

@@ -24,7 +24,7 @@ $('#del').click(function(e){
         success:function(result){
             console.log(result);
             //TODO prozorce, i da ode na drugu stranicu
-            window.location.href = "http://localhost:8080/PocetniREST/ComentsView.html"; //TODO: predji na oljinu str??
+            window.location.href = "http://localhost:8081/PocetniREST/ComentsView.html"; //TODO: predji na oljinu str??
             },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert("AJAX ERROR: " + errorThrown);
@@ -48,7 +48,7 @@ $('#approve').click(function(e){
         success:function(result){
             console.log(result);
             //TODO prozorce, i da ode na drugu stranicu
-            window.location.href = "http://localhost:8080/PocetniREST/ComentsView.html"; //TODO: predji na oljinu str??
+            window.location.href = "http://localhost:8081/PocetniREST/ComentsView.html"; //TODO: predji na oljinu str??
             },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert("AJAX ERROR: " + errorThrown);

@@ -166,9 +166,16 @@ public class ManifestacijaServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Manifestacija  add(HashMap<String, String>  event1) {
 		Manifestacija event=new Manifestacija(event1);//{fan=3, datumVreme=2021-06-20, brojMesta=3, cenaKarte=3444, naziv=f, tip=3, vip=3, krajProslave=2021-06-26}
-		System.out.println(event1);
+		//System.out.println(event1);
 		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("eventsDAO");
 		Manifestacija retVal = dao.addEvent(event);
+		String contextPath = ctx.getRealPath("");
+		try {
+			dao.generateJSON(contextPath);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return retVal;
 	}
 	@POST

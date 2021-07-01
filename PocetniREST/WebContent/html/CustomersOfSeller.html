@@ -23,7 +23,7 @@
 </head>
 <body>
 	<div class="header">
-		<a class="active" href="#home">Home</a>
+		<a class="active" href="http://localhost:8081/PocetniREST/html/salesmanStartUp.html">Home</a>
 		<div class="search-container">
 			<form name="search" class="example" action="/action_page.php"
 				style="margin: auto; max-width: 300px">
@@ -40,6 +40,7 @@
                     <a class="profileA" href="http://localhost:8081/PocetniREST/html/SellersManifestation.html">My Events</a>
                     <a class="profileA" href="http://localhost:8081/PocetniREST/html/CustomersOfSeller.html">My Customers</a>
                     <a class="profileA" href="http://localhost:8081/PocetniREST/html/CartView.html">Sold tickets</a>
+                     <a class="profileA" href="http://localhost:8081/PocetniREST/html/MakeManifestation.html">Make manifestation</a>
             </div>
         </div> 
 	<div class="row">
@@ -48,39 +49,37 @@
                     <h3 class="title">
                         Search people
                     </h3>
-                    <div class="content" id="eventsearch" >
-                        <form action id="send_search" class="advancedSearchForm">
-                            <label>Username</label><input type="text" name="username" 
-                            id="usernameSerach" style="width: 50px" ><label>Name</label>
-                            <input type="text" name="name" id="nameSearch"style="width: 50px" >
-                            <label>Last Name</label><input type="text" name="lastname" 
-                            id="LastnameSearch"style="width: 50px" >
-                            <button type="submit" ><i class="fa fa-search"></i></button>
-                        </form> 
+                   <div class="content" id="eventsearch" >
+                       <form action id="send_search" class="advancedSearchForm">
+                        	<input type="text" placeholder="Name.." name="firstname">
+                        	<input type="text" placeholder="Last name.." name="surname">
+                        	<input type="text" placeholder="Username.." name="username">
+                        	<button type="button" class="button" id="searchBtn"><i class="fa fa-search"></i></button>
+                            </form> 
 
                     </div>
                 </div>
             </div>
         </div> 
-	<div class="lowerrow">
-		<div class="filterbar">
-			<div class="filter">
-				<h4>Filter events</h4>
-				<div class="content" id="filterevents">
-					</select> <input type="checkbox" id="availablePeople"> <label
-						for="availableTickets">Available people</label> <select
-						class="right">
-						<option>All criteria</option>
-						<option>Name</option>
-						<option>Last name</option>
-						<option>User name</option>
-						
-					</select> <label class="right">Select order:</label>
-				</div>
-				<div class="right"></div>
-			</div>
-		</div>
-	</div>
+	 <div class="lowerrow">
+              <div class="filterbar">
+                  <div class="filter">
+                      
+
+                    <select class="right" id="mySelect">
+                        <option value='0'>Name ascending</option>
+                        <option value='1'>Name descending</option>
+                        <option value='2'>Surname ascending</option>
+                        <option value='3'>Surname descending</option>
+                        <option value='4'>Username ascending</option>
+                        <option value='5'>Username descending</option>
+                       
+                    </select>
+                    <label class="right">Order by:</label>
+                      <div class="right"></div>
+                  </div>
+              </div>
+          </div>
 	<div class="lowerrow">
 		<div class="pb12">
 			<table id="ConsumesTable" border-color="grey" cellpaddiong="0"
