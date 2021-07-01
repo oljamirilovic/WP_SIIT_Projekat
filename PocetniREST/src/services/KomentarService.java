@@ -1,6 +1,7 @@
 package services;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -77,6 +78,44 @@ public class KomentarService {
 		
 		return us;
 	}
+	
+	
+	
+	@POST
+	@Path("/approve")
+	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public void approveComment(HashMap<String,String> id){
+		KomentarDAO dao = (KomentarDAO) ctx.getAttribute("commentsDAO");
+		dao.odobri(id.get("id"));
+		String contextPath = ctx.getRealPath("");
+		try {
+			dao.generateJSON(contextPath);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@POST
+	@Path("/delete")
+	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public void deleteComment(HashMap<String, String> id){
+		KomentarDAO dao = (KomentarDAO) ctx.getAttribute("commentsDAO");
+		dao.obrisi(id.get("id"));
+		String contextPath = ctx.getRealPath("");
+		try {
+			dao.generateJSON(contextPath);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	
 	@POST
 	@Path("/getCommentsForEventAll")
 	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})

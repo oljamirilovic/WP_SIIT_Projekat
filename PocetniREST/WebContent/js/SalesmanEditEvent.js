@@ -1,14 +1,11 @@
 var rootURL1 = "../../PocetniREST/rest/events/getCurrentEvent";
 var rootURL2 = "../../PocetniREST/rest/comments/getScore";
 var rootURL3 = "../../PocetniREST/rest/comments/getCommentsForEvent";
-var rootURL4 = "../../PocetniREST/rest/events/aproveCurrentEvent";
-var rootURL5 = "../../PocetniREST/rest/events/dismissCurrentEvent";
-
+var rootURL4 ="../../PocetniREST/rest/comments/approve";
+var rootURL5 ="../../PocetniREST/rest/comments/delete";
 findAll();
 
 var event;
-var customer;
-var numReserved;
 
 function findAll() {
     $.ajax({
@@ -25,13 +22,14 @@ function renderResult(data){
 	var id = event.naziv;
 	
 	$('#title').append('<h3 class="title" style="font-size: 20px; text-align: center;">'+ event.naziv +'</h3>')
+		
 	var checkPoster=event.poster.substr(id.length - 2)
 	if(checkPoster==".jpg"){
 		$('#poster').append('<img width="225" height="319" class="lazyloaded" data-src="../images/' + event.poster + '" src="../images/' + event.poster + '" alt="' + event.poster + '"itemprop="image">');
 	
 	}else{
 	$('#poster').append('<img width="225" height="319"  src="data:image/png;base64,'+event.poster+'" alt="Red dot" >');}
-		
+			
 	var d = new Date();//TODO check endTime
 	if(d > Date.parse(event.datumKraja)){
     	    	
@@ -106,8 +104,9 @@ function renderResult(data){
                     }else if(comments[i].odobren && !comments[i].obrisan){
                         com = " - APPROVED";
                     }else if(!comments[i].odobren && !comments[i].obrisan){
-                        com = " - PENDING";
-                    }
+						com = ' - <button class="signalApproveBtn" onclick="showConfirmDialog('+comments[i].id+')" id="signalApproveBtn'+comments[i].id+'" >Approve</button>'+
+						'- <button class="signalDeleteBtn" onclick="showConfirmDialogD('+comments[i].id+')" id="signalDeleteBtn'+comments[i].id+'" >Delete</button>';
+						 }
                     
                     $('#reviews').append('<div class="borderDark" style="padding: 4px 0;"><div class="spaceit"><div class="mb8" style="float: right; text-align: right;">'+                                                    
                                                     comments[i].ocena +'</div></div>'+
@@ -125,18 +124,24 @@ function renderResult(data){
 		});
 	
 	
-	//aprove/dismiss event	
-        	
-    if( !event.status && !event.izbrisana){
-        document.getElementById('signalAproveEvent').style.display = "block";
-        document.getElementById('signalDismissEvent').style.display = "block";        		        		
-        
-    }else{
-        document.getElementById("signalAproveEvent").style.display = "none";
-        document.getElementById("signalDismissEvent").style.display = "none";
-    }
 	
 }
+
+var approveId;
+
+function showConfirmDialog(id){
+    document.getElementById('id02').style.display = "block";
+    approveId = id;
+    console.log("dosao1");
+}
+var deletedId;
+
+function showConfirmDialogD(id){
+    document.getElementById('id03').style.display = "block";
+    deletedId = id;
+    console.log("dosao1");
+}
+
 
 var graphic = null;
 
@@ -147,7 +152,7 @@ $(document).ready(function(){
 	})
 		
 	$('#accountBtn').click(function(e){
-		window.location.href = "http://localhost:8081/PocetniREST/html/adminAccount.html";
+		window.location.href = "http://localhost:8081/PocetniREST/html/salesmanAccount.html";
 	})
 	
 	var modal;
@@ -156,35 +161,45 @@ $(document).ready(function(){
 		modal = document.getElementById('id01');
 	})
 	
-	$('#signalAproveEvent').click(function(e){
-		modal = document.getElementById('id02');
-	})
+	$('#approveBtn').click(function(e){
+        document.getElementById('id02').style.display = "none";
+        console.log("dosao2");
+        console.log(approveId); 
+		document.getElementById('signalApproveBtn'+approveId).style.display = "none";
+		$.ajax({
+			type : 'POST',
+			url : rootURL4,
+			contentType : 'application/json',
+			dataType : "json",
+			data :  JSON.stringify({
+				"id" : approveId,
+			}),
+			success :window.location.href = "http://localhost:8081/PocetniREST/html/SallesmanEditEvent.html",});
+       
+    })
+	$('#deleteBtn').click(function(e){
+        document.getElementById('id03').style.display = "none";
+        console.log("dosao2");
+        console.log(deletedId); 
+		document.getElementById('signalDeleteBtn'+deletedId).style.display = "none";
+		$.ajax({
+			type : 'POST',
+			url : rootURL5,
+			contentType : 'application/json',
+			dataType : "json",
+			data :  JSON.stringify({
+				"id" : deletedId,
+			}),
+			success :window.location.href = "http://localhost:8081/PocetniREST/html/SallesmanEditEvent.html",});
+       
+    })
 	
-	$('#signalDismissEvent').click(function(e){
-		modal = document.getElementById('id03');
-		
-	})
-		
 	window.onclick = function(event) {
 		if (event.target == modal) {
             modal.style.display = "none";
         }
     }
-	$('#admins').click(function(e){
-		window.location.href = "http://localhost:8081/PocetniREST/html/AllAdminsView.html";
-	})	
-	$('#customers').click(function(e){
-		window.location.href = "http://localhost:8081/PocetniREST/html/ViewCustomersByAdmin.html";
-	})	
-	$('#tickets').click(function(e){
-		window.location.href = "http://localhost:8081/PocetniREST/html/CartsViewAdmin.html";
-	})	
-	$('#salesmen').click(function(e){
-		window.location.href = "http://localhost:8081/PocetniREST/html/ViewSellersByAdmin.html";
-	})	
-	$('#newSalesmen').click(function(e){
-		window.location.href = "http://localhost:8081/PocetniREST/html/MakeSeller.html";
-	})
+	
 
     //////////////////////////////////////////////MAP//////////////////////////////////////////////////////////////////
 
@@ -262,39 +277,6 @@ $(document).ready(function(){
 		}
 	});
 	
-    ////////////////////////////////////////////////////APROVE////////////////////////////////////////////////////
-
-    $('#aproveBtn').click(function(e){
-		document.getElementById('eventStatus').innerHTML = "Active";
-		
-        $.ajax({
-            type : 'GET',
-            url : rootURL4,
-            dataType : "json",
-            success : function(){}
-        });
-
-        document.getElementById("signalAproveEvent").style.display = "none";
-        document.getElementById("signalDismissEvent").style.display = "none";
-        document.getElementById('id02').style.display='none';
-	})
-
-    ////////////////////////////////////////////////////DISMISS///////////////////////////////////////////////////
-		
-    $('#dismissBtn').click(function(e){
-		document.getElementById('eventStatus').innerHTML = "Inactive";
-		
-        $.ajax({
-            type : 'GET',
-            url : rootURL5,
-            dataType : "json",
-            success : function(){}
-        });
-
-        document.getElementById("signalAproveEvent").style.display = "none";
-        document.getElementById("signalDismissEvent").style.display = "none";
-        getElementById('id03').style.display='none';
-	})
 	
 })
 

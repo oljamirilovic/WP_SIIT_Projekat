@@ -16,6 +16,7 @@ public class Manifestacija {
 	private Lokacija lokacija;
 	private boolean izbrisana;	
 	private String poster;
+	private String prodavac;
 	private int preostaloRegular;
 	private int preostaloVip;
 	private int preostaloFanpit;
@@ -52,6 +53,13 @@ public class Manifestacija {
 	}
 	public void setPoster(String poster) {
 		this.poster = poster;
+	}
+	
+	public String getProdavac() {
+		return prodavac;
+	}
+	public void setProdavac(String poster) {
+		this.prodavac = poster;
 	}
 	
 	public String getNaziv() {
@@ -158,6 +166,8 @@ public class Manifestacija {
 		int cena=Integer.parseInt(event1.get("cenaKarte"));
 		String tip=event1.get("tip");
 		String naziv=event1.get("naziv");
+		double gsirina=Double.parseDouble(event1.get("gsirina"));
+		double gduzina=Double.parseDouble(event1.get("gduzina"));
 		//TODO pocetak i kraj
 		this.datumPocetka=event1.get("datumVreme");
 		this.datumKraja=event1.get("krajProslave");
@@ -168,6 +178,17 @@ public class Manifestacija {
 		this.preostaloVip=vipMesto;
 		this.preostaloRegular=obicnoMesto;
 		this.tipManifestacije=tip;
+		this.vremePocetka=event1.get("pocetakV");
+		this.vremeKraja=event1.get("pocetakK");
+		this.prodavac=event1.get("user");
+		this.status=false;
+		this.izbrisana=false;
+		if(event1.containsKey("slika")) {
+			if(!event1.get("slika").equals("")) {
+		this.poster=event1.get("slika").split("base64,")[1];
+		this.poster=this.poster.substring(0, this.poster.length()-2);
+		System.out.println(this.poster);}}
+		this.setLokacija(new Lokacija(gduzina, gsirina, event1.get("road"),event1.get("city"),event1.get("postcode"),event1.get("nu")));
 	}
 
 

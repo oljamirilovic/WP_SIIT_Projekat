@@ -42,8 +42,8 @@ public class KomentarDAO{
 		komentari.add(kom);
 		return kom;
 	}
-	public Komentar odobri(Komentar k) {
-		Komentar kom= this.findAll().stream().filter(kome->kome.getId()==k.getId()).
+	public Komentar odobri(String k) {
+		Komentar kom= this.findAll().stream().filter(kome->kome.getId()==Integer.parseInt(k)).
 		findFirst().orElse(null);
 		if(kom!=null) {
 			kom.setOdobren(true);
@@ -55,7 +55,7 @@ public class KomentarDAO{
 		Komentar kom= this.findAll().stream().filter(kome->kome.getId()==Integer.parseInt(id)).
 		findFirst().orElse(null);
 		if(kom!=null) {
-			kom.setObrisan(false);
+			kom.setObrisan(true);
 		}
 		return null;
 	}
