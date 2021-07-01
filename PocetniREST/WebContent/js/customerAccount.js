@@ -40,7 +40,7 @@ function renderResult(data){
     today = yyyy+'-'+mm+'-'+dd;
     document.getElementById("birthday").setAttribute("max", today);
 
-    $('input[name=cpoints]:text').val(data.sakupljeniBodovi);
+    $('input[name=cpoints]:text').val(Number(data.sakupljeniBodovi).toFixed(0));
     $('input[name=ctype]:text').val(data.tip.tipKupca);
     $('input[name=cdiscount]:text').val(data.tip.popust + "%");
     $('input[name=rpoints]:text').val(data.tip.bodovi);

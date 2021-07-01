@@ -54,7 +54,7 @@ function renderResult(data){
 
 					tr.append('<td class="' + sus + ' title ac va-c word-break" >'  + customer.tip.tipKupca + '</td>');
 
-					tr.append('<td class="' + sus + ' title ac va-c word-break" >'  + customer.sakupljeniBodovi + '</td>');
+					tr.append('<td class="' + sus + ' title ac va-c word-break" >'  + Number(customer.sakupljeniBodovi).toFixed(0)+ '</td>');
 
 					if(customer.blokiran){
 						tr.append('<td class="' + sus + ' score ac fs14" ><div><span class="text score-label score-na" ><button class="undoBlockingTableRowBtn" onclick="document.getElementById(\'id02\').style.display=\'block\'" id="'+ customer.korisnickoIme  +'" >Unblock</button></span></div></td>');
@@ -78,6 +78,10 @@ function renderResult(data){
 		
 
     })
+    
+    $('div.content select.right option[value="0"]').attr("selected",true);
+	var sel = document.getElementById("mySelect");
+	sortBy(sel.selectedIndex);
 
 	var temp = document.getElementById("customersTable").getElementsByTagName("tr");
 	for (i = 1; i < temp.length; i++) {
@@ -217,16 +221,16 @@ $(document).ready(function(){
 				}
 				added = addedNow;
 			}
-			if(surname != "" && !(firstname!="" && !added)){
+			if(surname != "" ){
 				var addedNow = false;
 				for (i = 1; i < tr.length; i++) {
 					td = tr[i].getElementsByTagName("td")[1];
 					if (td) {
 						txtValue = td.innerText;						 
-						if(txtValue.toLowerCase().indexOf(surname) <= -1){
+						if(tr[i].style.display == "" && txtValue.toLowerCase().indexOf(surname) <= -1){
 							tr[i].style.display = "none";
 						}
-						else if(!added && txtValue.toLowerCase().indexOf(surname) > -1){
+						else if(firstname=="" && !added && txtValue.toLowerCase().indexOf(surname) > -1){
 							tr[i].style.display = "";
 							addedNow = true;
 						}
@@ -234,16 +238,16 @@ $(document).ready(function(){
 				}
 				added = addedNow;
 			}
-			if(username != "" && !((firstname!="" || surname!="") && !added)){
+			if(username != ""){
 				var addedNow = false;
 				for (i = 1; i < tr.length; i++) {
 					td = tr[i].getElementsByTagName("td")[2];
 					if (td) {
 						txtValue = td.innerText;
-						if(txtValue.toLowerCase().indexOf(username) <= -1){
+						if(tr[i].style.display == "" && txtValue.toLowerCase().indexOf(username) <= -1){
 							tr[i].style.display = "none";
 						}
-						else if (!added && txtValue.toLowerCase().indexOf(username) > -1) {
+						else if (firstname=="" && surname=="" && !added && txtValue.toLowerCase().indexOf(username) > -1) {
 							tr[i].style.display = "";
 							addedNow = true;
 						} 
@@ -252,7 +256,7 @@ $(document).ready(function(){
 				added = addedNow;
 			}
 
-			if(firstname!="" && surname!="" && username != ""){
+			/*if(firstname!="" && surname!="" && username != ""){
 				var addedNow = false;
 				var td0, td1, txtVal0, txtVal1;
 				for (i = 1; i < tr.length; i++) {
@@ -273,7 +277,7 @@ $(document).ready(function(){
 					}
 				}
 				added = addedNow;
-			}
+			}*/
 			
 			
 		}
@@ -329,9 +333,16 @@ function sortBy(index){
 
 	table = document.getElementById("customersTable");
 	tr = table.getElementsByTagName("tr");
-	var backup = [];
+	var backup = [{}];
+	var backupAfter = [];
+	var backupBefore = [];
 	for(var i = 1; i < (tr.length-1); i++){
-		backup[i] = [tr[i].getElementsByTagName("td")[1], tr[i].style.display];
+		var h = tr[i].getElementsByTagName("TD")[2].innerText.toLowerCase();
+		backup[i] = {name : h, disp: tr[i].style.display};
+		if(afterTypeFilter.length > 0){
+			backupAfter[i] = (afterTypeFilter[i] == "") ? "" : "none";
+			backupBefore[i] = (beforeFilter[i] == "") ? "" : "none";
+		}
 	}
 		
 	switching = true;
@@ -364,20 +375,17 @@ function sortBy(index){
 	}
 	for(var i = 1; i < (tr.length); i++){
 		for (var j = 1; j < backup.length; j++) {
-			if (backup[j][0] == tr[i].getElementsByTagName("td")[1]) {
-				tr[i].style.display = backup[j][1];
+			if (backup[j].name == tr[i].getElementsByTagName("td")[2].innerText.toLowerCase()) {
+				tr[i].style.display = backup[j].disp;
+				if(afterTypeFilter.length > 0){
+					afterTypeFilter[i] = backupAfter[j];
+					beforeFilter[i] = backupBefore[j];
+				}
 				break;
 			}
 		}
 	}
 
-	var temp = document.getElementById("customersTable").getElementsByTagName("tr");
-	for (i = 1; i < temp.length; i++) {
-			beforeFilter[i] = temp[i].style.display;
-			afterTypeFilter[i] = temp[i].style.display;
-	}
-
-	filterTypes();
 }
 
 function filterTypes(){
@@ -395,6 +403,9 @@ function filterTypes(){
 					if(  beforeFilter[i] == "" ){
 						afterTypeFilter[i] = "";
 						tr[i].style.display = "";						
+					}else if(beforeFilter[i] == "none"){
+						tr[i].style.display = "none";	
+						afterTypeFilter[i] = "none";
 					}
 				}
 			}
