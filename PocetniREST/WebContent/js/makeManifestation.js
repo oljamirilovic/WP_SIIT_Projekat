@@ -58,8 +58,8 @@ $(document).ready(function(){
         }
     }
 	
-		var gsirina = 0;
-		var gduzina = 0;
+		var gsirina = -10000;
+		var gduzina = -10000;
 		
 		map.on('click', function (evt) { 
 			var lonlat  = ol.proj.toLonLat(evt.coordinate).map(function(val) {
@@ -118,7 +118,7 @@ $(document).ready(function(){
 		var strDate = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
 	
 		//TODOOproveri ovu proveru sa date
-		if($("input[name=startDate]").val() != null  && $("input[name=EndDate]").val() != null && $("input[name=VipSeetsNumber]").val() != ""
+		if($("input[name=startDate]").val() != null &&  slikaString!="" && gsirina!=-10000 && gduzina!=-10000  && $("input[name=EndDate]").val() != null && $("input[name=VipSeetsNumber]").val() != ""
 				&& d!=null && $("input[name=name]").val() != null && $("input[name=FanSeetsNumber]").val() != ""
 				&& $("input[name=price]").val() != "" && $("input[name=SeetsNumber]").val() != "" ){
 					if( (Date.parse(strDate) < Date.parse($("input[name=startDate]").val())) && Date.parse($("input[name=startDate]").val())<= Date.parse($("input[name=EndDate]").val()) ){
@@ -207,7 +207,14 @@ $(document).ready(function(){
 			invalidInput("Invalid date!","anime-detail-header-stats di-tc va-t");	
 		}}
 		else {
-			invalidInput("All fields must be filled!","anime-detail-header-stats di-tc va-t");	
+			invalidInput("All fields must be filled!","anime-detail-header-stats di-tc va-t");
+			if(slikaString==''){
+					invalidInput("Please input poster!","anime-detail-header-stats di-tc va-t");
+				}
+		if(gsirina==-10000 && gduzina==-10000){
+			invalidInput("Please input location!","anime-detail-header-stats di-tc va-t");
+		}
+				
 		}
 	})
 
@@ -224,7 +231,8 @@ $(document).ready(function(){
 
         var newImage = document.createElement('img');
         newImage.src = srcData;
-
+		newImage.height=319;
+		newImage.width=225;
         document.getElementById("imgTest").innerHTML = newImage.outerHTML;
         //alert("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);
         console.log("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);

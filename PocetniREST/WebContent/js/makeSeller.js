@@ -43,8 +43,8 @@ $(document).ready(function(){
 	
 	
 	$('#addSeller').click(function(e){ //btn na koji se klikne
-		console.log("uslo");
-		alert("bane");
+		
+		
 		e.preventDefault();
 		
 		var d = new Date();
@@ -85,9 +85,13 @@ $(document).ready(function(){
 							dataType : "json",
 							data : JSON.stringify(data),
 							success : function(result){
+								if(result!=null){
 								console.log(result);
 								//TODO DODATI DA ISKOCI PROZORCE SA nekim podacima
-								window.location.href = "http://localhost:8081/PocetniREST/html/ViewSellersByAdmin.html";
+								window.location.href = "http://localhost:8081/PocetniREST/html/ViewSellersByAdmin.html";}
+								else{
+									invalidInput("Invalid username!","anime-detail-header-stats di-tc va-t");	
+								}
 								},
 							error : function(XMLHttpRequest, textStatus, errorThrown){
 								alert("AJAX ERROR: "+errorThrown);
@@ -95,9 +99,7 @@ $(document).ready(function(){
 						});
 						
 					}else{					
-						var d = $('<div></div>');
-						d.append('<p style="font-color:#ff0000;">'+'User with this username already exists!' + '</p>');
-						$("body").append(d);
+						invalidInput("Invalid username!","anime-detail-header-stats di-tc va-t");	
 						
 					}
 				},
@@ -110,10 +112,14 @@ $(document).ready(function(){
 		else if($("input[name=date").val() == null || (Date.parse(strDate) < Date.parse($("input[name=date]").val()))
 		&& d!=null && $("input[name=name]").val() != null
 		&& $("input[name=lastName]").val() != null && $("input[name=Username]").val() != null && $("input[name=Password]").val() != null
-		){
-			var d = $('<div></div>');
-			d.append('<p>'+'Not valid input.' + '</p>');
-			$("body").append(d);
+		){ if($("input[name=date").val() == null){
+			invalidInput("Invalid birthday!","anime-detail-header-stats di-tc va-t");
+		}else{
+			if( (Date.parse(strDate) < Date.parse($("input[name=date]").val()))){
+				invalidInput("Invalid birthday!","anime-detail-header-stats di-tc va-t");
+			}
+		}
+		invalidInput("Invalid informations!","anime-detail-header-stats di-tc va-t");
 		}
 	})
 })
