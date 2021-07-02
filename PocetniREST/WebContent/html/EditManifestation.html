@@ -9,25 +9,35 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
         <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
         
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
         <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
-<script type="text/javascript" src="../js/jquery.min.js"></script>
-        
-        
-        
-
-<link rel="stylesheet" type="text/css" href="..\\styles\\unregStartUp.css">
-<link rel="stylesheet" type="text/css" href="..\\styles\\login.css">
-<link rel="stylesheet" type="text/css" href="..\\styles\\signup.css">
-<link rel="stylesheet" type="text/js" href="..\\js\\EditEvent.js">
-<title>Edit manifestation</title>
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../styles/unregStartUp.css">
+        <link rel="stylesheet" type="text/css" href="../styles/login.css">
+        <link rel="stylesheet" type="text/css" href="../styles/signup.css">
+        <link rel="stylesheet" type="text/css" href="../styles/event.css">
+        <link href="../css/all.css" rel="stylesheet"> 
+		<title>Edit manifestation</title>
 </head>
 <body>
 <!-- TODO proveri heder i izbaci nepotrebno -->
 	<div class="header">
-		<a class="active" href="http://localhost:8081/PocetniREST/html/salesmanStartUp.html">Home</a></div>
-		
-<div class="lowerrow">
+            <a class="active" href="http://localhost:8081/PocetniREST/html/salesmanStartUp.html">Home</a>
+            <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogout" > Log Out</button>
+            <div class="search-container">
+                <button type="button"  id="accountBtn" >Account<i style="margin-left: 10px" class="fa fa-user" ></i></button>
+            </div>
+        </div>
+        <div class="upperrow">
+            <div class="navbar">
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/salesmanAccount.html">My Profile</a>
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/SellersManifestation.html">My Events</a>
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/CustomersOfSeller.html">My Customers</a>
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/CartView.html">Sold tickets</a>
+                    <a class="profileA" href="http://localhost:8081/PocetniREST/html/MakeManifestation.html">Make manifestation</a>
+            </div>
+        </div> 
+	<div class="lowerrow">
         <div class="pb12">
         <div id="content">
             <table border="0" cellpadding="0" cellspacing="0" width="100%" >
@@ -53,18 +63,18 @@
                                                     <div class="di-t w100 mt12">
                                                         <div class="anime-detail-header-stats di-tc va-t ">
                                                         
-                                                        	<form class="box profileContent" >
+                                                        	<form class="box makemanif" >
                                                               <h1>Edit manifestation</h1>
                                                               <div class="advancedSearch" id="title">
                 												</div>
                                                               <hr>
                                                         		 <label for="username"><b>Type of manifestation</b></label>
                                                               <select name="tip" id="tip">
-  <option value="Ballet">Ballet</option>
-  <option value="Concert">Concert</option>
-  <option value="Movie">Movie</option>
-  <option value="Theater">Theater</option>
-   <option value="Artshow">Artshow</option></select>
+																  <option value="Ballet">Ballet</option>
+																  <option value="Concert">Concert</option>
+																  <option value="Movie">Movie</option>
+																  <option value="Theater">Theater</option>
+																   <option value="Artshow">Artshow</option></select>
                                                               
                                                             
                                                              <br>  <label for="nesto" ><b>Input location by clicking on this button</b></b></label>
@@ -73,7 +83,7 @@
                                                               <br>
                                                               <br><br>
                                                               <div >
-                                                                <button type="submit" id="addM" >Save
+                                                                <button type="submit" class="saveProfile" id="addM" >Save
 															<i class="submit"></i>
 														</button> </div>
                                                           </form>
@@ -94,6 +104,31 @@
         </div>
         </div>
         </div>
+        
+        <div id="id01" class="modal">
+  
+            <form class="modal-content animate" action="/action_page.php" method="post">
+              <div class="imgcontainer">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Window">&times;</span>
+                <img src="../images/avatar.png" alt="Avatar" class="avatar">
+              </div>
+          
+              <div class="container" name="container">
+                <label for="question"><b>Continue log out?</b></label>
+                  
+                <div class="clearfix">
+                  <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtns" >Cancel</button>
+                  <button type="button" class="signupbtns" id="logoutBtn">Log out</button>
+                </div>
+                
+              </div>
+          
+              <div class="container" style="background-color:transparent">
+                
+              </div>
+            </form>
+        </div>
+        
          <div id="id03" class="modal">
   
             <form class="modal-content animate" action="/action_page.php" method="post">

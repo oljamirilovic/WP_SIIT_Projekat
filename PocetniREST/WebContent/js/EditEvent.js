@@ -33,6 +33,26 @@ var numberHause=""
 
 $(document).ready(function(){
 	
+	$('#accountBtn').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/html/salesmanAccount.html";
+	})
+	
+	$('#logoutBtn').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/unregStartUp.html";
+	})
+	
+	var modal;
+	
+	$('#signalLogout').click(function(e){
+		modal = document.getElementById('id01');
+	})
+	
+	 window.onclick = function(event) {
+		if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+	
 		var gsirina = -10000;
 		var gduzina = -10000;
 		
