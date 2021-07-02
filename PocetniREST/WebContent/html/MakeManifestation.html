@@ -70,12 +70,18 @@
                                                               <label for="name"><b>Name</b></label>
                                                               <input type="text" placeholder="Enter event name..." name="name" id="name" required>
                                                         
-                                                        	  <label for="type"><b>Type</b></label>
-                                                              <input type="text" placeholder="Enter event type..." name="type" id="type" required>
+                                                        	  
                                                               
+                                       		                    <label for="username"><b>Type of manifestation</b></label>
+                                                              <select name="tip" id="tip">
+                                                              <option value="Ballet">Ballet</option>
+                                                              <option value="Concert">Concert</option>
+                                                              <option value="Movie">Movie</option>
+                                                              <option value="Theater">Theater</option>
+                                                              <option value="Artshow">Artshow</option></select>
                                                               <label for="SeetsNumber"><b>Regular tickets</b></label>
                                                               <input class="textbox-n" min="1" type="text" name="SeetsNumber" placeholder="Enter number of regular tickets..." onfocus="(this.type='number')" onblur="(this.type='text')"id="SeetsNumber" required>
-                                                        
+
                                                               <label for="FanSeetsNumber"><b>Fan pit tickets</b></label>
                                                               <input class="textbox-n" min="1" type="text" name="FanSeetsNumber" placeholder="Enter number of fan pit tickets..." id="FanSeetsNumber" onfocus="(this.type='number')" onblur="(this.type='text')" required>
                                                               

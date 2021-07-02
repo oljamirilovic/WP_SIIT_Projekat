@@ -144,6 +144,9 @@ $(document).ready(function(){
 					if(result==null){
 						console.log(city)
 						console.log(road);
+						var sel = document.getElementById('tip');
+							var opt = sel.options[sel.selectedIndex];
+							var vrednost=opt.value;		
 						let data = { //namesti nov //TODO dodati i oljine atrribute??
 							
 								"naziv": $("input[name=name]").val(),
@@ -151,7 +154,7 @@ $(document).ready(function(){
 								"cenaKarte": $("input[name=price").val(),
 								"datumVreme": $("input[name=startDate]").val(),
 								"krajProslave":$("input[name=EndDate]").val(),
-								"tip":$("input[name=type]").val(),
+								"tip":vrednost,
 								"vip":$("input[name=VipSeetsNumber]").val(),
 								"fan":$("input[name=FanSeetsNumber]").val(),
 								"gsirina":gsirina,

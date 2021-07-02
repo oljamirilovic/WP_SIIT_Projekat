@@ -221,10 +221,26 @@ public class ManifestacijaServices {
 	@Path("/change")
 	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces(MediaType.APPLICATION_JSON)
-	public void izmeni(HashMap<String,String> name1) {//{dan=2021-05-31, fan=200, kraj=2021-05-31, ukupno=1000, naziv=Pink m, tip=Concert, cena=1000, vip=299}
+	public boolean izmeni(HashMap<String,String> name1) {//{dan=2021-05-31, fan=200, kraj=2021-05-31, ukupno=1000, naziv=Pink m, tip=Concert, cena=1000, vip=299}
 		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("eventsDAO");
-		System.out.println(name1);
-		dao.izmeni(name1.get("naziv"),name1.get("dan"),name1.get("fan"),name1.get("kraj"),name1.get("ukupno"),name1.get("tip"),name1.get("cena"),name1.get("vip"));
+		Manifestacija m = (Manifestacija)ctx.getAttribute("currentEvent");
+		//System.out.println(name1);
+		dao.updateOne(m);
+	    ctx.setAttribute("eventsDAO", dao);
+		boolean uspeh=dao.izmeni(m,name1);
+		if(uspeh) {
+			String contextPath = ctx.getRealPath("");
+			try {
+				dao.generateJSON(contextPath);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		System.out.println(m.getTipManifestacije());
+		
+		return uspeh;
+		//dao.izmeni(name1.get("naziv"),name1.get("dan"),name1.get("fan"),name1.get("kraj"),name1.get("ukupno"),name1.get("tip"),name1.get("cena"),name1.get("vip"));
 	}
 
 }

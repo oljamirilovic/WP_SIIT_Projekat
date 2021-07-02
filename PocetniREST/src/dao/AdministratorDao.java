@@ -124,7 +124,7 @@ public class AdministratorDao {
 
 								if ("korisnickoIme".equals(nameField)) {
 									admin.setKorisnickoIme(jsonParser.getText());
-
+									System.out.println(admin.getKorisnickoIme());
 								} else if ("lozinka".equals(nameField)) {
 									admin.setLozinka(jsonParser.getText());
 								}else if ("ime".equals(nameField)) {

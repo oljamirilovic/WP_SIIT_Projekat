@@ -45,9 +45,9 @@ public class ProdavacService {
 		if(ctx.getAttribute("salesmenDAO")==null) {
 			String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("salesmenDAO", new ProdavacDAO(contextPath)); 
-			ctx.setAttribute("KartaDAO", new KartaDAO(contextPath)); 
-			ctx.setAttribute("KupacDAO", new KupacDAO(contextPath)); 
-			ctx.setAttribute("ManifestacijeDAO", new ManifestacijaDAO(contextPath)); 
+			ctx.setAttribute("ticketsDAO", new KartaDAO(contextPath)); 
+			ctx.setAttribute("customersDAO", new KupacDAO(contextPath)); 
+			ctx.setAttribute("eventsDAO", new ManifestacijaDAO(contextPath)); 
 		}
 	}
 	
@@ -157,7 +157,7 @@ public class ProdavacService {
 		System.out.println("n");
 		Prodavac p=(Prodavac)(Prodavac)ctx.getAttribute("currentSalesmen");
 		if(p!=null) {
-		ManifestacijaDAO manDAO=(ManifestacijaDAO)ctx.getAttribute("ManifestacijeDAO");
+		ManifestacijaDAO manDAO=(ManifestacijaDAO)ctx.getAttribute("eventsDAO");
 		ArrayList<Manifestacija> sveMan=(ArrayList<Manifestacija>) manDAO.findByUsername(p.getKorisnickoIme());
 		p.setManifestacije(sveMan);
 		System.out.println("n");
@@ -171,7 +171,7 @@ public class ProdavacService {
 		System.out.println("n");
 		Prodavac p=(Prodavac)(Prodavac)ctx.getAttribute("currentSalesmen");
 		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
-		KartaDAO dao2=(KartaDAO) ctx.getAttribute("KartaDAO");
+		KartaDAO dao2=(KartaDAO) ctx.getAttribute("ticketsDAO");
 		if(dao2!=null) {
 			System.out.print("d");
 			return dao.nadjiKupce("pedja", dao2.getKarte().values());
@@ -189,9 +189,9 @@ public class ProdavacService {
 		System.out.println("n");
 		Prodavac p=(Prodavac)(Prodavac)ctx.getAttribute("currentSalesmen");
 		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
-		KartaDAO dao2=(KartaDAO) ctx.getAttribute("KartaDAO");
-		KupacDAO dao3=(KupacDAO) ctx.getAttribute("KupacDAO");
-		ManifestacijaDAO manDAO=(ManifestacijaDAO)ctx.getAttribute("ManifestacijeDAO");
+		KartaDAO dao2=(KartaDAO) ctx.getAttribute("ticketsDAO");
+		KupacDAO dao3=(KupacDAO) ctx.getAttribute("customersDAO");
+		ManifestacijaDAO manDAO=(ManifestacijaDAO)ctx.getAttribute("eventsDAO");
 		if(p!=null) {
 		ArrayList<Manifestacija> sveMan=(ArrayList<Manifestacija>) manDAO.findByUsername(p.getKorisnickoIme());
 		p.setManifestacije(sveMan);
@@ -213,7 +213,7 @@ public class ProdavacService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Collection<Karta> getKarteiOfProdavac(String username) {
 		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
-		KartaDAO dao2=(KartaDAO) ctx.getAttribute("KartaDAO");
+		KartaDAO dao2=(KartaDAO) ctx.getAttribute("ticketsDAO");
 		if(dao2!=null) {
 			return dao.nadjiKarte(username, dao2.getKarte().values());}
 		return null;

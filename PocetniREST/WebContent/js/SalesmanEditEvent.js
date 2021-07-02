@@ -161,6 +161,9 @@ $(document).ready(function(){
 	$('#signalLogout').click(function(e){
 		modal = document.getElementById('id01');
 	})
+	$('#signalChange').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/html/EditManifestation.html"
+	})
 	
 	$('#approveBtn').click(function(e){
         document.getElementById('id02').style.display = "none";
@@ -178,6 +181,24 @@ $(document).ready(function(){
 			success :window.location.href = "http://localhost:8081/PocetniREST/html/SallesmanEditEvent.html",});
        
     })
+	$('#changeInfo').click(function(e){
+		console.log(document.getElementById('newType'))
+        document.getElementById('id05').style.display = "none";
+        console.log("dosao2");
+        console.log(); 
+		document.getElementById('signalApproveBtn'+approveId).style.display = "none";
+		$.ajax({
+			type : 'POST',
+			url : rootURL4,
+			contentType : 'application/json',
+			dataType : "json",
+			data :  JSON.stringify({
+				"id" : approveId,
+			}),
+			success :window.location.href = "http://localhost:8081/PocetniREST/html/SallesmanEditEvent.html",});
+       
+    })
+
 	$('#deleteBtn').click(function(e){
         document.getElementById('id03').style.display = "none";
         console.log("dosao2");

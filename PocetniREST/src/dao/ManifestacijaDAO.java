@@ -355,4 +355,70 @@ public class ManifestacijaDAO  {
 		
 	}
 
+	public boolean izmeni(Manifestacija m, HashMap<String, String> name1) {
+		//road=, city=, nu=, postcode=, tip=nestooo, gduzina=-10000, gsirina=-10000 i jos slika
+		if(!name1.get("gduzina").equals("-10000") && !name1.get("gsirina").equals("-10000")) {
+			boolean proveren=proveriLokaciju(name1.get("gduzina"),name1.get("gsirina"),m);
+			if(proveren) {
+				m.getLokacija().setGeografskaDuzina(Double.parseDouble(name1.get("gduzina")));
+				m.getLokacija().setGeografskaSirina(Double.parseDouble(name1.get("gsirina")));
+				m.getLokacija().setBroj(name1.get("nu"));
+				m.getLokacija().setUlica(name1.get("road"));
+				m.getLokacija().setMesto(name1.get("city"));
+				m.getLokacija().setPostanskiBroj(name1.get("postcode"));
+			}else {return false;}
+		}if(!name1.get("slika").equals("")) {
+			
+			m.setPoster(name1.get("slika").split("base64,")[1]);
+			m.setPoster(m.getPoster().substring(0, m.getPoster().length()-2));
+		}
+		m.setTipManifestacije(name1.get("tip"));
+		System.out.println(m.getTipManifestacije()+" ovdeeee");
+		return true;
+		
+	}
+
+	private boolean proveriLokaciju(String duzina, String sirina, Manifestacija m) {
+		for(Manifestacija manifestacija : this.manifestacije.values()) {
+			if(manifestacija.getLokacija().getGeografskaDuzina()==Double.parseDouble(duzina) && !m.getNaziv().equals(manifestacija.getNaziv())
+					&& manifestacija.getLokacija().getGeografskaSirina()==Double.parseDouble(sirina)) {
+				//ako su na istom mestu
+				DateTimeFormatter df=DateTimeFormatter.ofPattern("yyyy-MM-dd"); //datumVreme=2021-06-29
+				//ovde cemo da probamo da setujemo  vreme
+				System.out.println(manifestacija.getDatumPocetka());
+				System.out.println(m.getDatumKraja());
+				LocalDateTime postojecaPoocetak=(LocalDateTime) df.parse(manifestacija.getDatumPocetka());
+				LocalDateTime postojecaKraj=(LocalDateTime) df.parse(manifestacija.getDatumKraja());
+				LocalDateTime novaPoocetak=(LocalDateTime) df.parse(m.getDatumPocetka());
+				LocalDateTime novaKraj=(LocalDateTime) df.parse(m.getDatumKraja());
+				
+				String[] vremePP=manifestacija.getVremePocetka().split(":");
+				postojecaPoocetak.withHour(Integer.parseInt(vremePP[0]));
+				postojecaPoocetak.withMinute(Integer.parseInt(vremePP[1]));
+				
+				String[] vremeKP=manifestacija.getVremeKraja().split(":");
+				postojecaKraj.withHour(Integer.parseInt(vremeKP[0]));
+				postojecaKraj.withMinute(Integer.parseInt(vremeKP[1]));
+				
+				String[] vremePN=m.getVremePocetka().split(":");
+				novaPoocetak.withHour(Integer.parseInt(vremePN[0]));
+				novaPoocetak.withMinute(Integer.parseInt(vremePN[1]));
+				
+				String[] vremeKN=m.getVremeKraja().split(":");
+				novaKraj.withHour(Integer.parseInt(vremeKN[0]));
+				novaKraj.withMinute(Integer.parseInt(vremeKN[1]));
+				
+				if((postojecaPoocetak.isBefore(novaPoocetak) && postojecaKraj.isBefore(novaKraj)) ||
+						(postojecaPoocetak.isAfter(novaPoocetak) && postojecaKraj.isAfter(novaKraj))) {
+					//ovde je onda ok, ali mi treba else
+				}else {
+					
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
+
 }
