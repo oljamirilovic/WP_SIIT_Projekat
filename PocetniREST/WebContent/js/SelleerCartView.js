@@ -25,7 +25,7 @@ function renderList(data){ console.log(data)
         var tr = $('<tr class="event-list"></tr>');
         var date = new Date();
 
-        if(!ticket.izbrisana){
+        if(ticket.status){
             var status = ticket.status ? "RESERVED" : "CANCELLED";
 
             tr.append('<td class="title ac va-c word-break"><a style="font-size:18px">' + ticket.id + '</a></td>');
@@ -200,7 +200,7 @@ $(document).ready(function(){
 		}
 
 		filterTicketTypes();
-		filterTicketsReserved();
+		//filterTicketsReserved();
 		var sel = document.getElementById("mySelect");
 		sortBy(sel.selectedIndex);
 		
@@ -362,7 +362,7 @@ function filterTicketTypes(){
 			
 		}
 	}
-	filterTicketsReserved();
+	//filterTicketsReserved();
 }
 
 function filterTicketsReserved(){

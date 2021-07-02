@@ -5,7 +5,9 @@
 	"ime":"Predrag",
 	"prezime":"Pejic",
 	"rodjenje":"1996-05-05",
-	"pol":"male"}
+	"pol":"male",
+	"izbrisan":"false",
+	"blokiran":"false"}
 	},
 	{"Prodavac":{
 	"korisnickoIme":"laza",
@@ -13,7 +15,9 @@
 	"ime":"Lazar",
 	"prezime":"Lazic",
 	"rodjenje":"1998-06-06",
-	"pol":"male"}
+	"pol":"male",
+	"izbrisan":"false",
+	"blokiran":"false"}
 	},
 	{"Prodavac":{
 	"korisnickoIme":"mara",
@@ -21,5 +25,7 @@
 	"ime":"Mara",
 	"prezime":"Maric",
 	"rodjenje":"1998-03-03",
-	"pol":"female"}}
+	"pol":"female",
+	"izbrisan":"false",
+	"blokiran":"false"}}
 ]}
