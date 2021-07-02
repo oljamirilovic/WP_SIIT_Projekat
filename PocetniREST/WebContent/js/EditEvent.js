@@ -118,8 +118,8 @@ $(document).ready(function(){
 							dataType : "json",
 							data : JSON.stringify(data),
 							success : function(result){
-								if(result){
-								alert("Manifestation has been saved.")}else{
+								
+								if(!result){
 									alert("Already exits manifestation at that location at that time");
 								}
 								console.log(result);
@@ -151,7 +151,9 @@ $(document).ready(function(){
 
         var newImage = document.createElement('img');
         newImage.src = srcData;
-
+        newImage.height = 319;
+        newImage.width = 225;
+        
         document.getElementById("imgTest").innerHTML = newImage.outerHTML;
         //alert("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);
         console.log("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);

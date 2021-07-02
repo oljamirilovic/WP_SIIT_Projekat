@@ -118,9 +118,9 @@ $(document).ready(function(){
 		var strDate = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
 	
 		//TODOOproveri ovu proveru sa date
-		if($("input[name=startDate]").val() != null  && $("input[name=EndDate]").val() != null && $("input[name=VipSeetsNumber]").val() != null
-				&& d!=null && $("input[name=name]").val() != null && $("input[name=FanSeetsNumber]").val() != null
-				&& $("input[name=price]").val() != null && $("input[name=SeetsNumber]").val() != null  && $("input[name=type]").val() != null){
+		if($("input[name=startDate]").val() != null  && $("input[name=EndDate]").val() != null && $("input[name=VipSeetsNumber]").val() != ""
+				&& d!=null && $("input[name=name]").val() != null && $("input[name=FanSeetsNumber]").val() != ""
+				&& $("input[name=price]").val() != "" && $("input[name=SeetsNumber]").val() != "" ){
 					if( (Date.parse(strDate) < Date.parse($("input[name=startDate]").val())) && Date.parse($("input[name=startDate]").val())<= Date.parse($("input[name=EndDate]").val()) ){
 			
 			var id = $("input[name=name]").val();
@@ -177,10 +177,14 @@ $(document).ready(function(){
 							dataType : "json",
 							data : JSON.stringify(data),
 							success : function(result){
-								alert("Manifestation has been saved.")
-								console.log(result);
-								//TODO da ode na stranicu sa svim manifestacijama i da iskoci prozorce
-								window.location.href = "http://localhost:8081/PocetniREST/html/SellersManifestation.html";
+								if(result !=null){
+									alert("Manifestation has been saved.")
+									console.log(result);
+									//TODO da ode na stranicu sa svim manifestacijama i da iskoci prozorce
+									window.location.href = "http://localhost:8081/PocetniREST/html/SellersManifestation.html";
+								}else{
+									invalidInput("Location is already reserved at that time!","anime-detail-header-stats di-tc va-t");
+								}
 								},
 							error : function(XMLHttpRequest, textStatus, errorThrown){ //TODO: sta ako je lokacija zauzeta?? 
 								alert("AJAX ERROR: "+errorThrown);
@@ -199,14 +203,11 @@ $(document).ready(function(){
 				}
 			
 			})
+		}else {
+			invalidInput("Invalid date!","anime-detail-header-stats di-tc va-t");	
 		}}
-		else if($("input[name=startDate]").val() == null || (Date.parse(strDate) < Date.parse($("input[name=startDate]").val()))
-		&& d==null && $("input[name=name]").val() == null
-		&& $("input[name=price]").val() == null && $("input[name=SeetsNumber]").val() == null 
-		){
-			var d = $('<div></div>');
-			d.append('<p>'+'Not valid input.' + '</p>');
-			$("body").append(d);
+		else {
+			invalidInput("All fields must be filled!","anime-detail-header-stats di-tc va-t");	
 		}
 	})
 
@@ -249,3 +250,21 @@ function simpleReverseGeocoding(lon, lat) {
      
     })
   }
+
+
+function invalidInput(mesg,cont){
+	var reds = document.getElementsByClassName("red");
+	
+	if(reds.length != 0){
+		for(var k = 0; k < reds.length; k++){
+			reds[k].parentNode.removeChild(reds[k]);
+		}								 
+	}
+        
+	var elements = document.getElementsByClassName(cont);
+	var div = document.createElement('div');
+	div.className = 'red';
+	div.textContent = mesg;
+	div.id = "error";
+	elements[0].append(div);
+}

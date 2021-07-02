@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -232,15 +234,32 @@ public class ManifestacijaDAO  {
 			for(Manifestacija manifestacija : this.manifestacije.values()) {
 				if(manifestacija.getLokacija().getGeografskaDuzina()==m.getLokacija().getGeografskaDuzina() 
 						&& manifestacija.getLokacija().getGeografskaSirina()==m.getLokacija().getGeografskaSirina()) {
-					//ako su na istom mestu
+					//ako su na istom mestu//2021-01-31
 					DateTimeFormatter df=DateTimeFormatter.ofPattern("yyyy-MM-dd"); //datumVreme=2021-06-29
 					//ovde cemo da probamo da setujemo  vreme
 					System.out.println(manifestacija.getDatumPocetka());
 					System.out.println(m.getDatumKraja());
-					LocalDateTime postojecaPoocetak=(LocalDateTime) df.parse(manifestacija.getDatumPocetka());
-					LocalDateTime postojecaKraj=(LocalDateTime) df.parse(manifestacija.getDatumKraja());
-					LocalDateTime novaPoocetak=(LocalDateTime) df.parse(m.getDatumPocetka());
-					LocalDateTime novaKraj=(LocalDateTime) df.parse(m.getDatumKraja());
+					
+					LocalDate d1 = LocalDate.parse(manifestacija.getDatumPocetka());
+					LocalTime t1 = LocalTime.parse(manifestacija.getVremePocetka());
+					LocalDateTime dt1 = d1.atTime(t1);
+					
+					LocalDate d2 = LocalDate.parse(manifestacija.getDatumKraja());
+					LocalTime t2 = LocalTime.parse(manifestacija.getVremeKraja());
+					LocalDateTime dt2 = d2.atTime(t2);
+					
+					LocalDate d3 = LocalDate.parse(m.getDatumPocetka());
+					LocalTime t3 = LocalTime.parse(m.getVremePocetka());
+					LocalDateTime dt3 = d3.atTime(t3);
+					
+					LocalDate d4 = LocalDate.parse(m.getDatumKraja());
+					LocalTime t4 = LocalTime.parse(m.getVremeKraja());
+					LocalDateTime dt4 = d4.atTime(t4);
+					/*
+					LocalDateTime postojecaPoocetak=LocalDateTime.parse(manifestacija.getDatumPocetka());// df.parse(manifestacija.getDatumPocetka());
+					LocalDateTime postojecaKraj=LocalDateTime.parse(manifestacija.getDatumKraja());
+					LocalDateTime novaPoocetak=LocalDateTime.parse(m.getDatumPocetka());
+					LocalDateTime novaKraj=LocalDateTime.parse(m.getDatumKraja());
 					
 					String[] vremePP=manifestacija.getVremePocetka().split(":");
 					postojecaPoocetak.withHour(Integer.parseInt(vremePP[0]));
@@ -257,12 +276,13 @@ public class ManifestacijaDAO  {
 					String[] vremeKN=m.getVremeKraja().split(":");
 					novaKraj.withHour(Integer.parseInt(vremeKN[0]));
 					novaKraj.withMinute(Integer.parseInt(vremeKN[1]));
-					
-					if((postojecaPoocetak.isBefore(novaPoocetak) && postojecaKraj.isBefore(novaKraj)) ||
-							(postojecaPoocetak.isAfter(novaPoocetak) && postojecaKraj.isAfter(novaKraj))) {
+					*/
+					if((dt1.isBefore(dt3) && dt2.isBefore(dt4)) ||
+							(dt1.isAfter(dt3) && dt2.isAfter(dt4))) {
 						//ovde je onda ok, ali mi treba else
+						System.out.println("ok");
 					}else {
-						
+						System.out.println("notok");
 						return null;
 					}
 					

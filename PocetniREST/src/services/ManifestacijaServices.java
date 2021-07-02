@@ -170,6 +170,7 @@ public class ManifestacijaServices {
 		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("eventsDAO");
 		Manifestacija retVal = dao.addEvent(event);
 		String contextPath = ctx.getRealPath("");
+		ctx.setAttribute("eventsDAO", dao);
 		try {
 			dao.generateJSON(contextPath);
 		} catch (IOException e) {
@@ -194,6 +195,7 @@ public class ManifestacijaServices {
 	public void obrisi(Manifestacija m) {
 		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("eventsDAO");
 		dao.obrisi(m.getNaziv());
+		ctx.setAttribute("eventsDAO", dao);
 	}
 	@GET
 	@Path("/getOneManifestation")
