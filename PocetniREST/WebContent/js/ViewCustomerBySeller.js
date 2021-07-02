@@ -3,6 +3,7 @@ var rootURL2 = "../rest/salesmen/myConsumersAll";
 
 var beforeFilter = [];
 var afterTypeFilter = [];
+
 findAll();
 
 function findAll() {
@@ -11,40 +12,62 @@ function findAll() {
 		type : 'GET',
 		url : rootURL2,
 		dataType : "json",
-		success : renderList
+		success : renderResult
 	});
 }
 
-function renderList(data){
-	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+function renderResult(data){
+    var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	var count = 0;
+
+    $.each(list, function(index, customer) {
+        var tr = $('<tr class="customer-list" ></tr>');		
+		count++;		
+
+		if(!customer.izbrisan){
+
+			tr.append('<td class="notsus title ac va-c word-break" >' + customer.ime + '</td>');
+
+			tr.append('<td class="notsus title ac va-c word-break" >'  + customer.prezime + '</td>');
+
+			tr.append('<td class="notsus title ac va-c word-break" >'  + customer.korisnickoIme + '</td>');
+
+			tr.append('<td class="notsus title ac va-c word-break" >'  + customer.tip.tipKupca + '</td>');
+
+			tr.append('<td class="notsus title ac va-c word-break" >'  + Number(customer.sakupljeniBodovi).toFixed(0)+ '</td>');
+
+			
+			$('#customersTable').append(tr);
+		}
+		if(count == list.length){
+			$('div.content select.right option[value="0"]').attr("selected",true);
+			var sel = document.getElementById("mySelect");
+			sortBy(sel.selectedIndex);
+		}
+    })
+    
+    $('div.content select.right option[value="0"]').attr("selected",true);
+	var sel = document.getElementById("mySelect");
+	sortBy(sel.selectedIndex);
+
+	var temp = document.getElementById("customersTable").getElementsByTagName("tr");
+	for (i = 1; i < temp.length; i++) {
+			beforeFilter[i] = temp[i].style.display;	
+			afterTypeFilter[i] = temp[i].style.display;		
+	}
 	
-	$.each(list, function(index, event) {
-                console.log(event)
-                var tr = null;
-                tr = $('<tr></tr>');
-                tr.append('<td>' + event.ime + '</td>' +
-                            '<td>' + event.prezime+ '</td>' +
-                            '<td>' + event.korisnickoIme + '</td>' +
-                             '<td>' + event.datumRodjenja+ '</td>'+
-                        '<td>' + event.tip.tipKupca+ '</td>' 
-                        +'<td>' + event.karte.length + '</td>' );
-                        
-                    $('#ConsumesTable').append(tr);
-        
-	});
-		
 }
 
 $(document).ready(function(){
 
- var modal;
+	var modal;
 
 	$('#logoutBtn').click(function(e){
 		window.location.href = "http://localhost:8081/PocetniREST/unregStartUp.html";
 	})
 		
 	$('#accountBtn').click(function(e){
-		window.location.href = "http://localhost:8081/PocetniREST/html/adminAccount.html";
+		window.location.href = "http://localhost:8081/PocetniREST/html/salesmanAccount.html";
 	})
 			
 	$('#signalLogout').click(function(e){
@@ -58,7 +81,7 @@ $(document).ready(function(){
         }
     }
 
-$('#admins').click(function(e){
+	$('#admins').click(function(e){
 		window.location.href = "http://localhost:8081/PocetniREST/html/AllAdminsView.html";
 	})	
 	$('#customers').click(function(e){
@@ -72,10 +95,9 @@ $('#admins').click(function(e){
 	})	
 
 
-	var added = false;
-
 	///////////////////////////////////////////////////////SEARCH//////////////////////////////////////////////////////////////////////////////
 	
+	var added = false;
 
 	$('#searchBtn').click(function(e){
 		var firstname = $('input[name=firstname]').val().toLowerCase();
@@ -83,7 +105,7 @@ $('#admins').click(function(e){
 		var username = $('input[name=username]').val().toLowerCase();
 
 		var table, tr, td, i, txtValue;
-		table = document.getElementById("ConsumesTable");
+		table = document.getElementById("customersTable");
 		tr = table.getElementsByTagName("tr");
 
 		if(firstname!="" || surname!="" || username!=""){
@@ -106,16 +128,16 @@ $('#admins').click(function(e){
 				}
 				added = addedNow;
 			}
-			if(surname != "" && !(firstname!="" && !added)){
+			if(surname != "" ){
 				var addedNow = false;
 				for (i = 1; i < tr.length; i++) {
 					td = tr[i].getElementsByTagName("td")[1];
 					if (td) {
 						txtValue = td.innerText;						 
-						if(txtValue.toLowerCase().indexOf(surname) <= -1){
+						if(tr[i].style.display == "" && txtValue.toLowerCase().indexOf(surname) <= -1){
 							tr[i].style.display = "none";
 						}
-						else if(!added && txtValue.toLowerCase().indexOf(surname) > -1){
+						else if(firstname=="" && !added && txtValue.toLowerCase().indexOf(surname) > -1){
 							tr[i].style.display = "";
 							addedNow = true;
 						}
@@ -123,16 +145,16 @@ $('#admins').click(function(e){
 				}
 				added = addedNow;
 			}
-			if(username != "" && !((firstname!="" || surname!="") && !added)){
+			if(username != ""){
 				var addedNow = false;
 				for (i = 1; i < tr.length; i++) {
 					td = tr[i].getElementsByTagName("td")[2];
 					if (td) {
 						txtValue = td.innerText;
-						if(txtValue.toLowerCase().indexOf(username) <= -1){
+						if(tr[i].style.display == "" && txtValue.toLowerCase().indexOf(username) <= -1){
 							tr[i].style.display = "none";
 						}
-						else if (!added && txtValue.toLowerCase().indexOf(username) > -1) {
+						else if (firstname=="" && surname=="" && !added && txtValue.toLowerCase().indexOf(username) > -1) {
 							tr[i].style.display = "";
 							addedNow = true;
 						} 
@@ -141,7 +163,7 @@ $('#admins').click(function(e){
 				added = addedNow;
 			}
 
-			if(firstname!="" && surname!="" && username != ""){
+			/*if(firstname!="" && surname!="" && username != ""){
 				var addedNow = false;
 				var td0, td1, txtVal0, txtVal1;
 				for (i = 1; i < tr.length; i++) {
@@ -162,7 +184,7 @@ $('#admins').click(function(e){
 					}
 				}
 				added = addedNow;
-			}
+			}*/
 			
 			
 		}
@@ -172,7 +194,7 @@ $('#admins').click(function(e){
 				tr[i].style.display = "";
 			}
 		}
-		var temp = document.getElementById("ConsumesTable").getElementsByTagName("tr");
+		var temp = document.getElementById("customersTable").getElementsByTagName("tr");
 		for (i = 1; i < temp.length; i++) {
 				beforeFilter[i] = temp[i].style.display;
 				afterTypeFilter[i] = temp[i].style.display;
@@ -216,11 +238,18 @@ function sortBy(index){
 		n = 4;
 	}
 
-	table = document.getElementById("ConsumesTable");
+	table = document.getElementById("customersTable");
 	tr = table.getElementsByTagName("tr");
-	var backup = [];
+	var backup = [{}];
+	var backupAfter = [];
+	var backupBefore = [];
 	for(var i = 1; i < (tr.length-1); i++){
-		backup[i] = [tr[i].getElementsByTagName("td")[1], tr[i].style.display];
+		var h = tr[i].getElementsByTagName("TD")[2].innerText.toLowerCase();
+		backup[i] = {name : h, disp: tr[i].style.display};
+		if(afterTypeFilter.length > 0){
+			backupAfter[i] = (afterTypeFilter[i] == "") ? "" : "none";
+			backupBefore[i] = (beforeFilter[i] == "") ? "" : "none";
+		}
 	}
 		
 	switching = true;
@@ -253,20 +282,17 @@ function sortBy(index){
 	}
 	for(var i = 1; i < (tr.length); i++){
 		for (var j = 1; j < backup.length; j++) {
-			if (backup[j][0] == tr[i].getElementsByTagName("td")[1]) {
-				tr[i].style.display = backup[j][1];
+			if (backup[j].name == tr[i].getElementsByTagName("td")[2].innerText.toLowerCase()) {
+				tr[i].style.display = backup[j].disp;
+				if(afterTypeFilter.length > 0){
+					afterTypeFilter[i] = backupAfter[j];
+					beforeFilter[i] = backupBefore[j];
+				}
 				break;
 			}
 		}
 	}
 
-	var temp = document.getElementById("ConsumesTable").getElementsByTagName("tr");
-	for (i = 1; i < temp.length; i++) {
-			beforeFilter[i] = temp[i].style.display;
-			afterTypeFilter[i] = temp[i].style.display;
-	}
-
-	filterTypes();
 }
 
 function filterTypes(){
@@ -275,7 +301,7 @@ function filterTypes(){
 	if(e.options.length > 0){
 		input = e.options[e.selectedIndex].text;
 		filter = input.toUpperCase();
-		table = document.getElementById("ConsumesTable");
+		table = document.getElementById("customersTable");
 		tr = table.getElementsByTagName("tr");
 
 		if(input == "All types"){
@@ -284,6 +310,9 @@ function filterTypes(){
 					if(  beforeFilter[i] == "" ){
 						afterTypeFilter[i] = "";
 						tr[i].style.display = "";						
+					}else if(beforeFilter[i] == "none"){
+						tr[i].style.display = "none";	
+						afterTypeFilter[i] = "none";
 					}
 				}
 			}
@@ -332,3 +361,4 @@ function filterTypes(){
 		}
 	}
 }
+

@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class Prodavac extends Korisnik {
 	private boolean izbrisan;
-	private boolean nlokiran;
+	private boolean blokiran;
 	private ArrayList<Manifestacija> manifestacije; //samo one koje je on namestio
 
 	public ArrayList<Manifestacija> getManifestacije() {
@@ -24,7 +24,7 @@ public class Prodavac extends Korisnik {
 	public Prodavac(HashMap<String, String> user) {//{date=1999-01-01, lastName=e, password=, gender=male, name=e, username=e}
 		super(user.get("username"),user.get("password"),user.get("name"),user.get("lastName"),user.get("gender"),user.get("date"));
 		this.izbrisan=false;
-		this.nlokiran=false;
+		this.blokiran=false;
 		this.manifestacije=new ArrayList<>();
 	}
 
@@ -36,12 +36,12 @@ public class Prodavac extends Korisnik {
 		this.izbrisan = izbrisan;
 	}
 
-	public boolean isNlokiran() {
-		return nlokiran;
+	public boolean isBlokiran() {
+		return blokiran;
 	}
 
-	public void setNlokiran(boolean nlokiran) {
-		this.nlokiran = nlokiran;
+	public void setBlokiran(boolean nlokiran) {
+		this.blokiran = nlokiran;
 	}
 	
 	

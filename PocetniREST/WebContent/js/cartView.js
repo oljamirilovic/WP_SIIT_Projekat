@@ -21,33 +21,47 @@ function findAll() {
 function renderList(data){ console.log(data)
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	console.log(list)
-	$.each(list, function(index, event) {
-                var tr = null;
-                console.log(event)
-                tr = $('<tr></tr>');
-                tr.append('<td>' + event.nazivmanifestacije + '</td>' +
-                            '<td>' + event.cena+ '</td>' +
-                            '<td>' + event.datum + '</td>' +
-                            '<td>' + event.tipKarte + '</td>' +
-                        '<td>' + event.korisnickoIme+ '</td>'+
-                        '<td>' + event.id + '</td>' 
+	$.each(list, function(index, ticket) {
+        var tr = $('<tr class="event-list"></tr>');
+        var date = new Date();
+
+        if(!ticket.izbrisana){
+            var status = ticket.status ? "RESERVED" : "CANCELLED";
+
+            tr.append('<td class="title ac va-c word-break"><a style="font-size:18px">' + ticket.id + '</a></td>');
+                    
+            tr.append('<td class="title ac va-c word-break"><a style="font-size: 18px" >'+ ticket.nazivmanifestacije + '</a></td>');
                         
-                     );
-                    if(event.status==true){
-                    tr.append('<td>reserved</td>');
-                }
-                    else{
-                        tr.append('<td>quit</td>')
-                    }
-                    $('#allTickets').append(tr);
-        
-	});
+            tr.append('<td class="title ac va-c word-break">' + ticket.datum + '</td>');
+
+            tr.append('<td class="title ac va-c word-break">' + ticket.cena +' </td>');
+            
+            tr.append('<td class="score ac fs14"><div><span class="text score-label score-na" ></span>' + ticket.tipKarte + '</span></div></td>');
+
+            tr.append('<td class="score ac fs14"><div><span class="text score-label score-na" ></span>' + status + '</span></div></td>');
+            
+            tr.append('<td class="score ac fs14"><div><span class="text score-label score-na" ></span>' + ticket.korisnickoIme + '</span></div></td>');
+            
+            $('#ticketsTable').append(tr);
+        }
+
+    })
+    
+    $('div.content select.right option[value="0"]').attr("selected",true);
+	var sel = document.getElementById("mySelect");
+	sortBy(sel.selectedIndex);
+
+	var temp = document.getElementById("ticketsTable").getElementsByTagName("tr");
+	for (i = 1; i < temp.length; i++) {
+			beforeFilter[i] = temp[i].style.display;	
+			afterTicketTypeFilter[i] = temp[i].style.display;		
+	}
 		
 }
 
 $(document).ready(function(){
 
- var modal;
+	var modal;
 
 	$('#logoutBtn').click(function(e){
 		window.location.href = "http://localhost:8081/PocetniREST/unregStartUp.html";
@@ -69,7 +83,7 @@ $(document).ready(function(){
     }
 
 
-$('#admins').click(function(e){
+	$('#admins').click(function(e){
 		window.location.href = "http://localhost:8081/PocetniREST/html/AllAdminsView.html";
 	})	
 	$('#customers').click(function(e){
@@ -86,10 +100,9 @@ $('#admins').click(function(e){
 	})
 
 
-
 ///////////////////////////////////////////////////////SEARCH//////////////////////////////////////////////////////////////////////////////
 	
-var added = false;
+	var added = false;
 
 	$('#searchBtn').click(function(e){
 		var title = $('input[name=title]').val().toLowerCase();
@@ -99,7 +112,7 @@ var added = false;
 		var maxPrice = Number($('input[name=maxPrice]').val().toLowerCase());
 
 		var table, tr, td, i, txtValue;
-		table = document.getElementById("allTickets");
+		table = document.getElementById("ticketsTable");
 		tr = table.getElementsByTagName("tr");
 
 		if(title!="" || fromDate!="" || toDate!="" || minPrice!=0 || maxPrice!=0  ){
@@ -111,24 +124,18 @@ var added = false;
 			if(title!="") {
 				var addedNow = false;
 				for (i = 1; i < tr.length; i++) {
-					td = tr[i].getElementsByTagName("td")[0];
+					td = tr[i].getElementsByTagName("td")[1];
 					if (td) {
 						txtValue = td.innerText;
 						if (txtValue.toLowerCase().indexOf(title) > -1) {
-							td = tr[i].getElementsByTagName("td")[6];
-							txtValue = td.innerText;
-							if(onlyReservedTickets && txtValue.toLowerCase().indexOf("reserved") > -1){
-								tr[i].style.display = "";
-							}else if(!onlyReservedTickets){
-								tr[i].style.display = "";		
-							}
+							tr[i].style.display = "";
 							addedNow = true;
 						} 
 					}
 				}
 				added = addedNow;
 			}
-			if(fromDate != "" && !(title!="" && !added)){
+			if(fromDate != ""){
 				var addedNow = false;
 				for (i = 1; i < tr.length; i++) {
 					td = tr[i].getElementsByTagName("td")[2];
@@ -137,21 +144,15 @@ var added = false;
 						if(tr[i].style.display == "" && Date.parse(txtValue) < Date.parse(fromDate)){
 							tr[i].style.display = "none";
 						}
-						else if(!added && Date.parse(txtValue) >= Date.parse(fromDate)){
-							td = tr[i].getElementsByTagName("td")[6];
-							txtValue = td.innerText;
-							if(onlyReservedTickets && txtValue.toLowerCase().indexOf("reserved") > -1){
-								tr[i].style.display = "";
-							}else if(!onlyReservedTickets){
-								tr[i].style.display = "";		
-							}
+						else if(title=="" && !added && Date.parse(txtValue) >= Date.parse(fromDate)){
+							tr[i].style.display = "";
 							addedNow = true;
 						}
 					}
 				}
 				added = addedNow;
 			}
-			if(toDate != "" && !((title!="" || fromDate!="") && !added)){
+			if(toDate != ""){
 				var addedNow = false;
 				for (i = 1; i < tr.length; i++) {
 					td = tr[i].getElementsByTagName("td")[2];
@@ -160,60 +161,42 @@ var added = false;
 						if(tr[i].style.display == "" && Date.parse(txtValue) > Date.parse(toDate)){
 							tr[i].style.display = "none";
 						}
-						else if (!added && Date.parse(txtValue) <= Date.parse(toDate)) {
-							td = tr[i].getElementsByTagName("td")[6];
-							txtValue = td.innerText;
-							if(onlyReservedTickets && txtValue.toLowerCase().indexOf("reserved") > -1){
-								tr[i].style.display = "";
-							}else if(!onlyReservedTickets){
-								tr[i].style.display = "";		
-							}
+						else if (title=="" && fromDate == "" && !added && Date.parse(txtValue) <= Date.parse(toDate)) {
+							tr[i].style.display = "";
 							addedNow = true;
 						} 
 					}
 				}
 				added = addedNow;
 			}
-			if(minPrice != 0 && !((title!="" || fromDate!="" || toDate!="") && !added)){
+			if(minPrice != 0 ){
 				var addedNow = false;
 				for (i = 1; i < tr.length; i++) {
-					td = tr[i].getElementsByTagName("td")[1];
+					td = tr[i].getElementsByTagName("td")[3];
 					if (td) {
 						txtValue = Number(td.innerText.toLowerCase()) ;
 						if(tr[i].style.display == "" && txtValue < minPrice){
 							tr[i].style.display = "none";
 						}
-						else if (!added && txtValue >= minPrice) {
-							td = tr[i].getElementsByTagName("td")[6];
-							txtValue = td.innerText;
-							if(onlyReservedTickets && txtValue.toLowerCase().indexOf("reserved") > -1){
-								tr[i].style.display = "";
-							}else if(!onlyReservedTickets){
-								tr[i].style.display = "";		
-							}
+						else if (title=="" && fromDate=="" && toDate=="" && !added && txtValue >= minPrice) {
+							tr[i].style.display = "";
 							addedNow = true;
 						} 
 					}
 				}
 				added = addedNow;
 			}
-			if(maxPrice != 0 && !((title!="" || fromDate!="" || toDate!="" || minPrice!=0) && !added)){
+			if(maxPrice != 0 ){
 				var addedNow = false;
 				for (i = 1; i < tr.length; i++) {
-					td = tr[i].getElementsByTagName("td")[1];
+					td = tr[i].getElementsByTagName("td")[3];
 					if (td) {
 						txtValue = Number(td.innerText.toLowerCase()) ;
 						if(tr[i].style.display == "" && txtValue > maxPrice){
 							tr[i].style.display = "none";
 						}
-						else if (!added && txtValue <= maxPrice) {
-							td = tr[i].getElementsByTagName("td")[6];
-							txtValue = td.innerText;
-							if(onlyReservedTickets && txtValue.toLowerCase().indexOf("reserved") > -1){
-								tr[i].style.display = "";
-							}else if(!onlyReservedTickets){
-								tr[i].style.display = "";		
-							}
+						else if (title=="" && fromDate=="" && toDate=="" && minPrice==0 && !added && txtValue <= maxPrice) {
+							tr[i].style.display = "";
 							addedNow = true;
 						} 
 					}
@@ -222,19 +205,20 @@ var added = false;
 			}
 			
 		}
-		else if(title=="" && fromDate=="" && toDate=="" && minPrice=="" && maxPrice==""  ){
+		else if(title=="" && fromDate=="" && toDate=="" && minPrice==0 && maxPrice==0  ){
 			added = false;
 			for (i = 1; i < tr.length; i++) {
 				tr[i].style.display = "";
 			}
 		}
-		var temp = document.getElementById("allTickets").getElementsByTagName("tr");
+		var temp = document.getElementById("ticketsTable").getElementsByTagName("tr");
 		for (i = 1; i < temp.length; i++) {
 				beforeFilter[i] = temp[i].style.display;
 				afterTicketTypeFilter[i] = temp[i].style.display;
 		}
 
 		filterTicketTypes();
+		filterTicketsReserved();
 		var sel = document.getElementById("mySelect");
 		sortBy(sel.selectedIndex);
 		
@@ -268,18 +252,25 @@ function sortBy(index){
 		dir = "desc";
 	}	
 	if(indexSelected == 0 || indexSelected == 1){//name
-		n = 0;
+		n = 1;
 	}else if(indexSelected == 2 || indexSelected == 3){//date
 		n = 2;
 	}else if(indexSelected == 4 || indexSelected == 5){//price
-		n = 1;
+		n = 3;
 	}
 
-	table = document.getElementById("allTickets");
+	table = document.getElementById("ticketsTable");
 	tr = table.getElementsByTagName("tr");
-	var backup = [];
-	for(var i = 1; i < (tr.length-1); i++){
-		backup[i] = [tr[i].getElementsByTagName("td")[1], tr[i].style.display];
+	var backup = [{}];
+	var backupAfter = [];
+	var backupBefore = [];
+	for(var i = 1; i < (tr.length); i++){
+		var h = tr[i].getElementsByTagName("TD")[0].innerText.toLowerCase();
+		backup[i] = {name : h, disp: tr[i].style.display};
+		if(afterTicketTypeFilter.length > 0){
+			backupAfter[i] = (afterTicketTypeFilter[i] == "") ? "" : "none";
+			backupBefore[i] = (beforeFilter[i] == "") ? "" : "none";
+		}
 	}
 		
 	switching = true;
@@ -291,8 +282,8 @@ function sortBy(index){
 		shouldSwitch = false;		
 		x = rows[i].getElementsByTagName("TD")[n];
 		y = rows[i + 1].getElementsByTagName("TD")[n];
-		var xval = (n==1) ? Number(x.innerText.toLowerCase()) : x.innerText.toLowerCase();
-		var yval = (n==1) ? Number(y.innerText.toLowerCase()) : y.innerText.toLowerCase();
+		var xval = (n==3) ? Number(x.innerText.toLowerCase()) : x.innerText.toLowerCase();
+		var yval = (n==3) ? Number(y.innerText.toLowerCase()) : y.innerText.toLowerCase();
 		if (dir == "asc") {				
 			if (xval > yval) {
 				shouldSwitch = true;
@@ -312,20 +303,17 @@ function sortBy(index){
 	}
 	for(var i = 1; i < (tr.length); i++){
 		for (var j = 1; j < backup.length; j++) {
-			if (backup[j][0] == tr[i].getElementsByTagName("td")[1]) {
-				tr[i].style.display = backup[j][1];
+			if (backup[j].name == tr[i].getElementsByTagName("td")[0].innerText.toLowerCase()) {
+				tr[i].style.display = backup[j].disp;
+				if(afterTicketTypeFilter.length > 0){
+					afterTicketTypeFilter[i] = backupAfter[j];
+					beforeFilter[i] = backupBefore[j];
+				}
 				break;
 			}
 		}
 	}
 
-	var temp = document.getElementById("allTickets").getElementsByTagName("tr");
-	for (i = 1; i < temp.length; i++) {
-			beforeFilter[i] = temp[i].style.display;
-			afterTicketTypeFilter[i] = temp[i].style.display;
-	}
-
-	filterTicketTypes();
 }
 
 function filterTicketTypes(){
@@ -334,7 +322,7 @@ function filterTicketTypes(){
 	if(e.options.length > 0){
 		input = e.options[e.selectedIndex].text;
 		filter = input.toUpperCase();
-		table = document.getElementById("allTickets");
+		table = document.getElementById("ticketsTable");
 		tr = table.getElementsByTagName("tr");
 
 		if(input == "All types"){
@@ -342,26 +330,17 @@ function filterTicketTypes(){
 				for (i = 1; i < beforeFilter.length; i++) {
 					if(  beforeFilter[i] == "" ){
 						afterTicketTypeFilter[i] = "";
-						td = tr[i].getElementsByTagName("td")[6];
-						txtValue = td.innerText;							
-						if(onlyReservedTickets && txtValue.toLowerCase().indexOf("reserved") > -1){
-							tr[i].style.display = "";
-						}else if(!onlyReservedTickets){
-							tr[i].style.display = "";
-						}
+						tr[i].style.display = "";
+					}else if(beforeFilter[i] == "none"){
+						tr[i].style.display = "none";	
+						afterTicketTypeFilter[i] = "none";
 					}
 				}
 			}
 			else{
 				for (i = 1; i < tr.length; i++) {
 					afterTicketTypeFilter[i] = "";
-					td = tr[i].getElementsByTagName("td")[6];
-					txtValue = td.innerText;							
-					if(onlyReservedTickets && txtValue.toLowerCase().indexOf("reserved") > -1){
-						tr[i].style.display = "";
-					}else if(!onlyReservedTickets){
-						tr[i].style.display = "";
-					}		
+					tr[i].style.display = "";	
 				}
 			}			
 		}
@@ -370,18 +349,12 @@ function filterTicketTypes(){
 		else{
 			if(beforeFilter.length > 0){
 				for (i = 1; i < (beforeFilter.length); i++) {
-					td = tr[i].getElementsByTagName("td")[3];
+					td = tr[i].getElementsByTagName("td")[4];
 					if (td) {
 						txtValue = td.innerText;
 						if (beforeFilter[i] == "" && txtValue.toUpperCase().indexOf(filter) > -1) {
 							afterTicketTypeFilter[i] = "";
-							td = tr[i].getElementsByTagName("td")[6];
-							txtValue = td.innerText;							
-							if(onlyReservedTickets && txtValue.toLowerCase().indexOf("reserved") > -1){
-								tr[i].style.display = "";
-							}else if(!onlyReservedTickets){
-								tr[i].style.display = "";
-							}	
+							tr[i].style.display = "";	
 						} else {
 							tr[i].style.display = "none";
 							afterTicketTypeFilter[i] = "none";
@@ -390,18 +363,13 @@ function filterTicketTypes(){
 				}
 			}else{
 				for (i = 1; i < (tr.length); i++) {
-					td = tr[i].getElementsByTagName("td")[3];
+					td = tr[i].getElementsByTagName("td")[4];
 					if (td) {
 						txtValue = td.innerText;
 						if (txtValue.toUpperCase().indexOf(filter) > -1) {
 							afterTicketTypeFilter[i] = "";
-							td = tr[i].getElementsByTagName("td")[6];
-							txtValue = td.innerText;							
-							if(onlyReservedTickets && txtValue.toLowerCase().indexOf("reserved") > -1){
-								tr[i].style.display = "";
-							}else if(!onlyReservedTickets){
-								tr[i].style.display = "";
-							}
+							tr[i].style.display = "";
+							
 						} else {
 							tr[i].style.display = "none";
 							afterTicketTypeFilter[i] = "none";
@@ -412,17 +380,18 @@ function filterTicketTypes(){
 			
 		}
 	}
+	filterTicketsReserved();
 }
 
 function filterTicketsReserved(){
 	var table, tr, td, i, txtValue;
-	table = document.getElementById("allTickets");
+	table = document.getElementById("ticketsTable");
 	tr = table.getElementsByTagName("tr");
 	if($('#reservedTickets').prop('checked')) {
 		onlyReservedTickets = true;
 		if(afterTicketTypeFilter.length > 0){
 			for (i = 1; i < tr.length; i++) {
-				td = tr[i].getElementsByTagName("td")[6];
+				td = tr[i].getElementsByTagName("td")[5];
 				if (td) {
 					txtValue = td.innerText;
 					if (afterTicketTypeFilter[i] == "" && txtValue.toLowerCase().indexOf("reserved") > -1) {
@@ -440,6 +409,8 @@ function filterTicketsReserved(){
 			for (i = 1; i < afterTicketTypeFilter.length; i++) {
 				if(  afterTicketTypeFilter[i] == ""){
 					tr[i].style.display = "";
+				}else if(afterTicketTypeFilter[i] == "none"){
+					tr[i].style.display = "none";
 				}
 			}
 		}else{

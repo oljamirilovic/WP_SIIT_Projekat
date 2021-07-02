@@ -20,7 +20,8 @@
         "poster":"izlozba1.jpg",
         "preostaloRegular":"0",
         "preostaloVip":"0",
-        "preostaloFanpit":"0"}
+        "preostaloFanpit":"0",
+        "prodavac":"laza"}
     },
     {"Manifestacija":{
         "naziv":"Pink Floyd",
@@ -43,7 +44,8 @@
         "poster":"concert1.jpg",
         "preostaloRegular":"499",
         "preostaloVip":"299",
-        "preostaloFanpit":"200"}
+        "preostaloFanpit":"200",
+        "prodavac":"laza"}
     },
     {"Manifestacija":{
         "naziv":"Through the Looking Glass",
@@ -66,7 +68,8 @@
         "poster":"artshow1.jpg",
         "preostaloRegular":"60",
         "preostaloVip":"40",
-        "preostaloFanpit":"20"}
+        "preostaloFanpit":"20",
+        "prodavac":"laza"}
     },
      {"Manifestacija":{
          "naziv":"Glass World",
@@ -89,7 +92,8 @@
          "poster":"concert2.jpg",
          "preostaloRegular":"1000",
          "preostaloVip":"600",
-         "preostaloFanpit":"400"}
+         "preostaloFanpit":"400",
+         "prodavac":"laza"}
     },
     {"Manifestacija":{
         "naziv":"Glass theater",
@@ -112,4 +116,5 @@
         "poster":"theater2.jpg",
         "preostaloRegular":"23",
         "preostaloVip":"15",
-        "preostaloFanpit":"10"}}]}
+        "preostaloFanpit":"10",
+        "prodavac":"laza"}}]}

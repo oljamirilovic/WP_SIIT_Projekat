@@ -248,18 +248,7 @@ public class ProdavacService {
 		Prodavac u = dao.find(username.get("id"));//ovde izadje greska null
 		return u;
 	}
-	
-	@POST
-	@Path("/delete")
-	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	@Produces(MediaType.APPLICATION_JSON)
-	public void delete(HashMap<String, String> username) {
-		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
-		dao.obrisi(username.get("id"));
-		//Prodavac u = dao.find();//ovde izadje greska null
 		
-	}
-	
 	@POST
 	@Path("/saveProfileChanges")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -282,6 +271,60 @@ public class ProdavacService {
 			e.printStackTrace();
 		}
 		return k;
+	}
+	
+	@POST
+	@Path("/delete")
+	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public void delete(String username) {
+		String s = username.substring(7, username.length()-2);
+		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
+		Prodavac k = dao.find(s);
+		k.setIzbrisan(true);
+		dao.updateOne(k);
+		ctx.setAttribute("salesmenDAO", dao);
+		try {
+			dao.generateJSON(ctx.getRealPath(""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+	
+	@POST
+	@Path("/undoBlocking")
+	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public void undoBlocking(String username) {
+		String s = username.substring(7, username.length()-2);
+		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
+		Prodavac k = dao.find(s);
+		k.setBlokiran(false);
+		dao.updateOne(k);
+		ctx.setAttribute("salesmenDAO", dao);
+		try {
+			dao.generateJSON(ctx.getRealPath(""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+	
+	@POST
+	@Path("/block")
+	@Consumes({  MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public void block(String username) {
+		String s = username.substring(7, username.length()-2);
+		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("salesmenDAO");
+		Prodavac k = dao.find(s);
+		k.setBlokiran(true);
+		dao.updateOne(k);
+		ctx.setAttribute("salesmenDAO", dao);
+		try {
+			dao.generateJSON(ctx.getRealPath(""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 	}
 
 }

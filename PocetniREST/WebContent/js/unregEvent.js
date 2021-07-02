@@ -30,8 +30,13 @@ function renderResult(data){
 	
 	$('#title').append('<h3 class="title" style="font-size: 20px; text-align: center;">'+ event.naziv +'</h3>')
 		
-	$('#poster').append('<img width="225" height="319" class="lazyloaded" data-src="../images/' + event.poster + '" src="../images/' + event.poster + '" alt="' + event.poster + '"itemprop="image">');
-		
+	var checkPoster=event.poster.substr(event.poster.length - 4)
+	if(checkPoster==".jpg" || checkPoster==".png"){
+		$('#poster').append('<img width="225" height="319" class="lazyloaded" data-src="../images/' + event.poster + '" src="../images/' + event.poster + '" alt="' + event.poster + '"itemprop="image">');
+	
+	}else{
+		$('#poster').append('<img width="225" height="319"  src="data:image/png;base64,'+event.poster+'" alt="Red dot" >');
+	}	
 	var d = new Date();//TODO check endTime
 	if(d > Date.parse(event.datumKraja)){
     	var id = event.naziv;
@@ -112,6 +117,8 @@ var graphic = null;
 
 $(document).ready(function(){
 	
+///////////////////////////////////////LOGIN////////////////////////////////////////////////////
+
 	$('#loginBtn').click(function(e){
 		if($('input[name=uname]').val()!="" && $('input[name=psw]').val()!= ""){
 			
@@ -165,6 +172,7 @@ $(document).ready(function(){
 														success :function(){
 															
 															//TODO admin window
+															window.location.href = "http://localhost:8081/PocetniREST/html/adminStartUp.html";
 														},
 														error : function(XMLHttpRequest, textStatus, errorThrown){
 															alert("AJAX ERROR: "+errorThrown);
@@ -205,6 +213,7 @@ $(document).ready(function(){
 													success :function(){
 														
 														//TODO salesmen window
+														window.location.href = "http://localhost:8081/PocetniREST/html/salesmanStartUp.html";
 													},
 													error : function(XMLHttpRequest, textStatus, errorThrown){
 														alert("AJAX ERROR: "+errorThrown);
@@ -214,7 +223,7 @@ $(document).ready(function(){
 											}
 										}
 										else{
-											invalidInput("Invalid password! ");
+											invalidInput("Invalid password! ","container");
 										}
 									}				
 															
@@ -264,7 +273,8 @@ $(document).ready(function(){
 					alert("AJAX ERROR: " + errorThrown);
 				}
 			});
-		}else{
+		}
+		else{
 			invalidInput("All fields are required! ","container");
 		}
 	})

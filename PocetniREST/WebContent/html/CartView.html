@@ -13,22 +13,16 @@
         <link rel="stylesheet" type="text/css" href="../styles/signup.css">
         <link href="../css/all.css" rel="stylesheet"> 
 
-<title>view of cart</title>
 </head>
 <body>
 
 	<div class="header">
-		<a class="active" href="http://localhost:8081/PocetniREST/html/salesmanStartUp.html">Home</a>
-		<div class="search-container">
-			<form name="search" class="example" action="/action_page.php"
-				style="margin: auto; max-width: 300px">
-				<input type="text" placeholder="Search.." name="search">
-				<button type="submit">
-					<i class="fa fa-search"></i>
-				</button>
-			</form>
-		</div>
-	</div>
+            <a class="active" href="http://localhost:8081/PocetniREST/html/salesmanStartUp.html">Home</a>
+            <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogout" > Log Out</button>
+            <div class="search-container">
+                <button type="button"  id="accountBtn" >Account<i style="margin-left: 10px" class="fa fa-user" ></i></button>
+            </div>
+        </div>
 	 <div class="upperrow">
             <div class="navbar">
                     <a class="profileA" href="http://localhost:8081/PocetniREST/html/salesmanAccount.html">My Profile</a>
@@ -50,7 +44,8 @@
                             <input placeholder="From.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="fromdate" />
                             <input placeholder="To.." class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="todate" />
                             <input placeholder="Min price"  min="1" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="minPrice" />
-                            <input placeholder="Max price"  min="1" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="maxPrice" /><button type="button" class="subbutton" id="searchBtn"><i class="fa fa-search"></i></button>
+                            <input placeholder="Max price"  min="1" class="textbox-n" type="text" onfocus="(this.type='number')" onblur="(this.type='text')" name="maxPrice" />
+                            <button type="button" class="subbutton" id="searchBtn"><i class="fa fa-search"></i></button>
                         </form> 
 
                     </div>
@@ -89,23 +84,46 @@
         </div>
 	<div class="lowerrow">
 		<div class="pb12">
-			<table table id="allTickets" border="1" cellpaddiong="0" cellspacing="0" width="100%" class="display-table">
+			<table table id="ticketsTable" border="1" cellpaddiong="0" cellspacing="0" width="100%" class="display-table">
 				<tbody>
 					<tr class="table-header">
-						<td class="title">Title</td>
-						<td class="title">Price</td>
-						<td class="title">Date</td>
-						<td class="ticketType">Type card</td>
-						<td>Customer</td>
-						<td>Id</td>
-						<td>Status</td><!-- dode jos red da li je izbrisana -->
-					</tr>
-					
+						<td >Id</td>
+                    	<td class="title">Event title</td>      
+                        <td class="title">Start date</td>   
+                        <td class="title">Ticket price</td>   
+                        <td class="ticketType">Ticket type</td>
+                        <td class="ticketStatus">Ticket status</td>					
+						<td class="ticketOwner">Customer</td>
+					</tr>					
 					
 				</tbody>
 			</table>
 		</div>
 	</div>
+	
+	<div id="id01" class="modal">
+  
+            <form class="modal-content animate" action="/action_page.php" method="post">
+              <div class="imgcontainer">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Window">&times;</span>
+                <img src="../images/avatar.png" alt="Avatar" class="avatar">
+              </div>
+          
+              <div class="container" name="container">
+                <label for="question"><b>Continue log out?</b></label>
+                  
+                <div class="clearfix">
+                  <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtns" >Cancel</button>
+                  <button type="button" class="signupbtns" id="logoutBtn">Log out</button>
+                </div>
+                
+              </div>
+          
+              <div class="container" style="background-color:transparent">
+                
+              </div>
+            </form>
+          </div>
 
 </body>
 </html>

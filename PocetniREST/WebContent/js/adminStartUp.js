@@ -85,8 +85,13 @@ function renderList(data){
         var tr = $('<tr class="event-list"></tr>');
         var d = new Date();
         
-        tr.append('<td class="ac"><img width="100" height="120" class="lazyloaded" border="0" src="../images/' + event.poster + '" alt="' + event.poster + '"></td>');
-        
+        var checkPoster=event.poster.substr(event.poster.length - 4)
+    	if(checkPoster==".jpg" || checkPoster==".png"){
+    		tr.append('<td class="title ac va-c word-break"><img width="100" height="120" class="lazyloaded" data-src="../images/' + event.poster + '" src="../images/' + event.poster + '" alt="' + event.poster + '"itemprop="image"></td>');
+    	
+    	}else{
+    		tr.append('<td class="title ac va-c word-break"><img width="100" height="120"  src="data:image/png;base64,'+event.poster+'" alt="' + event.poster + '" ></td>');
+    	}
         tr.append('<td class="title ac va-c word-break"><a style="font-size: 18px" onclick= "showEvent(\''+event.naziv+'\')"  href=\"#\">' + event.naziv + '</a></td>');
         
         tr.append('<td class="title ac va-c word-break"><a style="font-size:18px">' + event.datumPocetka + ' ' + event.vremePocetka + '</a></td>');
@@ -201,6 +206,11 @@ $(document).ready(function(){
 	$('#salesmen').click(function(e){
 		window.location.href = "http://localhost:8081/PocetniREST/html/ViewSellersByAdmin.html";
 	})	
+	
+	$('#newSalesmen').click(function(e){
+		window.location.href = "http://localhost:8081/PocetniREST/html/MakeSeller.html";
+	})
+	
     /////////////////////////////////////////////////////MAP////////////////////////////////////////////////////////////////////////////////
 	
 	var gsirina = 0;

@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
-<meta charset="ISO-8859-1">
-<script type="text/javascript" src="../js/jquery.min.js"></script>
-<link href="../js/toastr.min.css" rel="stylesheet"/>
+	<head>
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<link rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		
+		<meta charset="ISO-8859-1">
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<link href="../js/toastr.min.css" rel="stylesheet"/>
 		<script type="text/javascript" src="../js/toastr.min.js"></script>
-        <script type="text/javascript" src="../js/AdminsView.js"> </script>
-
-
-<link rel="stylesheet" type="text/css" href="..\\styles\\unregStartUp.css">
-<link rel="stylesheet" type="text/css" href="..\\styles\\login.css">
-<link rel="stylesheet" type="text/css" href="..\\styles\\signup.css">
-<link rel="stylesheet" type="text/css" href="..\\js\\UserView.js">
-<link rel="stylesheet" type="text/css" href="..\\js\\AdminsView.js">
-<link href="../css/all.css" rel="stylesheet">
-<!--load all styles -->
-</head>
+        <script type="text/javascript" src="../js/AdminsView.js"> </script>		
+		
+		<link rel="stylesheet" type="text/css" href="../styles/unregStartUp.css">
+	    <link rel="stylesheet" type="text/css" href="../styles/login.css">
+	    <link rel="stylesheet" type="text/css" href="../styles/signup.css">
+	    <link href="../css/all.css" rel="stylesheet"> <!--load all styles -->   
+	</head>
 <body>
 	 <div class="header">
             <a class="active" href="http://localhost:8081/PocetniREST/html/adminStartUp.html">Home</a>
@@ -40,17 +36,17 @@
             <div class="navbar">
                 <div class="advancedSearch">
                     <h3 class="title">
-                        Search people
+                        Search admins
                     </h3>
                    <div class="content" id="eventsearch" >
-                       <form action id="send_search" class="advancedSearchForm">
-                        	<input type="text" placeholder="Name.." name="firstname">
-                        	<input type="text" placeholder="Last name.." name="surname">
-                        	<input type="text" placeholder="Username.." name="username">
-                        	<button type="button" class="button" id="searchBtn"><i class="fa fa-search"></i></button>
+                            <form action id="send_search" class="advancedSearchForm">
+                              <input type="text" placeholder="Name.." name="firstname">
+                              <input type="text" placeholder="Surname.." name="surname">
+                              <input type="text" placeholder="Username.." name="username">
+                              <button type="button" class="subbutton" id="searchBtn"><i class="fa fa-search"></i></button>
                             </form> 
 
-                    </div>
+                        </div>
                 </div>
             </div>
         </div> 
@@ -80,7 +76,7 @@
 				<tbody>
 					<tr class="table-header">
 						<td name="firstname">Name</td>
-						<td name="surname">Last name</td>
+						<td name="surname">Surname</td>
 						<td name="username">Username</td>
 					</tr>
 				</tbody>

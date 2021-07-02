@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head>
- <meta charset="ISO-8859-1">
-<script type="text/javascript" src="../js/jquery.min.js"></script>
-<link href="../js/toastr.min.css" rel="stylesheet"/>
+	<head>
+ 		<meta charset="ISO-8859-1">
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<link href="../js/toastr.min.css" rel="stylesheet"/>
 		<script type="text/javascript" src="../js/toastr.min.js"></script>
         <script type="text/javascript" src="../js/makeSeller.js"> </script>
 
-<link rel="stylesheet" type="text/css" href="..\\styles\\unregStartUp.css">
-<link rel="stylesheet" type="text/css" href="..\\styles\\login.css">
-<link rel="stylesheet" type="text/css" href="..\\styles\\signup.css">
-<link rel="stylesheet" type="text/js" href="..\\js\\makeSeller.js">
-<link href="../css/all.css" rel="stylesheet"> 
-<title>Make seller</title>
-</head>
+		<link rel="stylesheet" type="text/css" href="../styles/unregStartUp.css">
+        <link rel="stylesheet" type="text/css" href="../styles/login.css">
+        <link rel="stylesheet" type="text/css" href="../styles/signup.css">
+        <link rel="stylesheet" type="text/css" href="../styles/event.css">
+		<link href="../css/all.css" rel="stylesheet"> 
+	</head>
 <body>
 
 	<div class="header">
-		<a class="active" href="http://localhost:8081/PocetniREST/html/adminStartUp.html">Home</a>
-		
-	</div>
+                <a class="active" href="http://localhost:8081/PocetniREST/html/adminStartUp.html">Home</a>
+                <button type="button" onclick="document.getElementById('id01').style.display='block'" id="signalLogout" > Log Out</button>
+                <button type="button"  id="tickets" > All tickets</button>
+                <button type="button"  id="admins" >All admins</button>
+                <button type="button"  id="customers" > All customers</button>
+                <button type="button"  id="salesmen" > All salesmen</button>
+                  <button type="button"  id="newSalesmen" >Make new salesman</button>
+                <div class="search-container">
+                    <button type="button"  id="accountBtn" >Account<i style="margin-left: 10px" class="fa fa-user" ></i></button>
+                </div>
+    </div>
 	<div class="lowerrow">
         <div class="pb12">
         <div id="content">
@@ -46,7 +53,7 @@
                                                     <div class="di-t w100 mt12">
                                                         <div class="anime-detail-header-stats di-tc va-t ">
                                                         
-                                                        	<form class="box profileContent" >
+                                                        	<form class="makemanif box" >
                                                               <h1>Make seller</h1>
                                                               <hr>
                                                               <label for="username"><b>Username</b></label>
@@ -67,15 +74,15 @@
                                                               <label ><b>Gender</b></label>
                                                               <br>
                                                               <select name="gender" onChange="JSGetSelectedItem()">
-						<option value="male">male</option>
-						<option value="female">female</option>
-				</select>
+																	<option value="male">male</option>
+																	<option value="female">female</option>
+															  </select>
                                                                      
                                                               <br>
                                                               <br>
                                                               <br>
                                                               <div >
-                                                                <button type="submit" id="addSeller" >Save seller
+                                                                <button type="submit" class="saveProfile" id="addSeller" >Save seller
 															<i class="submit"></i>
 														</button> </div>
                                                           </form>

@@ -102,12 +102,11 @@ public class ProdavacDAO {
 			jsonGenerator.writeStringField("lozinka", prod.getLozinka());
 			jsonGenerator.writeStringField("ime", prod.getIme());
 			jsonGenerator.writeStringField("prezime", prod.getPrezime());
-			DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
 			String dan=prod.getDatumRodjenja();
 			jsonGenerator.writeStringField("rodjenje", dan);
 			jsonGenerator.writeStringField("pol", prod.getPol());
-			//jsonGenerator.writeStringField("pol", prod.ge);
-			//ovde dode lista??
+			jsonGenerator.writeStringField("izbrisan", prod.isIzbrisan()+"");
+			jsonGenerator.writeStringField("blokiran", prod.isBlokiran()+"");
 			jsonGenerator.writeEndObject(); 
 			jsonGenerator.writeEndObject();
 		}
@@ -148,12 +147,25 @@ public class ProdavacDAO {
 									admin.setIme(jsonParser.getText());
 								}else if ("prezime".equals(nameField)) {
 									admin.setPrezime(jsonParser.getText());
-								}else if ("pol".equals(nameField)) {
+								}
+								else if("blokiran".equals(nameField)){
+									if("true".equals(jsonParser.getText())) {
+										admin.setBlokiran(true);
+									}else {
+										admin.setBlokiran(false);
+									}
+								}
+								else if("izbrisan".equals(nameField)){
+									if("true".equals(jsonParser.getText())) {
+										admin.setIzbrisan(true);
+									}else {
+										admin.setIzbrisan(false);
+									}
+								}
+								else if ("pol".equals(nameField)) {
 									
 										admin.setPol(jsonParser.getText());
 								}else {
-									//DateTimeFormatter formater=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-									//LocalDate dan=LocalDate.parse(jsonParser.getText(), formater);
 									admin.setDatumRodjenja(jsonParser.getText());
 								}
 								//this.prodavci.put(admin.getKorisnickoIme(), admin);
@@ -258,7 +270,7 @@ public class ProdavacDAO {
 
 	public void blokiraj(Prodavac user) {
 		 if(this.prodavci.containsKey(user.getKorisnickoIme())){
-			 this.prodavci.get(user).setNlokiran(true);
+			 this.prodavci.get(user).setBlokiran(true);
 		 }
 		
 	}

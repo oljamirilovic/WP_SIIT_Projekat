@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link rel="stylesheet"	href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
-<script	src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
-
-<meta charset="ISO-8859-1">
-<script type="text/javascript" src="../js/jquery.min.js"></script>
-<link href="../js/toastr.min.css" rel="stylesheet"/>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<link rel="stylesheet"	href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
+		<script	src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		
+		
+		<meta charset="ISO-8859-1">
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<link href="../js/toastr.min.css" rel="stylesheet"/>
 		<script type="text/javascript" src="../js/toastr.min.js"></script>
         <script type="text/javascript" src="../js/SellersViewByAdmin.js"> </script>
-
-
-<link rel="stylesheet" type="text/css" href="..\\styles\\unregStartUp.css">
-<link rel="stylesheet" type="text/css" href="..\\styles\\login.css">
-<link rel="stylesheet" type="text/css" href="..\\styles\\signup.css">
-<link rel="stylesheet" type="text/css" href="..\\js\\UserView.js">
-<link rel="stylesheet" type="text/css" href="..\\js\\SellersViewByAdmin.js">
-<link href="../css/all.css" rel="stylesheet">
-<!--load all styles -->
-</head>
+		
+		
+		<link rel="stylesheet" type="text/css" href="../styles/unregStartUp.css">
+	    <link rel="stylesheet" type="text/css" href="../styles/login.css">
+	    <link rel="stylesheet" type="text/css" href="../styles/signup.css">
+		<link href="../css/all.css" rel="stylesheet">
+		<!--load all styles -->
+	</head>
 <body>
 	 <div class="header">
             <a class="active" href="http://localhost:8081/PocetniREST/html/adminStartUp.html">Home</a>
@@ -38,14 +36,14 @@
             <div class="navbar">
               <div class="advancedSearch">
                     <h3 class="title">
-                        Search people
+                        Search salesmen
                     </h3>
                    <div class="content" id="eventsearch" >
                        <form action id="send_search" class="advancedSearchForm">
                         	<input type="text" placeholder="Name.." name="firstname">
-                        	<input type="text" placeholder="Last name.." name="surname">
+                        	<input type="text" placeholder="Surname.." name="surname">
                         	<input type="text" placeholder="Username.." name="username">
-                        	<button type="button" class="button" id="searchBtn"><i class="fa fa-search"></i></button>
+                        	<button type="button" class="subbutton" id="searchBtn"><i class="fa fa-search"></i></button>
                             </form> 
 
                     </div>
@@ -78,11 +76,11 @@
 				<tbody>
 					<tr class="table-header">
 						<td name="Name">Name</td>
-						<td name="LastName">Last name</td>
+						<td name="LastName">Surname</td>
 						<td name="Username">Username</td>
 						<td name="Birthday">Birthday</td>
-						
-						 <td >Delete</td>
+						<td >Block</td>
+						<td >Delete</td>
 					</tr>
 				</tbody>
 			</table>
@@ -111,7 +109,54 @@
               </div>
             </form>
           </div>
-           <div id="id04" class="modal">
+     <div id="id02" class="modal">
+  
+        <form class="modal-content animate" action="/action_page.php" method="post">
+          <div class="imgcontainer">
+            <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Window">&times;</span>
+            <img src="../images/qmark.png" alt="Question" class="avatar">
+          </div>
+      
+          <div class="container" name="container">
+            <label for="question"><b>Are you sure you want to unblock salesman?</b></label>
+              
+            <div class="clearfix">
+              <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtns" >No</button>
+              <button type="button" class="signupbtns" id="undoBlockingBtn">Yes</button>
+            </div>
+            
+          </div>
+      
+          <div class="container" style="background-color:transparent">
+            
+          </div>
+        </form>
+    </div>
+    <div id="id03" class="modal">
+  
+      <form class="modal-content animate" action="/action_page.php" method="post">
+        <div class="imgcontainer">
+          <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Window">&times;</span>
+          <img src="../images/qmark.png" alt="Question" class="avatar">
+        </div>
+    
+        <div class="container" name="container">
+          <label for="question"><b>Are you sure you want to block salesman?</b></label>
+            
+          <div class="clearfix">
+            <button type="button" onclick="document.getElementById('id03').style.display='none'" class="cancelbtns" >No</button>
+            <button type="button" class="signupbtns" id="blockBtn">Yes</button>
+          </div>
+          
+        </div>
+    
+        <div class="container" style="background-color:transparent">
+          
+        </div>
+      </form>
+    </div>
+
+    <div id="id04" class="modal">
   
       <form class="modal-content animate" action="/action_page.php" method="post">
         <div class="imgcontainer">
@@ -120,7 +165,7 @@
         </div>
     
         <div class="container" name="container">
-          <label for="question"><b>Are you sure you want to delete customer?</b></label>
+          <label for="question"><b>Are you sure you want to delete salesman?</b></label>
             
           <div class="clearfix">
             <button type="button" onclick="document.getElementById('id04').style.display='none'" class="cancelbtns" >No</button>
