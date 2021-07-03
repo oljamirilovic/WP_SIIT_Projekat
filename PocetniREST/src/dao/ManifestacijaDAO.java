@@ -407,34 +407,51 @@ public class ManifestacijaDAO  {
 				//ovde cemo da probamo da setujemo  vreme
 				System.out.println(manifestacija.getDatumPocetka());
 				System.out.println(m.getDatumKraja());
-				LocalDateTime postojecaPoocetak=(LocalDateTime) df.parse(manifestacija.getDatumPocetka());
-				LocalDateTime postojecaKraj=(LocalDateTime) df.parse(manifestacija.getDatumKraja());
-				LocalDateTime novaPoocetak=(LocalDateTime) df.parse(m.getDatumPocetka());
-				LocalDateTime novaKraj=(LocalDateTime) df.parse(m.getDatumKraja());
-				
-				String[] vremePP=manifestacija.getVremePocetka().split(":");
-				postojecaPoocetak.withHour(Integer.parseInt(vremePP[0]));
-				postojecaPoocetak.withMinute(Integer.parseInt(vremePP[1]));
-				
-				String[] vremeKP=manifestacija.getVremeKraja().split(":");
-				postojecaKraj.withHour(Integer.parseInt(vremeKP[0]));
-				postojecaKraj.withMinute(Integer.parseInt(vremeKP[1]));
-				
-				String[] vremePN=m.getVremePocetka().split(":");
-				novaPoocetak.withHour(Integer.parseInt(vremePN[0]));
-				novaPoocetak.withMinute(Integer.parseInt(vremePN[1]));
-				
-				String[] vremeKN=m.getVremeKraja().split(":");
-				novaKraj.withHour(Integer.parseInt(vremeKN[0]));
-				novaKraj.withMinute(Integer.parseInt(vremeKN[1]));
-				
-				if((postojecaPoocetak.isBefore(novaPoocetak) && postojecaKraj.isBefore(novaKraj)) ||
-						(postojecaPoocetak.isAfter(novaPoocetak) && postojecaKraj.isAfter(novaKraj))) {
-					//ovde je onda ok, ali mi treba else
-				}else {
+				LocalDate d1 = LocalDate.parse(manifestacija.getDatumPocetka());
+					LocalTime t1 = LocalTime.parse(manifestacija.getVremePocetka());
+					LocalDateTime dt1 = d1.atTime(t1);
 					
-					return false;
-				}
+					LocalDate d2 = LocalDate.parse(manifestacija.getDatumKraja());
+					LocalTime t2 = LocalTime.parse(manifestacija.getVremeKraja());
+					LocalDateTime dt2 = d2.atTime(t2);
+					
+					LocalDate d3 = LocalDate.parse(m.getDatumPocetka());
+					LocalTime t3 = LocalTime.parse(m.getVremePocetka());
+					LocalDateTime dt3 = d3.atTime(t3);
+					
+					LocalDate d4 = LocalDate.parse(m.getDatumKraja());
+					LocalTime t4 = LocalTime.parse(m.getVremeKraja());
+					LocalDateTime dt4 = d4.atTime(t4);
+					/*
+					LocalDateTime postojecaPoocetak=LocalDateTime.parse(manifestacija.getDatumPocetka());// df.parse(manifestacija.getDatumPocetka());
+					LocalDateTime postojecaKraj=LocalDateTime.parse(manifestacija.getDatumKraja());
+					LocalDateTime novaPoocetak=LocalDateTime.parse(m.getDatumPocetka());
+					LocalDateTime novaKraj=LocalDateTime.parse(m.getDatumKraja());
+					
+					String[] vremePP=manifestacija.getVremePocetka().split(":");
+					postojecaPoocetak.withHour(Integer.parseInt(vremePP[0]));
+					postojecaPoocetak.withMinute(Integer.parseInt(vremePP[1]));
+					
+					String[] vremeKP=manifestacija.getVremeKraja().split(":");
+					postojecaKraj.withHour(Integer.parseInt(vremeKP[0]));
+					postojecaKraj.withMinute(Integer.parseInt(vremeKP[1]));
+					
+					String[] vremePN=m.getVremePocetka().split(":");
+					novaPoocetak.withHour(Integer.parseInt(vremePN[0]));
+					novaPoocetak.withMinute(Integer.parseInt(vremePN[1]));
+					
+					String[] vremeKN=m.getVremeKraja().split(":");
+					novaKraj.withHour(Integer.parseInt(vremeKN[0]));
+					novaKraj.withMinute(Integer.parseInt(vremeKN[1]));
+					*/
+					if((dt1.isBefore(dt3) && dt2.isBefore(dt4)) ||
+							(dt1.isAfter(dt3) && dt2.isAfter(dt4))) {
+						//ovde je onda ok, ali mi treba else
+						System.out.println("ok");
+					}else {
+						System.out.println("notok");
+						return false;
+					}
 			}
 		}
 		
